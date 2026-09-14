@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MFH Admin Panel</title>
+<style>
+body{margin:0;background:#080808;color:#fff;font-family:Arial,sans-serif}header{padding:18px 6%;border-bottom:1px solid #292929;display:flex;justify-content:space-between}.gold{color:#e0b52e}main{max-width:1000px;margin:auto;padding:25px 6%}.box{background:#151515;border:1px solid #333;border-radius:16px;padding:20px;margin:18px 0}input,select,textarea{width:100%;box-sizing:border-box;background:#0e0e0e;color:#fff;border:1px solid #444;border-radius:9px;padding:12px;margin:7px 0}.btn{border:0;border-radius:9px;padding:12px 18px;background:#e0b52e;color:#111;font-weight:800;cursor:pointer;margin:5px}.danger{background:#a33;color:#fff}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px}.product{border:1px solid #333;border-radius:12px;padding:12px}.product img{width:100%;height:180px;object-fit:cover;border-radius:8px;background:#222}.muted{color:#aaa}.hidden{display:none}.order{border-top:1px solid #333;padding:14px 0}
+</style></head>
+<body>
+<header><b class="gold">MFH ADMIN PANEL</b><button class="btn" id="logoutBtn" style="display:none">Logout</button></header>
+<main>
+<div id="login" class="box"><h2>Admin Login</h2><input id="email" type="email" placeholder="Admin email"><input id="password" type="password" placeholder="Password"><button class="btn" id="loginBtn">Login</button><p id="loginMsg" class="muted"></p></div>
+<div id="panel" class="hidden">
+<div class="box"><h2>Add / Edit Product</h2>
+<input type="hidden" id="pid"><input id="name" placeholder="Product name"><input id="category" placeholder="Category (Shirts, Shoes, Watches...)">
+<input id="price" type="number" placeholder="Regular price ₹"><input id="salePrice" type="number" placeholder="Sale price ₹ (optional)"><input id="stock" type="number" placeholder="Stock">
+<input id="image" placeholder="Product image URL"><textarea id="desc" rows="3" placeholder="Description"></textarea>
+<button class="btn" id="saveBtn">Save Product</button><button class="btn" id="clearBtn">Clear</button>
+<p class="muted">For now, paste a public image URL. Cloud image upload can be added after Firebase Storage is enabled.</p></div>
+<div class="box"><h2>Products</h2><div id="products" class="grid"></div></div>
+<div class="box"><h2>Orders</h2><div id="orders"></div></div>
+</div></main>
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+import {getAuth,onAuthStateChanged,signInWithEmailAndPassword,signOut} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+import {getFirestore,collection,getDocs,addDoc,updateDoc,deleteDoc,doc,serverTimestamp,query,orderBy} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+import {firebaseConfig, ADMIN_EMAIL} from "./firebase-config.js";
+const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);
+const $=id=>document.getElementById(id);
+$("loginBtn").onclick=async()=>{try{await signInWithEmailAndPassword(auth,$("email").value,$("password").value);$("loginMsg").textContent=""}catch(e){$("loginMsg").textContent="Login failed: "+e.message}};
+$("logoutBtn").onclick=()=>signOut(auth);
+onAuthStateChanged(auth,u=>{if(u && (u.email||"").toLowerCase()===ADMIN_EMAIL.toLowerCase()){$("login").classList.add("hidden");$("panel").classList.remove("hidden");$("logoutBtn").style.display="block";loadAll()}else{$("login").classList.remove("hidden");$("panel").classList.add("hidden");$("logoutBtn").style.display="none"; if(u) $("loginMsg").textContent="This account is not authorized as the store admin."}});
+async function loadAll(){await loadProducts();await loadOrders();}
+function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));}
+async function loadProducts(){const s=await getDocs(query(collection(db,"products"),orderBy("createdAt","desc")));$("products").innerHTML=s.docs.map(d=>{const p=d.data();return `<div class="product"><img src="${esc(p.image||'https://via.placeholder.com/500?text=MFH')}"><h3>${esc(p.name)}</h3><p>${esc(p.category)} • ₹${p.salePrice||p.price} • Stock ${p.stock}</p><button class="btn" onclick='editProduct(${JSON.stringify({id:d.id,...p})})'>Edit</button><button class="btn danger" onclick="delProduct('${d.id}')">Delete</button></div>`}).join("")||"<p class=muted>No products yet.</p>";}
+window.editProduct=p=>{["pid","name","category","price","salePrice","stock","image","desc"].forEach(k=>$(k).value=p[k]??"");window.scrollTo({top:0,behavior:"smooth"})};
+window.delProduct=async id=>{if(confirm("Delete product?")){await deleteDoc(doc(db,"products",id));loadProducts();}};
+$("clearBtn").onclick=()=>["pid","name","category","price","salePrice","stock","image","desc"].forEach(k=>$(k).value="");
+$("saveBtn").onclick=async()=>{const data={name:$("name").value.trim(),category:$("category").value.trim(),price:Number($("price").value||0),salePrice:Number($("salePrice").value||0),stock:Number($("stock").value||0),image:$("image").value.trim(),description:$("desc").value.trim()};if(!data.name||!data.price)return alert("Name and price are required.");if($("pid").value){await updateDoc(doc(db,"products",$("pid").value),data)}else{data.createdAt=serverTimestamp();await addDoc(collection(db,"products"),data)}$("clearBtn").click();loadProducts();};
+async function loadOrders(){try{const s=await getDocs(query(collection(db,"orders"),orderBy("createdAt","desc")));$("orders").innerHTML=s.docs.map(d=>{const o=d.data();return `<div class="order"><b>${esc(o.name||"Customer")}</b> • ${esc(o.mobile||"")}<br>${esc(o.address||"")}<br><small>${esc(o.itemsText||"")}</small><br><b>Total: ₹${o.total||0}</b><br>Status: ${esc(o.status||"New")}<br><button class="btn" onclick="statusOrder('${d.id}','Confirmed')">Confirmed</button><button class="btn" onclick="statusOrder('${d.id}','Shipped')">Shipped</button><button class="btn" onclick="statusOrder('${d.id}','Delivered')">Delivered</button></div>`}).join("")||"<p class=muted>No orders yet.</p>"}catch(e){$("orders").innerHTML="<p class=muted>Orders will appear here after the order collection is connected.</p>"}}
+window.statusOrder=async(id,status)=>{await updateDoc(doc(db,"orders",id),{status});loadOrders()};
+</script></body></html>

@@ -1,0 +1,12 @@
+export const firebaseConfig = {
+  apiKey: "AIzaSyBQkq82HDMjndAPnvjJ-yw64L3J55tFCHk",
+  authDomain: "mens-fashion-hub-e2773.firebaseapp.com",
+  projectId: "mens-fashion-hub-e2773",
+  storageBucket: "mens-fashion-hub-e2773.firebasestorage.app",
+  messagingSenderId: "309752221606",
+  appId: "1:309752221606:web:9cd2ff5a64d9f25e5f8967",
+  measurementId: "G-W99V4NZVK3"
+};
+
+export const STORE_WHATSAPP = "919798687943";
+export const ADMIN_EMAIL = "mensfashionhub39@gmail.com";
