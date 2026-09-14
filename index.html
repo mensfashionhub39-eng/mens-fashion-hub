@@ -4,1148 +4,2089 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Men's Fashion Hub</title>
+<title>Men's Fashion Hub | Men's Fashion, Style & Grooming</title>
+
+<meta name="description"
+content="Men's Fashion Hub - shirts, t-shirts, jeans, shoes, watches, accessories and grooming products.">
 
 <style>
-*{box-sizing:border-box}
+:root{
+  --gold:#d4af37;
+  --bg:#080808;
+  --card:#121212;
+  --border:#292929;
+  --text:#fff;
+  --muted:#aaa;
+  --danger:#ff6b6b;
+  --success:#65e572;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
 
 body{
-margin:0;
-font-family:Arial,sans-serif;
-background:#080808;
-color:white;
-}
-
-header{
-position:sticky;
-top:0;
-z-index:99;
-background:#111;
-border-bottom:1px solid #333;
-padding:15px;
-text-align:center;
-}
-
-.logo{
-font-size:24px;
-font-weight:bold;
-color:#e5b93f;
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,sans-serif;
 }
 
 nav{
-margin-top:12px;
+  position:sticky;
+  top:0;
+  z-index:1000;
+  background:#080808f5;
+  border-bottom:1px solid var(--border);
+  padding:14px 5%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
 }
 
-nav a{
-color:white;
-text-decoration:none;
-margin:0 10px;
-font-size:16px;
+.logo{
+  color:var(--gold);
+  font-weight:bold;
+  font-size:18px;
+}
+
+.nav-links{
+  display:flex;
+  gap:16px;
+  flex-wrap:wrap;
+}
+
+.nav-links a{
+  color:white;
+  text-decoration:none;
+  font-size:14px;
+}
+
+.nav-links a:hover{
+  color:var(--gold);
 }
 
 .hero{
-padding:70px 20px;
-text-align:center;
-background:linear-gradient(135deg,#111,#1d1d1d);
+  text-align:center;
+  padding:65px 20px 50px;
+  background:radial-gradient(circle at top,#29200b,#080808 65%);
 }
 
 .hero h1{
-font-size:42px;
-margin:10px 0;
-}
-
-.hero p{
-color:#bbb;
-font-size:18px;
-}
-
-.btn{
-background:#e5b93f;
-color:#111;
-border:0;
-padding:12px 18px;
-border-radius:8px;
-font-weight:bold;
-cursor:pointer;
-}
-
-.container{
-max-width:1100px;
-margin:auto;
-padding:30px 18px;
-}
-
-h2{
-font-size:30px;
+  font-size:clamp(34px,7vw,58px);
+  margin:10px 0;
 }
 
 .gold{
-color:#e5b93f;
+  color:var(--gold);
 }
 
-.search{
-width:100%;
-padding:15px;
-background:#151515;
-border:1px solid #444;
-border-radius:10px;
-color:white;
-font-size:16px;
-margin-bottom:15px;
+.hero p{
+  color:#ccc;
 }
 
-select{
-width:100%;
-padding:15px;
-background:#151515;
-border:1px solid #444;
-border-radius:10px;
-color:white;
-font-size:16px;
-margin-bottom:25px;
+.btn{
+  border:0;
+  background:var(--gold);
+  color:#080808;
+  padding:11px 18px;
+  border-radius:8px;
+  font-weight:bold;
+  cursor:pointer;
+  text-decoration:none;
+  display:inline-block;
+  margin:4px;
 }
 
-#status{
-padding:15px;
-background:#151515;
-border-radius:10px;
-margin-bottom:20px;
-color:#bbb;
+.btn:hover{
+  opacity:.9;
 }
 
-.products{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
+.btn-dark{
+  background:#191919;
+  color:white;
+  border:1px solid #444;
+}
+
+main{
+  max-width:1200px;
+  margin:auto;
+  padding:20px;
+}
+
+section{
+  margin:50px 0;
+  scroll-margin-top:90px;
+}
+
+h2{
+  font-size:30px;
+}
+
+.section-text{
+  color:var(--muted);
+}
+
+.toolbar{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin:20px 0;
+}
+
+input,
+select,
+textarea{
+  width:100%;
+  background:#151515;
+  color:white;
+  border:1px solid #333;
+  border-radius:8px;
+  padding:13px;
+  outline:none;
+}
+
+.toolbar input{
+  flex:1;
+  min-width:220px;
+}
+
+.toolbar select{
+  max-width:240px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:18px;
 }
 
 .card{
-background:#151515;
-border:1px solid #333;
-border-radius:14px;
-overflow:hidden;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  overflow:hidden;
 }
 
 .pic{
-height:240px;
-background:#eee;
-display:flex;
-align-items:center;
-justify-content:center;
-overflow:hidden;
+  height:240px;
+  background:#f1f1f1;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:55px;
 }
 
 .pic img{
-width:100%;
-height:100%;
-object-fit:cover;
+  width:100%;
+  height:100%;
+  object-fit:contain;
 }
 
 .body{
-padding:15px;
+  padding:16px;
 }
 
 .cat{
-color:#e5b93f;
-font-size:13px;
-text-transform:uppercase;
+  color:var(--gold);
+  font-size:12px;
+  text-transform:uppercase;
 }
 
-.card h3{
-margin:8px 0;
+.body h3{
+  margin:8px 0;
+}
+
+.body p{
+  color:#aaa;
 }
 
 .price{
-font-size:21px;
-font-weight:bold;
+  color:var(--gold);
+  font-size:21px;
+  font-weight:bold;
+  margin:10px 0;
 }
 
 .old{
-text-decoration:line-through;
-color:#777;
-font-size:14px;
-margin-left:8px;
+  color:#777;
+  text-decoration:line-through;
+  font-size:13px;
+  margin-left:8px;
 }
 
 .stock{
-color:#8ddd8d;
-font-size:14px;
-margin-top:7px;
+  color:#aaa;
+  font-size:13px;
 }
 
-.cartBtn{
-position:fixed;
-right:18px;
-bottom:20px;
-z-index:200;
-background:#e5b93f;
-color:#111;
-border:0;
-border-radius:30px;
-padding:15px 22px;
-font-size:17px;
-font-weight:bold;
-box-shadow:0 5px 20px #000;
+.loading,
+.error,
+.empty{
+  background:#151515;
+  border:1px solid #333;
+  border-radius:10px;
+  padding:18px;
+  color:#aaa;
 }
 
-#cartBox{
-display:none;
-position:fixed;
-z-index:300;
-top:0;
-right:0;
-width:100%;
-max-width:420px;
-height:100%;
-background:#111;
-border-left:1px solid #444;
-padding:20px;
-overflow:auto;
+.error{
+  color:var(--danger);
 }
 
-.cartItem{
-border-bottom:1px solid #333;
-padding:12px 0;
+.success{
+  color:var(--success);
 }
 
-.qty button{
-padding:6px 12px;
-margin:5px;
+.info-box{
+  background:#111;
+  border:1px solid #333;
+  border-radius:14px;
+  padding:20px;
 }
 
-input,textarea{
-width:100%;
-padding:13px;
-margin:7px 0;
-background:#181818;
-border:1px solid #444;
-border-radius:8px;
-color:white;
+.cart-button{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  z-index:2000;
+  background:var(--gold);
+  color:#080808;
+  border:0;
+  border-radius:50px;
+  padding:14px 19px;
+  font-weight:bold;
+  cursor:pointer;
+  box-shadow:0 8px 30px #000;
 }
 
-.support{
-margin-top:50px;
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:3000;
+  background:#000c;
+  padding:18px;
+  overflow:auto;
 }
 
-footer{
-padding:30px;
-text-align:center;
-color:#777;
-border-top:1px solid #333;
-margin-top:50px;
+.modal.show{
+  display:block;
+}
+
+.modal-box{
+  max-width:600px;
+  margin:30px auto;
+  background:#111;
+  border:1px solid #444;
+  border-radius:15px;
+  padding:20px;
 }
 
 .close{
-float:right;
-font-size:28px;
-cursor:pointer;
+  float:right;
+  background:none;
+  color:white;
+  border:0;
+  font-size:28px;
+  cursor:pointer;
+}
+
+.cart-item{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  border-bottom:1px solid #333;
+  padding:14px 0;
+}
+
+.cart-item img{
+  width:65px;
+  height:75px;
+  object-fit:contain;
+  background:#eee;
+  border-radius:8px;
+}
+
+.qty{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  margin-top:8px;
+}
+
+.qty button{
+  background:#191919;
+  color:white;
+  border:1px solid #555;
+  border-radius:5px;
+  padding:5px 10px;
+  cursor:pointer;
+}
+
+.total{
+  color:var(--gold);
+  font-size:23px;
+  font-weight:bold;
+  margin:18px 0;
+}
+
+.query-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.query-btn{
+  background:#181818;
+  color:white;
+  border:1px solid #444;
+  border-radius:8px;
+  padding:12px;
+  cursor:pointer;
+}
+
+.query-btn:hover{
+  border-color:var(--gold);
+}
+
+footer{
+  border-top:1px solid #222;
+  text-align:center;
+  padding:30px;
+  color:#888;
+  margin-top:50px;
+}
+
+@media(max-width:650px){
+
+  nav{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .nav-links{
+    width:100%;
+    gap:10px;
+  }
+
+  .nav-links a{
+    font-size:12px;
+  }
+
+  .pic{
+    height:200px;
+  }
+
+  .query-grid{
+    grid-template-columns:1fr;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<header>
-
-<div class="logo">
-MFH • MEN'S FASHION HUB
-</div>
-
 <nav>
-<a href="#home">Home</a>
-<a href="#productsSection">Products</a>
-<a href="#support">Support</a>
+
+  <div class="logo">
+    MFH • MEN'S FASHION HUB
+  </div>
+
+  <div class="nav-links">
+    <a href="#home">Home</a>
+    <a href="#products">Products</a>
+    <a href="#categories">Categories</a>
+    <a href="#orders">Orders</a>
+    <a href="#support">Support</a>
+    <a href="https://www.instagram.com/mens_fashionhub20/"
+       target="_blank">
+       Instagram
+    </a>
+  </div>
+
 </nav>
+
+
+<header class="hero" id="home">
+
+  <div class="gold">
+    MEN'S FASHION HUB
+  </div>
+
+  <h1>
+    LOOK GOOD.
+    <span class="gold">FEEL CONFIDENT.</span>
+  </h1>
+
+  <p>
+    Men's fashion, style, grooming and accessories.
+  </p>
+
+  <a class="btn" href="#products">
+    SHOP NOW
+  </a>
 
 </header>
 
 
-<section class="hero" id="home">
-
-<h1>Men's Fashion Hub</h1>
-
-<p>Style • Confidence • You</p>
-
-<a href="#productsSection">
-<button class="btn">SHOP NOW</button>
-</a>
-
-</section>
+<main>
 
 
-<section class="container" id="productsSection">
+<!-- CATEGORIES -->
 
-<h2>🛍️ <span class="gold">All Products</span></h2>
+<section id="categories">
 
-<input
-id="search"
-class="search"
-type="text"
-placeholder="🔎 Search product..."
->
+  <h2>
+    Explore <span class="gold">Categories</span>
+  </h2>
 
-<select id="category">
-<option value="">All Categories</option>
-<option value="shirt">Shirts</option>
-<option value="tshirt">T-Shirts</option>
-<option value="jeans">Jeans</option>
-<option value="shoes">Shoes</option>
-<option value="watch">Watches</option>
-<option value="accessories">Accessories</option>
-</select>
+  <p class="section-text">
+    Choose a category to see available products.
+  </p>
 
-<div id="status">
-Loading products...
-</div>
+  <div class="grid">
 
-<div id="products" class="products"></div>
+    <div class="card">
+      <div class="body">
+        <div class="cat">SHIRTS</div>
+        <h3>Men's Shirts</h3>
+        <p>Formal and casual shirts.</p>
+        <button class="btn"
+        onclick="setCategory('shirts')">
+        View Shirts
+        </button>
+      </div>
+    </div>
 
-</section>
+    <div class="card">
+      <div class="body">
+        <div class="cat">T-SHIRTS</div>
+        <h3>Men's T-Shirts</h3>
+        <p>Comfortable everyday t-shirts.</p>
+        <button class="btn"
+        onclick="setCategory('tshirts')">
+        View T-Shirts
+        </button>
+      </div>
+    </div>
 
+    <div class="card">
+      <div class="body">
+        <div class="cat">JEANS</div>
+        <h3>Men's Jeans</h3>
+        <p>Modern jeans and denim.</p>
+        <button class="btn"
+        onclick="setCategory('jeans')">
+        View Jeans
+        </button>
+      </div>
+    </div>
 
-<section class="container support" id="support">
+    <div class="card">
+      <div class="body">
+        <div class="cat">SHOES</div>
+        <h3>Men's Shoes</h3>
+        <p>Sneakers and footwear.</p>
+        <button class="btn"
+        onclick="setCategory('shoes')">
+        View Shoes
+        </button>
+      </div>
+    </div>
 
-<h2>❓ <span class="gold">Customer Support</span></h2>
+    <div class="card">
+      <div class="body">
+        <div class="cat">ACCESSORIES</div>
+        <h3>Accessories</h3>
+        <p>Watches, sunglasses and more.</p>
+        <button class="btn"
+        onclick="setCategory('accessories')">
+        View Accessories
+        </button>
+      </div>
+    </div>
 
-<p>Apni problem select karein.</p>
-
-<button class="btn" onclick="setQuery('Order Status')">
-📦 Order Status
-</button>
-
-<button class="btn" onclick="setQuery('Payment Problem')">
-💳 Payment
-</button>
-
-<br><br>
-
-<button class="btn" onclick="setQuery('Product Stock')">
-🛍️ Stock
-</button>
-
-<button class="btn" onclick="setQuery('Size / Fit')">
-📏 Size / Fit
-</button>
-
-<br><br>
-
-<button class="btn" onclick="setQuery('Delivery Problem')">
-🚚 Delivery
-</button>
-
-<button class="btn" onclick="setQuery('Return / Exchange')">
-🔄 Return
-</button>
-
-<br><br>
-
-<textarea
-id="supportMessage"
-rows="5"
-placeholder="Apni problem yahan likhein..."
-></textarea>
-
-<button class="btn" onclick="sendSupport()">
-Send Query
-</button>
+  </div>
 
 </section>
 
 
-<button class="cartBtn" onclick="openCart()">
-🛒 Cart (<span id="cartCount">0</span>)
+<!-- PRODUCTS -->
+
+<section id="products">
+
+  <h2>
+    All <span class="gold">Products</span>
+  </h2>
+
+  <div class="toolbar">
+
+    <input
+      id="search"
+      type="search"
+      placeholder="🔎 Search product..."
+      oninput="renderProducts()"
+    >
+
+    <select
+      id="category"
+      onchange="renderProducts()">
+
+      <option value="">
+        All Categories
+      </option>
+
+      <option value="shirts">
+        Shirts
+      </option>
+
+      <option value="tshirts">
+        T-Shirts
+      </option>
+
+      <option value="jeans">
+        Jeans
+      </option>
+
+      <option value="shoes">
+        Shoes
+      </option>
+
+      <option value="watches">
+        Watches
+      </option>
+
+      <option value="accessories">
+        Accessories
+      </option>
+
+    </select>
+
+  </div>
+
+  <div id="productStatus"
+       class="loading">
+    Products loading...
+  </div>
+
+  <div
+    id="productGrid"
+    class="grid">
+  </div>
+
+</section>
+
+
+<!-- ORDERS -->
+
+<section id="orders">
+
+  <h2>
+    Place <span class="gold">Order</span>
+  </h2>
+
+  <div class="info-box">
+
+    <p class="section-text">
+      Product cart me add karo → Cart open karo →
+      customer details bharo → COD ya UPI select karo →
+      Place Order.
+    </p>
+
+    <button class="btn"
+    onclick="openCart()">
+      🛒 Open Cart
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- SUPPORT -->
+
+<section id="support">
+
+  <h2>
+    Customer <span class="gold">Support</span>
+  </h2>
+
+  <p class="section-text">
+    Apni problem select karein. Query directly system me save hogi.
+  </p>
+
+  <div class="info-box">
+
+    <div class="query-grid">
+
+      <button class="query-btn"
+      onclick="selectQuery('Order Status')">
+        📦 Order Status
+      </button>
+
+      <button class="query-btn"
+      onclick="selectQuery('Payment Problem')">
+        💳 Payment Problem
+      </button>
+
+      <button class="query-btn"
+      onclick="selectQuery('Product / Stock')">
+        🛍️ Product / Stock
+      </button>
+
+      <button class="query-btn"
+      onclick="selectQuery('Size / Fit')">
+        📏 Size / Fit
+      </button>
+
+      <button class="query-btn"
+      onclick="selectQuery('Delivery Problem')">
+        🚚 Delivery Problem
+      </button>
+
+      <button class="query-btn"
+      onclick="selectQuery('Return / Exchange')">
+        🔄 Return / Exchange
+      </button>
+
+      <button class="query-btn"
+      onclick="selectQuery('Wrong / Damaged Product')">
+        ⚠️ Wrong / Damaged
+      </button>
+
+      <button class="query-btn"
+      onclick="selectQuery('Other Help')">
+        💬 Other Help
+      </button>
+
+    </div>
+
+    <br>
+
+    <input
+      id="queryName"
+      placeholder="Your Name"
+    >
+
+    <input
+      id="queryContact"
+      placeholder="Mobile Number / Email"
+    >
+
+    <textarea
+      id="queryText"
+      rows="5"
+      placeholder="Describe your problem..."
+    ></textarea>
+
+    <button class="btn"
+    onclick="submitQuery()">
+      Submit Query
+    </button>
+
+    <div
+      id="queryResult"
+      style="margin-top:12px">
+    </div>
+
+  </div>
+
+</section>
+
+
+</main>
+
+
+<!-- FLOATING CART -->
+
+<button
+  class="cart-button"
+  onclick="openCart()">
+
+  🛒 Cart
+  (<span id="cartCount">0</span>)
+
 </button>
 
 
-<div id="cartBox">
+<!-- CART MODAL -->
 
-<span class="close" onclick="closeCart()">✕</span>
+<div
+  class="modal"
+  id="cartModal">
 
-<h2>🛒 Your Cart</h2>
+  <div class="modal-box">
 
-<div id="cartItems"></div>
+    <button
+      class="close"
+      onclick="closeCart()">
+      ×
+    </button>
 
-<h3>
-Total: ₹<span id="cartTotal">0</span>
-</h3>
+    <h2>
+      🛒 Your Cart
+    </h2>
 
-<hr>
+    <div id="cartItems">
+    </div>
 
-<h3>Delivery Details</h3>
+    <div class="total">
+      Total: ₹<span id="cartTotal">0</span>
+    </div>
 
-<input id="custName" placeholder="Full Name">
+    <hr>
 
-<input id="custMobile" placeholder="Mobile Number">
+    <h3>
+      Customer Details
+    </h3>
 
-<textarea
-id="custAddress"
-rows="4"
-placeholder="Full Delivery Address"
-></textarea>
+    <input
+      id="custName"
+      placeholder="Full Name"
+    >
 
-<button class="btn" onclick="placeCOD()">
-📦 Place COD Order
-</button>
+    <br><br>
 
-<br><br>
+    <input
+      id="custMobile"
+      type="tel"
+      placeholder="Mobile Number"
+    >
 
-<button class="btn" onclick="payUPI()">
-💳 Pay Online UPI
-</button>
+    <br><br>
+
+    <input
+      id="custEmail"
+      type="email"
+      placeholder="Email (optional)"
+    >
+
+    <br><br>
+
+    <textarea
+      id="custAddress"
+      rows="4"
+      placeholder="Complete Delivery Address"
+    ></textarea>
+
+    <br><br>
+
+    <input
+      id="custPincode"
+      inputmode="numeric"
+      placeholder="Pincode"
+    >
+
+    <br><br>
+
+    <select id="paymentMethod">
+
+      <option value="upi">
+        💳 Online Payment / UPI
+      </option>
+
+      <option value="cod">
+        💵 Cash on Delivery
+      </option>
+
+    </select>
+
+    <div
+      class="info-box"
+      style="margin-top:12px">
+
+      <b>UPI ID:</b>
+      9693853875-3@axl
+
+      <br>
+
+      <small style="color:#aaa">
+        UPI select karne par payment app open hoga.
+      </small>
+
+    </div>
+
+    <br>
+
+    <button
+      id="placeOrderBtn"
+      class="btn"
+      onclick="placeOrder()">
+
+      ✅ Place Order
+
+    </button>
+
+    <div
+      id="orderResult"
+      style="margin-top:15px">
+    </div>
+
+  </div>
 
 </div>
 
 
 <footer>
-© 2026 Men's Fashion Hub
+
+  © 2026 Men's Fashion Hub
+  • Style • Confidence • Grooming
+
 </footer>
 
 
 <script type="module">
 
-import { initializeApp }
-from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+/* =========================
+   FIREBASE
+========================= */
 
 import {
-getFirestore,
-collection,
-getDocs,
-addDoc,
-serverTimestamp
-}
-from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+  initializeApp
+} from
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  addDoc,
+  serverTimestamp
+} from
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
-/* FIREBASE */
 
 const firebaseConfig = {
 
-apiKey:"AIzaSyBQkq82HDMjndAPnvJ-yw64L3J55tFCHk",
+  apiKey:
+  "AIzaSyBQkq82HDMjndAPnvJ-yw64L3J55tFCHk",
 
-authDomain:"mens-fashion-hub-e2773.firebaseapp.com",
+  authDomain:
+  "mens-fashion-hub-e2773.firebaseapp.com",
 
-projectId:"mens-fashion-hub-e2773",
+  projectId:
+  "mens-fashion-hub-e2773",
 
-storageBucket:"mens-fashion-hub-e2773.firebasestorage.app",
+  storageBucket:
+  "mens-fashion-hub-e2773.firebasestorage.app",
 
-messagingSenderId:"309752221606",
+  messagingSenderId:
+  "309752221606",
 
-appId:"1:309752221606:web:9cd2ff5a64d9f25e5f8967",
+  appId:
+  "1:309752221606:web:9cd2ff5a64d9f25e5f8967",
 
-measurementId:"G-W99V4NZVK3"
-
+  measurementId:
+  "G-W99V4NZVK3"
 };
 
 
-const app=initializeApp(firebaseConfig);
+const app =
+initializeApp(firebaseConfig);
 
-const db=getFirestore(app);
-
-
-/* UPI */
-
-const UPI_ID="9693853875-3@axl";
+const db =
+getFirestore(app);
 
 
-/* DATA */
+/* =========================
+   SETTINGS
+========================= */
 
-let products=[];
+const UPI_ID =
+"9693853875-3@axl";
 
-let cart=[];
+
+/* =========================
+   VARIABLES
+========================= */
+
+let products = [];
+
+let cart =
+JSON.parse(
+  localStorage.getItem("mfh_cart") || "[]"
+);
 
 
-/* ESCAPE */
+/* =========================
+   SECURITY
+========================= */
 
-function esc(v){
+function esc(value){
 
-return String(v??"")
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#39;");
+  return String(value ?? "")
+    .replace(/[&<>'"]/g, function(c){
+
+      return {
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        "'":"&#39;",
+        '"':"&quot;"
+
+      }[c];
+
+    });
 
 }
 
 
-/* LOAD PRODUCTS */
+/* =========================
+   CATEGORY NORMALIZER
+========================= */
+
+function normalizeCategory(value){
+
+  const x =
+  String(value || "")
+  .toLowerCase()
+  .replace(/[^a-z0-9]/g,"");
+
+  if(
+    x.includes("tshirt") ||
+    x.includes("tee")
+  ){
+    return "tshirts";
+  }
+
+  if(x.includes("shirt")){
+    return "shirts";
+  }
+
+  if(
+    x.includes("jean") ||
+    x.includes("denim")
+  ){
+    return "jeans";
+  }
+
+  if(
+    x.includes("shoe") ||
+    x.includes("sneaker") ||
+    x.includes("footwear")
+  ){
+    return "shoes";
+  }
+
+  if(x.includes("watch")){
+    return "watches";
+  }
+
+  if(
+    x.includes("access") ||
+    x.includes("wallet") ||
+    x.includes("sunglass")
+  ){
+    return "accessories";
+  }
+
+  return x;
+}
+
+
+/* =========================
+   LOAD FIREBASE PRODUCTS
+========================= */
 
 async function loadProducts(){
 
-const status=document.getElementById("status");
+  const status =
+  document.getElementById("productStatus");
 
-status.innerHTML="⏳ Products loading...";
+  status.className = "loading";
 
-try{
+  status.textContent =
+  "Products loading...";
 
-const snapshot=
-await getDocs(collection(db,"products"));
+  try{
 
-products=snapshot.docs.map(doc=>({
+    const snapshot =
+    await getDocs(
+      collection(db,"products")
+    );
 
-id:doc.id,
-...doc.data()
+    products =
+    snapshot.docs.map(doc => ({
 
-}));
+      id:doc.id,
+      ...doc.data()
 
-status.innerHTML=
-"✅ "+products.length+" product(s) found.";
+    }));
 
-renderProducts();
+    status.style.display = "none";
 
-}catch(error){
+    renderProducts();
 
-console.error(error);
+  }catch(error){
 
-status.innerHTML=
-"❌ Products load nahi ho rahe.<br><br>"+
-error.message;
+    console.error(error);
 
-}
+    status.className = "error";
 
-}
+    status.style.display = "block";
 
+    status.innerHTML =
+    "❌ Products load nahi ho rahe.<br><br>" +
+    "Firebase Firestore rules/check karke page refresh karein.";
 
-/* CATEGORY NORMALIZE */
-
-function categoryMatch(product,selected){
-
-if(!selected) return true;
-
-const cat=String(
-product.category||
-product.cat||
-product.type||
-""
-).toLowerCase();
-
-return cat.includes(selected);
+  }
 
 }
 
 
-/* RENDER PRODUCTS */
+/* =========================
+   RENDER PRODUCTS
+========================= */
 
-function renderProducts(){
+window.renderProducts =
+function(){
 
-const box=document.getElementById("products");
+  const grid =
+  document.getElementById("productGrid");
 
-const search=
-document.getElementById("search")
-.value
-.toLowerCase()
-.trim();
+  const search =
+  document
+  .getElementById("search")
+  .value
+  .toLowerCase()
+  .trim();
 
-const selected=
-document.getElementById("category").value;
+  const category =
+  normalizeCategory(
+    document.getElementById("category").value
+  );
 
 
-const list=products.filter(p=>{
+  const filtered =
+  products.filter(p => {
 
-const name=
-String(p.name||"")
-.toLowerCase();
+    const name =
+    String(p.name || "")
+    .toLowerCase();
 
-return
-(!search || name.includes(search))
-&&
-categoryMatch(p,selected);
+    const cat =
+    normalizeCategory(
+      p.category ||
+      p.cat ||
+      p.productCategory ||
+      p.type ||
+      ""
+    );
 
-});
+    return (
+      (!search ||
+       name.includes(search)) &&
 
+      (!category ||
+       cat === category)
+    );
 
-if(!list.length){
+  });
 
-box.innerHTML=
-"<p>❌ No products found.</p>";
 
-return;
+  if(!filtered.length){
 
-}
+    grid.innerHTML =
+    `<div class="empty">
+      ❌ No products found.
+      <br><br>
+      Admin panel me add kiya hua product
+      agar nahi aa raha hai to Firestore rules check karein.
+    </div>`;
 
+    updateCartCount();
 
-box.innerHTML=list.map(p=>{
+    return;
+  }
 
-const price=
-Number(p.salePrice || p.price || 0);
 
-const old=
-Number(p.price || 0);
+  grid.innerHTML =
+  filtered.map(p => {
 
-const stock=
-Number(p.stock || 0);
+    const price =
+    Number(
+      p.salePrice ??
+      p.price ??
+      0
+    );
 
-const image=
-p.image ||
-p.imageUrl ||
-"";
+    const oldPrice =
+    Number(
+      p.price ??
+      0
+    );
 
+    const stock =
+    p.stock === undefined
+    ? 1
+    : Number(p.stock);
 
-return `
+    const image =
+    p.image ||
+    p.imageUrl ||
+    "";
 
-<div class="card">
+    const cat =
+    p.category ||
+    p.cat ||
+    "Fashion";
 
-<div class="pic">
+    const disabled =
+    stock <= 0
+    ? "disabled"
+    : "";
 
-${
-image
 
-?
+    return `
 
-`<img
-src="${esc(image)}"
-alt="${esc(p.name||"Product")}"
-onerror="this.style.display='none'"
->`
+      <article class="card">
 
-:
+        <div class="pic">
 
-"👕"
+          ${
+            image
 
-}
+            ?
 
-</div>
+            `<img
+              src="${esc(image)}"
+              alt="${esc(p.name)}"
+              loading="lazy"
+              onerror="
+                this.style.display='none';
+                this.parentElement.innerHTML='👕';
+              "
+            >`
 
-<div class="body">
+            :
 
-<div class="cat">
-${esc(p.category||"Fashion")}
-</div>
+            "👕"
+          }
 
-<h3>
-${esc(p.name||"Product")}
-</h3>
+        </div>
 
-<div class="price">
 
-₹${price.toLocaleString("en-IN")}
+        <div class="body">
 
-${
-old>price
+          <div class="cat">
+            ${esc(cat)}
+          </div>
 
-?
+          <h3>
+            ${esc(
+              p.name ||
+              "Men's Fashion Product"
+            )}
+          </h3>
 
-`<span class="old">
-₹${old.toLocaleString("en-IN")}
-</span>`
+          <p>
+            ${esc(
+              p.desc ||
+              "Premium men's fashion product."
+            )}
+          </p>
 
-:
 
-""
+          <div class="price">
 
-}
+            ₹${price.toLocaleString("en-IN")}
 
-</div>
+            ${
+              oldPrice > price
 
-<div class="stock">
+              ?
 
-${
-stock>0
-?
-"✅ "+stock+" in stock"
-:
-"❌ Out of stock"
-}
+              `<span class="old">
+                ₹${oldPrice.toLocaleString("en-IN")}
+              </span>`
 
-</div>
+              :
 
-<br>
+              ""
+            }
 
-<button
-class="btn"
-${stock<=0?"disabled":""}
-onclick="addToCart('${p.id}')"
->
+          </div>
 
-🛒 Add to Cart
 
-</button>
+          <div class="stock">
 
-</div>
+            ${
+              stock > 0
 
-</div>
+              ?
 
-`;
+              "✅ " + stock + " in stock"
 
-}).join("");
+              :
 
-}
+              "❌ Out of stock"
+            }
 
+          </div>
 
-/* SEARCH */
 
-document
-.getElementById("search")
-.addEventListener("input",renderProducts);
+          <br>
 
-document
-.getElementById("category")
-.addEventListener("change",renderProducts);
 
+          <button
+            class="btn"
+            ${disabled}
+            onclick="addToCart('${esc(p.id)}')">
 
-/* CART */
+            🛒 Add to Cart
 
-window.addToCart=function(id){
+          </button>
 
-const product=
-products.find(p=>String(p.id)===String(id));
+        </div>
 
-if(!product) return;
+      </article>
 
-if(Number(product.stock||0)<=0){
+    `;
 
-alert("Product out of stock.");
-
-return;
-
-}
-
-
-const existing=
-cart.find(x=>x.id===id);
-
-if(existing){
-
-existing.qty++;
-
-}else{
-
-cart.push({
-
-id:id,
-qty:1
-
-});
-
-}
-
-
-saveCart();
-
-alert("✅ Product cart me add ho gaya.");
+  }).join("");
 
 };
 
+
+/* =========================
+   CATEGORY BUTTON
+========================= */
+
+window.setCategory =
+function(category){
+
+  document
+  .getElementById("category")
+  .value = category;
+
+  renderProducts();
+
+  document
+  .getElementById("products")
+  .scrollIntoView({
+    behavior:"smooth"
+  });
+
+};
+
+
+/* =========================
+   ADD CART
+========================= */
+
+window.addToCart =
+function(id){
+
+  const product =
+  products.find(
+    p => String(p.id) === String(id)
+  );
+
+  if(!product){
+    alert("Product not found.");
+    return;
+  }
+
+
+  const stock =
+  product.stock === undefined
+  ? 1
+  : Number(product.stock);
+
+
+  if(stock <= 0){
+
+    alert("Ye product out of stock hai.");
+
+    return;
+  }
+
+
+  const existing =
+  cart.find(
+    item =>
+    String(item.id) === String(id)
+  );
+
+
+  if(existing){
+
+    if(existing.qty >= stock){
+
+      alert("Available stock se zyada quantity nahi le sakte.");
+
+      return;
+    }
+
+    existing.qty++;
+
+  }else{
+
+    cart.push({
+      id:id,
+      qty:1
+    });
+
+  }
+
+
+  saveCart();
+
+  openCart();
+
+};
+
+
+/* =========================
+   SAVE CART
+========================= */
 
 function saveCart(){
 
-localStorage.setItem(
-"mfh_cart",
-JSON.stringify(cart)
-);
+  localStorage.setItem(
+    "mfh_cart",
+    JSON.stringify(cart)
+  );
 
-updateCart();
-
-}
-
-
-function updateCart(){
-
-document.getElementById("cartCount")
-.innerText=
-cart.reduce(
-(total,item)=>total+item.qty,
-0
-);
+  updateCartCount();
 
 }
 
 
-window.openCart=function(){
+/* =========================
+   CART COUNT
+========================= */
 
-document.getElementById("cartBox")
-.style.display="block";
+function updateCartCount(){
 
-renderCart();
+  const count =
+  cart.reduce(
+    (sum,item) =>
+    sum + Number(item.qty || 0),
+    0
+  );
+
+  document
+  .getElementById("cartCount")
+  .textContent = count;
+
+}
+
+
+/* =========================
+   OPEN CART
+========================= */
+
+window.openCart =
+function(){
+
+  document
+  .getElementById("cartModal")
+  .classList.add("show");
+
+  renderCart();
 
 };
 
 
-window.closeCart=function(){
+/* =========================
+   CLOSE CART
+========================= */
 
-document.getElementById("cartBox")
-.style.display="none";
+window.closeCart =
+function(){
+
+  document
+  .getElementById("cartModal")
+  .classList.remove("show");
 
 };
 
+
+/* =========================
+   RENDER CART
+========================= */
 
 function renderCart(){
 
-const box=
-document.getElementById("cartItems");
+  const box =
+  document.getElementById("cartItems");
 
-let total=0;
+  let total = 0;
 
-if(!cart.length){
 
-box.innerHTML=
-"<p>🛒 Cart empty hai.</p>";
+  if(!cart.length){
 
-document.getElementById("cartTotal")
-.innerText="0";
+    box.innerHTML =
+    `<div class="empty">
+      🛒 Your cart is empty.
+      <br><br>
+      Products add karo.
+    </div>`;
 
-return;
+    document
+    .getElementById("cartTotal")
+    .textContent = "0";
+
+    return;
+  }
+
+
+  box.innerHTML =
+  cart.map((item,index) => {
+
+    const product =
+    products.find(
+      p =>
+      String(p.id) === String(item.id)
+    );
+
+
+    if(!product){
+      return "";
+    }
+
+
+    const price =
+    Number(
+      product.salePrice ??
+      product.price ??
+      0
+    );
+
+
+    const qty =
+    Number(item.qty || 1);
+
+
+    const itemTotal =
+    price * qty;
+
+
+    total += itemTotal;
+
+
+    const image =
+    product.image ||
+    product.imageUrl ||
+    "";
+
+
+    return `
+
+      <div class="cart-item">
+
+        ${
+          image
+
+          ?
+
+          `<img
+            src="${esc(image)}"
+            alt="${esc(product.name)}"
+          >`
+
+          :
+
+          `<div
+            style="
+            width:65px;
+            height:75px;
+            background:#eee;
+            color:#111;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            border-radius:8px;
+            ">
+            👕
+          </div>`
+        }
+
+
+        <div style="flex:1">
+
+          <b>
+            ${esc(product.name)}
+          </b>
+
+          <div style="color:#d4af37;margin-top:5px">
+
+            ₹${itemTotal.toLocaleString("en-IN")}
+
+          </div>
+
+
+          <div class="qty">
+
+            <button
+              onclick="changeQuantity(${index},-1)">
+              −
+            </button>
+
+            <span>
+              ${qty}
+            </span>
+
+            <button
+              onclick="changeQuantity(${index},1)">
+              +
+            </button>
+
+            <button
+              onclick="removeFromCart(${index})">
+              Remove
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    `;
+
+  }).join("");
+
+
+  document
+  .getElementById("cartTotal")
+  .textContent =
+  total.toLocaleString("en-IN");
 
 }
 
 
-box.innerHTML=cart.map((item,index)=>{
+/* =========================
+   CHANGE QUANTITY
+========================= */
 
-const p=
-products.find(x=>String(x.id)===String(item.id));
+window.changeQuantity =
+function(index,direction){
 
-if(!p) return "";
+  const item =
+  cart[index];
 
-const price=
-Number(p.salePrice||p.price||0);
-
-const subtotal=
-price*item.qty;
-
-total+=subtotal;
-
-
-return `
-
-<div class="cartItem">
-
-<b>
-${esc(p.name)}
-</b>
-
-<br>
-
-₹${price.toLocaleString("en-IN")}
-
-<br>
-
-<div class="qty">
-
-<button onclick="changeQty(${index},-1)">
-−
-</button>
-
-${item.qty}
-
-<button onclick="changeQty(${index},1)">
-+
-</button>
-
-<button onclick="removeCart(${index})">
-Remove
-</button>
-
-</div>
-
-</div>
-
-`;
-
-}).join("");
+  if(!item){
+    return;
+  }
 
 
-document.getElementById("cartTotal")
-.innerText=
-total.toLocaleString("en-IN");
+  const product =
+  products.find(
+    p =>
+    String(p.id) ===
+    String(item.id)
+  );
 
-}
+
+  const stock =
+  product &&
+  product.stock !== undefined
+
+  ?
+
+  Number(product.stock)
+
+  :
+
+  999;
 
 
-window.changeQty=function(index,change){
+  if(
+    direction > 0 &&
+    item.qty >= stock
+  ){
 
-cart[index].qty+=change;
+    alert("Available stock se zyada quantity nahi le sakte.");
 
-if(cart[index].qty<=0){
+    return;
+  }
 
-cart.splice(index,1);
 
-}
+  item.qty += direction;
 
-saveCart();
 
-renderCart();
+  if(item.qty <= 0){
+
+    cart.splice(index,1);
+
+  }
+
+
+  saveCart();
+
+  renderCart();
 
 };
 
 
-window.removeCart=function(index){
+/* =========================
+   REMOVE
+========================= */
 
-cart.splice(index,1);
+window.removeFromCart =
+function(index){
 
-saveCart();
+  cart.splice(index,1);
 
-renderCart();
+  saveCart();
 
-};
-
-
-/* TOTAL */
-
-function getTotal(){
-
-return cart.reduce((total,item)=>{
-
-const p=
-products.find(x=>String(x.id)===String(item.id));
-
-if(!p) return total;
-
-const price=
-Number(p.salePrice||p.price||0);
-
-return total+(price*item.qty);
-
-},0);
-
-}
-
-
-/* ORDER DETAILS */
-
-function customerDetails(){
-
-const name=
-document.getElementById("custName")
-.value.trim();
-
-const mobile=
-document.getElementById("custMobile")
-.value.trim();
-
-const address=
-document.getElementById("custAddress")
-.value.trim();
-
-
-if(!name||!mobile||!address){
-
-alert(
-"Name, Mobile aur Address fill karo."
-);
-
-return null;
-
-}
-
-
-return {
-name,
-mobile,
-address
-};
-
-}
-
-
-/* COD ORDER */
-
-window.placeCOD=async function(){
-
-if(!cart.length){
-
-alert("Pehle product cart me add karo.");
-
-return;
-
-}
-
-
-const customer=
-customerDetails();
-
-if(!customer) return;
-
-
-const total=getTotal();
-
-
-try{
-
-const orderItems=cart.map(item=>{
-
-const p=
-products.find(
-x=>String(x.id)===String(item.id)
-);
-
-const price=
-Number(p.salePrice||p.price||0);
-
-return {
-
-productId:p.id,
-
-name:p.name,
-
-qty:item.qty,
-
-price:price
-
-};
-
-});
-
-
-const order={
-
-customerName:customer.name,
-
-mobile:customer.mobile,
-
-address:customer.address,
-
-items:orderItems,
-
-total:total,
-
-paymentMethod:"COD",
-
-status:"New",
-
-createdAt:serverTimestamp()
+  renderCart();
 
 };
 
 
-const ref=
-await addDoc(
-collection(db,"orders"),
-order
-);
+/* =========================
+   PLACE ORDER
+========================= */
+
+window.placeOrder =
+async function(){
+
+  const result =
+  document.getElementById(
+    "orderResult"
+  );
+
+  result.className = "";
+  result.textContent = "";
 
 
-alert(
-"✅ Order successfully placed!\n\n"+
-"Order ID: "+ref.id+
-"\nTotal: ₹"+
-total.toLocaleString("en-IN")
-);
+  if(!cart.length){
+
+    result.className = "error";
+
+    result.textContent =
+    "🛒 Cart empty hai.";
+
+    return;
+  }
 
 
-cart=[];
+  const name =
+  document
+  .getElementById("custName")
+  .value
+  .trim();
 
-saveCart();
+  const mobile =
+  document
+  .getElementById("custMobile")
+  .value
+  .trim();
 
-renderCart();
+  const email =
+  document
+  .getElementById("custEmail")
+  .value
+  .trim();
 
-closeCart();
+  const address =
+  document
+  .getElementById("custAddress")
+  .value
+  .trim();
+
+  const pincode =
+  document
+  .getElementById("custPincode")
+  .value
+  .trim();
+
+  const payment =
+  document
+  .getElementById("paymentMethod")
+  .value;
 
 
-}catch(error){
+  if(
+    !name ||
+    !mobile ||
+    !address ||
+    !pincode
+  ){
 
-console.error(error);
+    result.className = "error";
 
-alert(
-"❌ Order save nahi hua.\n\n"+
-error.message
-);
+    result.textContent =
+    "❌ Name, Mobile, Address aur Pincode fill karo.";
 
-}
+    return;
+  }
+
+
+  let total = 0;
+
+  const orderItems =
+  cart.map(item => {
+
+    const product =
+    products.find(
+      p =>
+      String(p.id) ===
+      String(item.id)
+    );
+
+
+    if(!product){
+      return null;
+    }
+
+
+    const price =
+    Number(
+      product.salePrice ??
+      product.price ??
+      0
+    );
+
+
+    const qty =
+    Number(item.qty || 1);
+
+
+    total +=
+    price * qty;
+
+
+    return {
+
+      productId:
+      product.id,
+
+      name:
+      product.name || "Product",
+
+      price:
+      price,
+
+      qty:
+      qty,
+
+      total:
+      price * qty
+
+    };
+
+  }).filter(Boolean);
+
+
+  if(!orderItems.length){
+
+    result.className = "error";
+
+    result.textContent =
+    "❌ Cart product available nahi hai.";
+
+    return;
+  }
+
+
+  const orderId =
+  "MFH" +
+  Date.now()
+  .toString()
+  .slice(-8);
+
+
+  const orderData = {
+
+    orderId:
+
+    orderId,
+
+    customerName:
+    name,
+
+    mobile:
+    mobile,
+
+    email:
+    email,
+
+    address:
+    address,
+
+    pincode:
+    pincode,
+
+    items:
+    orderItems,
+
+    total:
+    total,
+
+    paymentMethod:
+    payment === "upi"
+    ? "UPI"
+    : "COD",
+
+    paymentStatus:
+    payment === "upi"
+    ? "Pending"
+    : "COD",
+
+    status:
+    "New",
+
+    createdAt:
+    serverTimestamp()
+
+  };
+
+
+  const button =
+  document.getElementById(
+    "placeOrderBtn"
+  );
+
+  button.disabled = true;
+
+  button.textContent =
+  "Saving Order...";
+
+
+  try{
+
+    await addDoc(
+      collection(db,"orders"),
+      orderData
+    );
+
+
+    if(payment === "upi"){
+
+      const upiLink =
+      "upi://pay" +
+      "?pa=" +
+      encodeURIComponent(UPI_ID) +
+      "&pn=" +
+      encodeURIComponent(
+        "Men's Fashion Hub"
+      ) +
+      "&am=" +
+      encodeURIComponent(
+        total.toFixed(2)
+      ) +
+      "&cu=INR" +
+      "&tn=" +
+      encodeURIComponent(
+        "Order " + orderId
+      );
+
+
+      result.className =
+      "success";
+
+      result.innerHTML =
+      "✅ Order saved.<br><br>" +
+      "<b>Order ID: " +
+      esc(orderId) +
+      "</b><br><br>" +
+      "Payment app open ho raha hai...";
+
+
+      window.location.href =
+      upiLink;
+
+
+    }else{
+
+      result.className =
+      "success";
+
+      result.innerHTML =
+      "✅ Order successfully placed!<br><br>" +
+
+      "<b>Order ID:</b> " +
+      esc(orderId) +
+
+      "<br><br>" +
+
+      "<b>Total:</b> ₹" +
+      total.toLocaleString("en-IN") +
+
+      "<br><br>" +
+
+      "Cash on Delivery selected.";
+
+      cart = [];
+
+      saveCart();
+
+      renderCart();
+
+    }
+
+
+  }catch(error){
+
+    console.error(error);
+
+    result.className =
+    "error";
+
+    result.innerHTML =
+    "❌ Order save nahi hua.<br><br>" +
+    "Firestore rules check karein.";
+
+  }
+
+
+  button.disabled = false;
+
+  button.textContent =
+  "✅ Place Order";
 
 };
 
 
-/* UPI PAYMENT */
+/* =========================
+   QUERY SELECT
+========================= */
 
-window.payUPI=function(){
+window.selectQuery =
+function(type){
 
-if(!cart.length){
+  const box =
+  document.getElementById(
+    "queryText"
+  );
 
-alert("Pehle product cart me add karo.");
+  box.value =
+  type + ": ";
 
-return;
-
-}
-
-
-const customer=
-customerDetails();
-
-if(!customer) return;
-
-
-const total=getTotal();
-
-const orderId=
-"MFH"+
-Date.now();
-
-
-const upiUrl=
-"upi://pay?pa="+
-encodeURIComponent(UPI_ID)+
-"&pn="+
-encodeURIComponent("Men's Fashion Hub")+
-"&am="+
-encodeURIComponent(total.toFixed(2))+
-"&cu=INR"+
-"&tn="+
-encodeURIComponent("Order "+orderId);
-
-
-window.location.href=upiUrl;
+  box.focus();
 
 };
 
 
-/* SUPPORT */
+/* =========================
+   SUBMIT QUERY
+========================= */
 
-window.setQuery=function(type){
+window.submitQuery =
+async function(){
 
-document.getElementById(
-"supportMessage"
-).value=
-type+": ";
+  const result =
+  document.getElementById(
+    "queryResult"
+  );
 
-document.getElementById(
-"supportMessage"
-).focus();
+  const name =
+  document
+  .getElementById("queryName")
+  .value
+  .trim();
+
+  const contact =
+  document
+  .getElementById("queryContact")
+  .value
+  .trim();
+
+  const message =
+  document
+  .getElementById("queryText")
+  .value
+  .trim();
+
+
+  if(!name || !contact || !message){
+
+    result.className =
+    "error";
+
+    result.textContent =
+    "❌ Name, contact aur problem fill karo.";
+
+    return;
+  }
+
+
+  try{
+
+    const queryId =
+    "Q" +
+    Date.now()
+    .toString()
+    .slice(-8);
+
+
+    await addDoc(
+      collection(db,"queries"),
+      {
+
+        queryId:
+
+        queryId,
+
+        name:
+
+        name,
+
+        contact:
+
+        contact,
+
+        message:
+
+        message,
+
+        status:
+
+        "New",
+
+        createdAt:
+
+        serverTimestamp()
+
+      }
+    );
+
+
+    result.className =
+    "success";
+
+    result.innerHTML =
+    "✅ Query submitted successfully.<br>" +
+    "Query ID: <b>" +
+    esc(queryId) +
+    "</b>";
+
+
+    document
+    .getElementById("queryText")
+    .value = "";
+
+
+  }catch(error){
+
+    console.error(error);
+
+    result.className =
+    "error";
+
+    result.textContent =
+    "❌ Query submit nahi hui. Firebase rules check karein.";
+
+  }
 
 };
 
 
-window.sendSupport=function(){
+/* =========================
+   START
+========================= */
 
-const message=
-document.getElementById(
-"supportMessage"
-).value.trim();
-
-
-if(!message){
-
-alert("Pehle query select/write karo.");
-
-return;
-
-}
-
-
-alert(
-"✅ Query ready hai:\n\n"+
-message+
-"\n\nSupport system connected hone ke baad ye automatically admin ko jayegi."
-);
-
-};
-
-
-/* START */
-
-try{
-
-cart=
-JSON.parse(
-localStorage.getItem("mfh_cart")||"[]"
-);
-
-}catch(e){
-
-cart=[];
-
-}
-
-updateCart();
+updateCartCount();
 
 loadProducts();
 
