@@ -1,493 +1,1155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Men's Fashion Hub</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#080808;
+color:white;
+}
+
+header{
+position:sticky;
+top:0;
+z-index:99;
+background:#111;
+border-bottom:1px solid #333;
+padding:15px;
+text-align:center;
+}
+
+.logo{
+font-size:24px;
+font-weight:bold;
+color:#e5b93f;
+}
+
+nav{
+margin-top:12px;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+margin:0 10px;
+font-size:16px;
+}
+
+.hero{
+padding:70px 20px;
+text-align:center;
+background:linear-gradient(135deg,#111,#1d1d1d);
+}
+
+.hero h1{
+font-size:42px;
+margin:10px 0;
+}
+
+.hero p{
+color:#bbb;
+font-size:18px;
+}
+
+.btn{
+background:#e5b93f;
+color:#111;
+border:0;
+padding:12px 18px;
+border-radius:8px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.container{
+max-width:1100px;
+margin:auto;
+padding:30px 18px;
+}
+
+h2{
+font-size:30px;
+}
+
+.gold{
+color:#e5b93f;
+}
+
+.search{
+width:100%;
+padding:15px;
+background:#151515;
+border:1px solid #444;
+border-radius:10px;
+color:white;
+font-size:16px;
+margin-bottom:15px;
+}
+
+select{
+width:100%;
+padding:15px;
+background:#151515;
+border:1px solid #444;
+border-radius:10px;
+color:white;
+font-size:16px;
+margin-bottom:25px;
+}
+
+#status{
+padding:15px;
+background:#151515;
+border-radius:10px;
+margin-bottom:20px;
+color:#bbb;
+}
+
+.products{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+}
+
+.card{
+background:#151515;
+border:1px solid #333;
+border-radius:14px;
+overflow:hidden;
+}
+
+.pic{
+height:240px;
+background:#eee;
+display:flex;
+align-items:center;
+justify-content:center;
+overflow:hidden;
+}
+
+.pic img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.body{
+padding:15px;
+}
+
+.cat{
+color:#e5b93f;
+font-size:13px;
+text-transform:uppercase;
+}
+
+.card h3{
+margin:8px 0;
+}
+
+.price{
+font-size:21px;
+font-weight:bold;
+}
+
+.old{
+text-decoration:line-through;
+color:#777;
+font-size:14px;
+margin-left:8px;
+}
+
+.stock{
+color:#8ddd8d;
+font-size:14px;
+margin-top:7px;
+}
+
+.cartBtn{
+position:fixed;
+right:18px;
+bottom:20px;
+z-index:200;
+background:#e5b93f;
+color:#111;
+border:0;
+border-radius:30px;
+padding:15px 22px;
+font-size:17px;
+font-weight:bold;
+box-shadow:0 5px 20px #000;
+}
+
+#cartBox{
+display:none;
+position:fixed;
+z-index:300;
+top:0;
+right:0;
+width:100%;
+max-width:420px;
+height:100%;
+background:#111;
+border-left:1px solid #444;
+padding:20px;
+overflow:auto;
+}
+
+.cartItem{
+border-bottom:1px solid #333;
+padding:12px 0;
+}
+
+.qty button{
+padding:6px 12px;
+margin:5px;
+}
+
+input,textarea{
+width:100%;
+padding:13px;
+margin:7px 0;
+background:#181818;
+border:1px solid #444;
+border-radius:8px;
+color:white;
+}
+
+.support{
+margin-top:50px;
+}
+
+footer{
+padding:30px;
+text-align:center;
+color:#777;
+border-top:1px solid #333;
+margin-top:50px;
+}
+
+.close{
+float:right;
+font-size:28px;
+cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+MFH • MEN'S FASHION HUB
+</div>
+
+<nav>
+<a href="#home">Home</a>
+<a href="#productsSection">Products</a>
+<a href="#support">Support</a>
+</nav>
+
+</header>
+
+
+<section class="hero" id="home">
+
+<h1>Men's Fashion Hub</h1>
+
+<p>Style • Confidence • You</p>
+
+<a href="#productsSection">
+<button class="btn">SHOP NOW</button>
+</a>
+
+</section>
+
+
+<section class="container" id="productsSection">
+
+<h2>🛍️ <span class="gold">All Products</span></h2>
+
+<input
+id="search"
+class="search"
+type="text"
+placeholder="🔎 Search product..."
+>
+
+<select id="category">
+<option value="">All Categories</option>
+<option value="shirt">Shirts</option>
+<option value="tshirt">T-Shirts</option>
+<option value="jeans">Jeans</option>
+<option value="shoes">Shoes</option>
+<option value="watch">Watches</option>
+<option value="accessories">Accessories</option>
+</select>
+
+<div id="status">
+Loading products...
+</div>
+
+<div id="products" class="products"></div>
+
+</section>
+
+
+<section class="container support" id="support">
+
+<h2>❓ <span class="gold">Customer Support</span></h2>
+
+<p>Apni problem select karein.</p>
+
+<button class="btn" onclick="setQuery('Order Status')">
+📦 Order Status
+</button>
+
+<button class="btn" onclick="setQuery('Payment Problem')">
+💳 Payment
+</button>
+
+<br><br>
+
+<button class="btn" onclick="setQuery('Product Stock')">
+🛍️ Stock
+</button>
+
+<button class="btn" onclick="setQuery('Size / Fit')">
+📏 Size / Fit
+</button>
+
+<br><br>
+
+<button class="btn" onclick="setQuery('Delivery Problem')">
+🚚 Delivery
+</button>
+
+<button class="btn" onclick="setQuery('Return / Exchange')">
+🔄 Return
+</button>
+
+<br><br>
+
+<textarea
+id="supportMessage"
+rows="5"
+placeholder="Apni problem yahan likhein..."
+></textarea>
+
+<button class="btn" onclick="sendSupport()">
+Send Query
+</button>
+
+</section>
+
+
+<button class="cartBtn" onclick="openCart()">
+🛒 Cart (<span id="cartCount">0</span>)
+</button>
+
+
+<div id="cartBox">
+
+<span class="close" onclick="closeCart()">✕</span>
+
+<h2>🛒 Your Cart</h2>
+
+<div id="cartItems"></div>
+
+<h3>
+Total: ₹<span id="cartTotal">0</span>
+</h3>
+
+<hr>
+
+<h3>Delivery Details</h3>
+
+<input id="custName" placeholder="Full Name">
+
+<input id="custMobile" placeholder="Mobile Number">
+
+<textarea
+id="custAddress"
+rows="4"
+placeholder="Full Delivery Address"
+></textarea>
+
+<button class="btn" onclick="placeCOD()">
+📦 Place COD Order
+</button>
+
+<br><br>
+
+<button class="btn" onclick="payUPI()">
+💳 Pay Online UPI
+</button>
+
+</div>
+
+
+<footer>
+© 2026 Men's Fashion Hub
+</footer>
+
+
 <script type="module">
 
 import { initializeApp }
 from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 
 import {
-  getFirestore,
-  collection,
-  getDocs
+getFirestore,
+collection,
+getDocs,
+addDoc,
+serverTimestamp
 }
 from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 
-/* ================= FIREBASE ================= */
+/* FIREBASE */
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBQkq82HDMjndAPnvJ-yw64L3J55tFCHk",
-  authDomain: "mens-fashion-hub-e2773.firebaseapp.com",
-  projectId: "mens-fashion-hub-e2773",
-  storageBucket: "mens-fashion-hub-e2773.firebasestorage.app",
-  messagingSenderId: "309752221606",
-  appId: "1:309752221606:web:9cd2ff5a64d9f25e5f8967",
-  measurementId: "G-W99V4NZVK3"
+
+apiKey:"AIzaSyBQkq82HDMjndAPnvJ-yw64L3J55tFCHk",
+
+authDomain:"mens-fashion-hub-e2773.firebaseapp.com",
+
+projectId:"mens-fashion-hub-e2773",
+
+storageBucket:"mens-fashion-hub-e2773.firebasestorage.app",
+
+messagingSenderId:"309752221606",
+
+appId:"1:309752221606:web:9cd2ff5a64d9f25e5f8967",
+
+measurementId:"G-W99V4NZVK3"
+
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+
+const app=initializeApp(firebaseConfig);
+
+const db=getFirestore(app);
 
 
-/* ================= PRODUCTS ================= */
+/* UPI */
 
-let products = [];
+const UPI_ID="9693853875-3@axl";
 
-function escapeHTML(value) {
 
-  return String(value ?? "")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
+/* DATA */
+
+let products=[];
+
+let cart=[];
+
+
+/* ESCAPE */
+
+function esc(v){
+
+return String(v??"")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#39;");
 
 }
 
 
 /* LOAD PRODUCTS */
 
-async function loadProducts() {
+async function loadProducts(){
 
-  const box = document.getElementById("products");
+const status=document.getElementById("status");
 
-  if (!box) return;
+status.innerHTML="⏳ Products loading...";
 
-  box.innerHTML =
-    '<p style="color:#aaa;font-size:18px;">Loading products...</p>';
+try{
 
-  try {
+const snapshot=
+await getDocs(collection(db,"products"));
 
-    const snapshot =
-      await getDocs(collection(db, "products"));
+products=snapshot.docs.map(doc=>({
 
-    products = [];
+id:doc.id,
+...doc.data()
 
-    snapshot.forEach((doc) => {
+}));
 
-      products.push({
-        id: doc.id,
-        ...doc.data()
-      });
+status.innerHTML=
+"✅ "+products.length+" product(s) found.";
 
-    });
+renderProducts();
 
-    console.log("MFH PRODUCTS:", products);
+}catch(error){
 
-    renderProducts();
+console.error(error);
 
-  } catch (error) {
+status.innerHTML=
+"❌ Products load nahi ho rahe.<br><br>"+
+error.message;
 
-    console.error("Firebase Product Error:", error);
-
-    box.innerHTML = `
-      <div style="
-        background:#211;
-        border:1px solid #733;
-        padding:20px;
-        border-radius:12px;
-        color:#ff9999;
-      ">
-        Products load nahi ho rahe.<br><br>
-        ${escapeHTML(error.message)}
-      </div>
-    `;
-
-  }
+}
 
 }
 
 
-/* ================= RENDER ================= */
+/* CATEGORY NORMALIZE */
 
-function renderProducts() {
+function categoryMatch(product,selected){
 
-  const box =
-    document.getElementById("products");
+if(!selected) return true;
 
-  if (!box) return;
+const cat=String(
+product.category||
+product.cat||
+product.type||
+""
+).toLowerCase();
 
-
-  const searchElement =
-    document.getElementById("search");
-
-  const categoryElement =
-    document.getElementById("category");
-
-
-  const search =
-    searchElement
-      ? searchElement.value.toLowerCase().trim()
-      : "";
-
-
-  const selectedCategory =
-    categoryElement
-      ? categoryElement.value
-      : "";
-
-
-  const filtered =
-    products.filter((product) => {
-
-      const name =
-        String(product.name || "").toLowerCase();
-
-      const category =
-        String(
-          product.category ||
-          product.cat ||
-          ""
-        );
-
-
-      const matchSearch =
-        !search ||
-        name.includes(search) ||
-        category.toLowerCase().includes(search);
-
-
-      const matchCategory =
-        !selectedCategory ||
-        category === selectedCategory;
-
-
-      return matchSearch && matchCategory;
-
-    });
-
-
-  if (!filtered.length) {
-
-    box.innerHTML = `
-      <p style="
-        color:#aaa;
-        font-size:18px;
-        padding:20px 0;
-      ">
-        No products found.
-      </p>
-    `;
-
-    return;
-
-  }
-
-
-  box.innerHTML = filtered.map((product) => {
-
-    const price =
-      Number(
-        product.salePrice ||
-        product.price ||
-        0
-      );
-
-
-    const oldPrice =
-      Number(product.price || 0);
-
-
-    const stock =
-      Number(product.stock || 0);
-
-
-    const image =
-      product.image ||
-      product.imageUrl ||
-      "";
-
-
-    const category =
-      product.category ||
-      "Fashion";
-
-
-    return `
-
-      <div class="card">
-
-        <div class="pic">
-
-          ${
-            image
-
-            ?
-
-            `<img
-              src="${escapeHTML(image)}"
-              alt="${escapeHTML(product.name || "Product")}"
-              style="
-                width:100%;
-                height:100%;
-                object-fit:contain;
-              "
-              onerror="
-                this.style.display='none';
-              "
-            >`
-
-            :
-
-            `👕`
-
-          }
-
-        </div>
-
-
-        <div class="body">
-
-          <div class="cat">
-            ${escapeHTML(category)}
-          </div>
-
-
-          <h3>
-            ${escapeHTML(product.name || "Product")}
-          </h3>
-
-
-          ${
-            product.desc
-
-            ?
-
-            `<p style="
-              color:#aaa;
-              font-size:14px;
-              line-height:1.5;
-            ">
-              ${escapeHTML(product.desc)}
-            </p>`
-
-            :
-
-            ""
-
-          }
-
-
-          <div class="price">
-
-            ₹${price.toLocaleString("en-IN")}
-
-            ${
-              oldPrice > price
-
-              ?
-
-              `<span class="old">
-                ₹${oldPrice.toLocaleString("en-IN")}
-              </span>`
-
-              :
-
-              ""
-
-            }
-
-          </div>
-
-
-          <div class="stock">
-
-            ${
-              stock > 0
-
-              ?
-
-              `${stock} in stock`
-
-              :
-
-              `Out of stock`
-
-            }
-
-          </div>
-
-
-          <br>
-
-
-          <button
-            class="btn"
-            ${
-              stock <= 0
-              ? "disabled"
-              : ""
-            }
-
-            onclick="addProduct(
-              '${escapeHTML(product.id)}'
-            )"
-          >
-
-            🛒 Add to Cart
-
-          </button>
-
-        </div>
-
-      </div>
-
-    `;
-
-  }).join("");
+return cat.includes(selected);
 
 }
 
 
-/* ================= CART ================= */
+/* RENDER PRODUCTS */
 
-let cart =
-  JSON.parse(
-    localStorage.getItem("mfh_cart_v2") || "[]"
-  );
+function renderProducts(){
+
+const box=document.getElementById("products");
+
+const search=
+document.getElementById("search")
+.value
+.toLowerCase()
+.trim();
+
+const selected=
+document.getElementById("category").value;
 
 
-function saveCart() {
+const list=products.filter(p=>{
 
-  localStorage.setItem(
-    "mfh_cart_v2",
-    JSON.stringify(cart)
-  );
+const name=
+String(p.name||"")
+.toLowerCase();
 
-  updateCart();
+return
+(!search || name.includes(search))
+&&
+categoryMatch(p,selected);
+
+});
+
+
+if(!list.length){
+
+box.innerHTML=
+"<p>❌ No products found.</p>";
+
+return;
 
 }
 
 
-window.addProduct = function(id) {
+box.innerHTML=list.map(p=>{
 
-  const product =
-    products.find(
-      p => p.id === id
-    );
+const price=
+Number(p.salePrice || p.price || 0);
 
-  if (!product) {
+const old=
+Number(p.price || 0);
 
-    alert("Product nahi mila.");
+const stock=
+Number(p.stock || 0);
 
-    return;
-
-  }
-
-
-  const price =
-    Number(
-      product.salePrice ||
-      product.price ||
-      0
-    );
+const image=
+p.image ||
+p.imageUrl ||
+"";
 
 
-  const existing =
-    cart.find(
-      item => item.id === id
-    );
+return `
+
+<div class="card">
+
+<div class="pic">
+
+${
+image
+
+?
+
+`<img
+src="${esc(image)}"
+alt="${esc(p.name||"Product")}"
+onerror="this.style.display='none'"
+>`
+
+:
+
+"👕"
+
+}
+
+</div>
+
+<div class="body">
+
+<div class="cat">
+${esc(p.category||"Fashion")}
+</div>
+
+<h3>
+${esc(p.name||"Product")}
+</h3>
+
+<div class="price">
+
+₹${price.toLocaleString("en-IN")}
+
+${
+old>price
+
+?
+
+`<span class="old">
+₹${old.toLocaleString("en-IN")}
+</span>`
+
+:
+
+""
+
+}
+
+</div>
+
+<div class="stock">
+
+${
+stock>0
+?
+"✅ "+stock+" in stock"
+:
+"❌ Out of stock"
+}
+
+</div>
+
+<br>
+
+<button
+class="btn"
+${stock<=0?"disabled":""}
+onclick="addToCart('${p.id}')"
+>
+
+🛒 Add to Cart
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+}).join("");
+
+}
 
 
-  if (existing) {
+/* SEARCH */
 
-    existing.qty++;
+document
+.getElementById("search")
+.addEventListener("input",renderProducts);
 
-  } else {
-
-    cart.push({
-
-      id: product.id,
-
-      name: product.name,
-
-      price: price,
-
-      image:
-        product.image ||
-        product.imageUrl ||
-        "",
-
-      qty: 1
-
-    });
-
-  }
+document
+.getElementById("category")
+.addEventListener("change",renderProducts);
 
 
-  saveCart();
+/* CART */
 
-  alert(
-    product.name +
-    " cart mein add ho gaya."
-  );
+window.addToCart=function(id){
+
+const product=
+products.find(p=>String(p.id)===String(id));
+
+if(!product) return;
+
+if(Number(product.stock||0)<=0){
+
+alert("Product out of stock.");
+
+return;
+
+}
+
+
+const existing=
+cart.find(x=>x.id===id);
+
+if(existing){
+
+existing.qty++;
+
+}else{
+
+cart.push({
+
+id:id,
+qty:1
+
+});
+
+}
+
+
+saveCart();
+
+alert("✅ Product cart me add ho gaya.");
 
 };
 
 
-function updateCart() {
+function saveCart(){
 
-  const count =
-    cart.reduce(
-      (total,item) =>
-        total + item.qty,
-      0
-    );
+localStorage.setItem(
+"mfh_cart",
+JSON.stringify(cart)
+);
 
-
-  const cartCount =
-    document.getElementById("cartCount");
-
-
-  if (cartCount) {
-
-    cartCount.textContent = count;
-
-  }
+updateCart();
 
 }
 
 
-/* ================= SEARCH ================= */
+function updateCart(){
 
-window.render =
-  renderProducts;
-
-
-window.loadProducts =
-  loadProducts;
-
-
-if (
-  document.getElementById("search")
-) {
-
-  document
-    .getElementById("search")
-    .addEventListener(
-      "input",
-      renderProducts
-    );
+document.getElementById("cartCount")
+.innerText=
+cart.reduce(
+(total,item)=>total+item.qty,
+0
+);
 
 }
 
 
-if (
-  document.getElementById("category")
-) {
+window.openCart=function(){
 
-  document
-    .getElementById("category")
-    .addEventListener(
-      "change",
-      renderProducts
-    );
+document.getElementById("cartBox")
+.style.display="block";
+
+renderCart();
+
+};
+
+
+window.closeCart=function(){
+
+document.getElementById("cartBox")
+.style.display="none";
+
+};
+
+
+function renderCart(){
+
+const box=
+document.getElementById("cartItems");
+
+let total=0;
+
+if(!cart.length){
+
+box.innerHTML=
+"<p>🛒 Cart empty hai.</p>";
+
+document.getElementById("cartTotal")
+.innerText="0";
+
+return;
 
 }
 
 
-/* ================= START ================= */
+box.innerHTML=cart.map((item,index)=>{
+
+const p=
+products.find(x=>String(x.id)===String(item.id));
+
+if(!p) return "";
+
+const price=
+Number(p.salePrice||p.price||0);
+
+const subtotal=
+price*item.qty;
+
+total+=subtotal;
+
+
+return `
+
+<div class="cartItem">
+
+<b>
+${esc(p.name)}
+</b>
+
+<br>
+
+₹${price.toLocaleString("en-IN")}
+
+<br>
+
+<div class="qty">
+
+<button onclick="changeQty(${index},-1)">
+−
+</button>
+
+${item.qty}
+
+<button onclick="changeQty(${index},1)">
++
+</button>
+
+<button onclick="removeCart(${index})">
+Remove
+</button>
+
+</div>
+
+</div>
+
+`;
+
+}).join("");
+
+
+document.getElementById("cartTotal")
+.innerText=
+total.toLocaleString("en-IN");
+
+}
+
+
+window.changeQty=function(index,change){
+
+cart[index].qty+=change;
+
+if(cart[index].qty<=0){
+
+cart.splice(index,1);
+
+}
+
+saveCart();
+
+renderCart();
+
+};
+
+
+window.removeCart=function(index){
+
+cart.splice(index,1);
+
+saveCart();
+
+renderCart();
+
+};
+
+
+/* TOTAL */
+
+function getTotal(){
+
+return cart.reduce((total,item)=>{
+
+const p=
+products.find(x=>String(x.id)===String(item.id));
+
+if(!p) return total;
+
+const price=
+Number(p.salePrice||p.price||0);
+
+return total+(price*item.qty);
+
+},0);
+
+}
+
+
+/* ORDER DETAILS */
+
+function customerDetails(){
+
+const name=
+document.getElementById("custName")
+.value.trim();
+
+const mobile=
+document.getElementById("custMobile")
+.value.trim();
+
+const address=
+document.getElementById("custAddress")
+.value.trim();
+
+
+if(!name||!mobile||!address){
+
+alert(
+"Name, Mobile aur Address fill karo."
+);
+
+return null;
+
+}
+
+
+return {
+name,
+mobile,
+address
+};
+
+}
+
+
+/* COD ORDER */
+
+window.placeCOD=async function(){
+
+if(!cart.length){
+
+alert("Pehle product cart me add karo.");
+
+return;
+
+}
+
+
+const customer=
+customerDetails();
+
+if(!customer) return;
+
+
+const total=getTotal();
+
+
+try{
+
+const orderItems=cart.map(item=>{
+
+const p=
+products.find(
+x=>String(x.id)===String(item.id)
+);
+
+const price=
+Number(p.salePrice||p.price||0);
+
+return {
+
+productId:p.id,
+
+name:p.name,
+
+qty:item.qty,
+
+price:price
+
+};
+
+});
+
+
+const order={
+
+customerName:customer.name,
+
+mobile:customer.mobile,
+
+address:customer.address,
+
+items:orderItems,
+
+total:total,
+
+paymentMethod:"COD",
+
+status:"New",
+
+createdAt:serverTimestamp()
+
+};
+
+
+const ref=
+await addDoc(
+collection(db,"orders"),
+order
+);
+
+
+alert(
+"✅ Order successfully placed!\n\n"+
+"Order ID: "+ref.id+
+"\nTotal: ₹"+
+total.toLocaleString("en-IN")
+);
+
+
+cart=[];
+
+saveCart();
+
+renderCart();
+
+closeCart();
+
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"❌ Order save nahi hua.\n\n"+
+error.message
+);
+
+}
+
+};
+
+
+/* UPI PAYMENT */
+
+window.payUPI=function(){
+
+if(!cart.length){
+
+alert("Pehle product cart me add karo.");
+
+return;
+
+}
+
+
+const customer=
+customerDetails();
+
+if(!customer) return;
+
+
+const total=getTotal();
+
+const orderId=
+"MFH"+
+Date.now();
+
+
+const upiUrl=
+"upi://pay?pa="+
+encodeURIComponent(UPI_ID)+
+"&pn="+
+encodeURIComponent("Men's Fashion Hub")+
+"&am="+
+encodeURIComponent(total.toFixed(2))+
+"&cu=INR"+
+"&tn="+
+encodeURIComponent("Order "+orderId);
+
+
+window.location.href=upiUrl;
+
+};
+
+
+/* SUPPORT */
+
+window.setQuery=function(type){
+
+document.getElementById(
+"supportMessage"
+).value=
+type+": ";
+
+document.getElementById(
+"supportMessage"
+).focus();
+
+};
+
+
+window.sendSupport=function(){
+
+const message=
+document.getElementById(
+"supportMessage"
+).value.trim();
+
+
+if(!message){
+
+alert("Pehle query select/write karo.");
+
+return;
+
+}
+
+
+alert(
+"✅ Query ready hai:\n\n"+
+message+
+"\n\nSupport system connected hone ke baad ye automatically admin ko jayegi."
+);
+
+};
+
+
+/* START */
+
+try{
+
+cart=
+JSON.parse(
+localStorage.getItem("mfh_cart")||"[]"
+);
+
+}catch(e){
+
+cart=[];
+
+}
 
 updateCart();
 
 loadProducts();
 
 </script>
+
+</body>
+</html>
