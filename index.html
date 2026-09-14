@@ -7,7 +7,7 @@
 <title>Men's Fashion Hub | Men's Fashion, Style & Grooming</title>
 
 <meta name="description"
-content="Men's Fashion Hub - men's fashion, outfits, shirts, t-shirts, jeans, accessories and grooming.">
+content="Men's Fashion Hub - shirts, t-shirts, jeans, accessories, grooming and men's fashion products.">
 
 <meta name="robots" content="index, follow">
 
@@ -21,7 +21,7 @@ href="https://mensfashionhub39-eng.github.io/mens-fashion-hub/">
   --dark:#080808;
   --card:#121212;
   --border:#292929;
-  --text:#ffffff;
+  --text:#fff;
   --muted:#aaa;
 }
 
@@ -38,10 +38,7 @@ body{
   background:var(--dark);
   color:var(--text);
   font-family:Arial,sans-serif;
-  line-height:1.6;
 }
-
-/* NAVIGATION */
 
 nav{
   position:sticky;
@@ -51,8 +48,8 @@ nav{
   border-bottom:1px solid var(--border);
   padding:14px 5%;
   display:flex;
-  align-items:center;
   justify-content:space-between;
+  align-items:center;
   gap:15px;
 }
 
@@ -60,18 +57,16 @@ nav{
   color:var(--gold);
   font-weight:bold;
   font-size:18px;
-  white-space:nowrap;
 }
 
 .nav-links{
   display:flex;
-  align-items:center;
-  gap:16px;
+  gap:15px;
   flex-wrap:wrap;
 }
 
 .nav-links a{
-  color:white;
+  color:#fff;
   text-decoration:none;
   font-size:14px;
 }
@@ -80,53 +75,10 @@ nav{
   color:var(--gold);
 }
 
-/* SEARCH */
-
-.search-area{
-  max-width:700px;
-  margin:25px auto 0;
-  padding:0 15px;
-}
-
-.search-box{
-  display:flex;
-  width:100%;
-  background:#111;
-  border:1px solid #333;
-  border-radius:12px;
-  overflow:hidden;
-}
-
-.search-box input{
-  flex:1;
-  border:0;
-  outline:0;
-  background:#111;
-  color:white;
-  padding:15px;
-  font-size:16px;
-}
-
-.search-box button{
-  border:0;
-  background:var(--gold);
-  color:#080808;
-  padding:0 22px;
-  font-size:18px;
-  cursor:pointer;
-  font-weight:bold;
-}
-
-.search-box button:hover{
-  opacity:.85;
-}
-
-/* HERO */
-
 header{
   text-align:center;
   padding:65px 20px 45px;
-  background:radial-gradient(circle at top,#29200b 0%,#080808 60%);
+  background:radial-gradient(circle at top,#29200b,#080808 60%);
 }
 
 h1{
@@ -139,39 +91,32 @@ h1{
 }
 
 header p{
+  color:#ccc;
   max-width:700px;
   margin:0 auto 25px;
-  color:#ccc;
-  font-size:17px;
 }
 
 .btn{
   display:inline-block;
+  border:0;
   background:var(--gold);
   color:#080808;
-  padding:11px 19px;
-  margin:5px;
+  padding:11px 18px;
   border-radius:8px;
   text-decoration:none;
   font-weight:bold;
-  border:0;
   cursor:pointer;
-}
-
-.btn:hover{
-  opacity:.85;
+  margin:4px;
 }
 
 .btn-dark{
   background:#181818;
-  color:white;
-  border:1px solid var(--border);
+  color:#fff;
+  border:1px solid #333;
 }
 
-/* MAIN */
-
 main{
-  max-width:1100px;
+  max-width:1150px;
   margin:auto;
   padding:25px 18px 70px;
 }
@@ -183,7 +128,6 @@ section{
 h2{
   text-align:center;
   font-size:30px;
-  margin-bottom:10px;
 }
 
 .section-text{
@@ -193,70 +137,128 @@ h2{
   margin:0 auto 25px;
 }
 
-/* CARDS */
+/* SEARCH */
 
-.grid{
+.search-area{
+  max-width:700px;
+  margin:25px auto 0;
+}
+
+.search-box{
+  display:flex;
+  background:#111;
+  border:1px solid #444;
+  border-radius:12px;
+  overflow:hidden;
+}
+
+.search-box input{
+  flex:1;
+  background:#111;
+  color:white;
+  border:0;
+  outline:0;
+  padding:15px;
+  font-size:16px;
+}
+
+.search-box button{
+  background:var(--gold);
+  border:0;
+  padding:0 22px;
+  cursor:pointer;
+  font-size:18px;
+}
+
+/* CATEGORY */
+
+.category-grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
   gap:18px;
 }
 
-.card{
+.category-card{
   background:var(--card);
   border:1px solid var(--border);
   border-radius:14px;
-  padding:22px;
+  padding:25px;
   text-align:center;
+}
+
+.category-card h3{
+  color:var(--gold);
+  font-size:21px;
+}
+
+.category-card p{
+  color:#aaa;
+}
+
+/* PRODUCTS */
+
+.product-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+}
+
+.product-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  overflow:hidden;
   transition:.2s;
 }
 
-.card:hover{
-  transform:translateY(-3px);
+.product-card:hover{
+  transform:translateY(-4px);
   border-color:#555;
 }
 
-.card h3{
-  margin-top:0;
-  color:var(--gold);
+.product-image{
+  width:100%;
+  height:250px;
+  object-fit:cover;
+  display:block;
+  background:#1a1a1a;
 }
 
-.card p{
-  color:#bbb;
+.product-info{
+  padding:18px;
+}
+
+.product-info h3{
+  margin:0 0 7px;
+  color:#fff;
+}
+
+.product-info p{
+  color:#aaa;
+  font-size:14px;
+}
+
+.price{
+  color:var(--gold);
+  font-size:20px;
+  font-weight:bold;
+  margin:10px 0;
 }
 
 /* SEARCH RESULTS */
 
 #searchResults{
   display:none;
-  margin-top:25px;
 }
 
-#searchResults h2{
-  text-align:left;
-}
-
-.result-card{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:18px;
-  margin-bottom:12px;
-}
-
-.result-card h3{
-  color:var(--gold);
-  margin:0 0 5px;
-}
-
-.result-card p{
-  color:#bbb;
-  margin:5px 0;
+#resultsContainer{
+  margin-top:20px;
 }
 
 .no-results{
   background:#151515;
   border:1px solid #333;
-  padding:20px;
+  padding:25px;
   border-radius:12px;
   text-align:center;
   color:#aaa;
@@ -282,42 +284,24 @@ textarea{
   color:white;
   border:1px solid #333;
   border-radius:8px;
-  font-size:15px;
-  outline:none;
-}
-
-input:focus,
-textarea:focus{
-  border-color:var(--gold);
+  outline:0;
 }
 
 textarea{
-  min-height:130px;
-  resize:vertical;
+  min-height:120px;
 }
-
-.quick-help{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-  gap:15px;
-}
-
-/* FOOTER */
 
 footer{
   text-align:center;
   padding:30px 18px;
   border-top:1px solid var(--border);
   color:#888;
-  font-size:14px;
 }
 
 footer a{
   color:var(--gold);
   text-decoration:none;
 }
-
-/* MOBILE */
 
 @media(max-width:700px){
 
@@ -328,15 +312,10 @@ footer a{
 
   .nav-links{
     width:100%;
-    gap:12px;
   }
 
-  .search-box input{
-    min-width:0;
-  }
-
-  header{
-    padding-top:50px;
+  .product-image{
+    height:230px;
   }
 
 }
@@ -344,36 +323,30 @@ footer a{
 </style>
 </head>
 
-
 <body>
 
 <!-- NAVIGATION -->
 
 <nav>
 
-  <div class="logo">
-    MFH • MEN'S FASHION HUB
-  </div>
+<div class="logo">
+MFH • MEN'S FASHION HUB
+</div>
 
-  <div class="nav-links">
+<div class="nav-links">
 
-    <a href="#home">Home</a>
+<a href="#home">Home</a>
+<a href="#categories">Categories</a>
+<a href="#products">Products</a>
+<a href="#orders">Orders</a>
+<a href="#support">Support</a>
 
-    <a href="#shop">Shop</a>
+<a href="https://www.instagram.com/mens_fashionhub20/"
+target="_blank">
+Instagram
+</a>
 
-    <a href="#categories">Categories</a>
-
-    <a href="#orders">Orders</a>
-
-    <a href="#support">Support</a>
-
-    <a href="https://www.instagram.com/mens_fashionhub20/"
-       target="_blank"
-       rel="noopener noreferrer">
-       Instagram
-    </a>
-
-  </div>
+</div>
 
 </nav>
 
@@ -382,48 +355,46 @@ footer a{
 
 <header id="home">
 
-  <h1>
-    LOOK GOOD.
-    <span class="gold">FEEL CONFIDENT.</span>
-  </h1>
+<h1>
+LOOK GOOD.
+<span class="gold">FEEL CONFIDENT.</span>
+</h1>
 
-  <p>
-    Men's fashion, outfit ideas, grooming and style essentials —
-    all in one place.
-  </p>
+<p>
+Discover men's fashion, outfits, shirts, t-shirts,
+jeans, accessories and grooming products.
+</p>
 
-  <a class="btn" href="#shop">
-    Shop Men's Fashion
-  </a>
+<a class="btn" href="#categories">
+Explore Fashion
+</a>
 
-  <a class="btn btn-dark"
-     href="https://www.instagram.com/mens_fashionhub20/"
-     target="_blank"
-     rel="noopener noreferrer">
-    Follow Instagram
-  </a>
+<a class="btn btn-dark"
+href="https://www.instagram.com/mens_fashionhub20/"
+target="_blank">
+Follow Instagram
+</a>
 
 
-  <!-- SEARCH -->
+<!-- SEARCH -->
 
-  <div class="search-area">
+<div class="search-area">
 
-    <div class="search-box">
+<div class="search-box">
 
-      <input
-        type="search"
-        id="searchInput"
-        placeholder="Search shirts, jeans, t-shirts, grooming..."
-        oninput="liveSearch()"
-        autocomplete="off">
+<input
+type="search"
+id="searchInput"
+placeholder="Search shirts, jeans, t-shirts, watches..."
+oninput="searchProducts()">
 
-      <button onclick="liveSearch()">
-        🔍
-      </button>
+<button onclick="searchProducts()">
+🔍
+</button>
 
-    </div>
+</div>
 
-  </div>
+</div>
 
 </header>
 
@@ -435,11 +406,11 @@ footer a{
 
 <section id="searchResults">
 
-  <h2>
-    Search <span class="gold">Results</span>
-  </h2>
+<h2>
+Search <span class="gold">Results</span>
+</h2>
 
-  <div id="resultsContainer"></div>
+<div id="resultsContainer"></div>
 
 </section>
 
@@ -448,186 +419,485 @@ footer a{
 
 <section id="categories">
 
-  <h2>
-    Explore <span class="gold">Categories</span>
-  </h2>
+<h2>
+Explore <span class="gold">Categories</span>
+</h2>
 
-  <p class="section-text">
-    Find your next look with our men's fashion and grooming categories.
-  </p>
+<p class="section-text">
+Choose a category and see its products directly.
+</p>
 
-
-  <div class="grid">
-
-
-    <div class="card"
-         data-search="shirts formal shirts casual shirts men fashion">
-
-      <h3>👕 Shirts</h3>
-
-      <p>
-        Casual, formal and stylish shirts for every occasion.
-      </p>
-
-      <a class="btn" href="#shop">
-        Explore
-      </a>
-
-    </div>
+<div class="category-grid">
 
 
-    <div class="card"
-         data-search="t shirts tshirts casual trendy men">
+<div class="category-card">
 
-      <h3>👔 T-Shirts</h3>
+<h3>👕 Shirts</h3>
 
-      <p>
-        Trendy everyday t-shirts and comfortable styles.
-      </p>
+<p>
+Formal, casual and stylish men's shirts.
+</p>
 
-      <a class="btn" href="#shop">
-        Explore
-      </a>
+<a class="btn" href="#shirts">
+Explore Shirts
+</a>
 
-    </div>
-
-
-    <div class="card"
-         data-search="jeans pants trousers men fashion">
-
-      <h3>👖 Jeans & Pants</h3>
-
-      <p>
-        Modern fits and styles for your wardrobe.
-      </p>
-
-      <a class="btn" href="#shop">
-        Explore
-      </a>
-
-    </div>
+</div>
 
 
-    <div class="card"
-         data-search="accessories sunglasses watches wallet belt men">
+<div class="category-card">
 
-      <h3>🕶️ Accessories</h3>
+<h3>👔 T-Shirts</h3>
 
-      <p>
-        Complete your outfit with the right accessories.
-      </p>
+<p>
+Trendy and comfortable everyday t-shirts.
+</p>
 
-      <a class="btn" href="#shop">
-        Explore
-      </a>
+<a class="btn" href="#tshirts">
+Explore T-Shirts
+</a>
 
-    </div>
-
-
-    <div class="card"
-         data-search="grooming hair beard skincare men">
-
-      <h3>💇 Grooming</h3>
-
-      <p>
-        Men's grooming and personal style essentials.
-      </p>
-
-      <a class="btn" href="#shop">
-        Explore
-      </a>
-
-    </div>
+</div>
 
 
-    <div class="card"
-         data-search="trending latest fashion style men outfits">
+<div class="category-card">
 
-      <h3>🔥 Trending</h3>
+<h3>👖 Jeans</h3>
 
-      <p>
-        Discover popular men's fashion and outfit ideas.
-      </p>
+<p>
+Modern jeans and pants for men.
+</p>
 
-      <a class="btn" href="#shop">
-        Explore
-      </a>
+<a class="btn" href="#jeans">
+Explore Jeans
+</a>
 
-    </div>
+</div>
 
-  </div>
+
+<div class="category-card">
+
+<h3>🕶️ Accessories</h3>
+
+<p>
+Watches, sunglasses, wallets and more.
+</p>
+
+<a class="btn" href="#accessories">
+Explore Accessories
+</a>
+
+</div>
+
+
+<div class="category-card">
+
+<h3>💇 Grooming</h3>
+
+<p>
+Men's grooming and personal care products.
+</p>
+
+<a class="btn" href="#grooming">
+Explore Grooming
+</a>
+
+</div>
+
+
+</div>
 
 </section>
 
 
-<!-- SHOP -->
+<!-- PRODUCTS -->
 
-<section id="shop">
+<section id="products">
 
-  <h2>
-    Men's <span class="gold">Fashion</span>
-  </h2>
+<h2>
+Featured <span class="gold">Products</span>
+</h2>
 
-  <p class="section-text">
-    Discover stylish products and build your perfect look.
-  </p>
-
-
-  <div class="grid">
+<p class="section-text">
+Explore some popular men's fashion products.
+</p>
 
 
-    <div class="card"
-         data-search="daily wear casual everyday outfit men">
+<!-- SHIRTS -->
 
-      <h3>Daily Wear</h3>
+<section id="shirts">
 
-      <p>
-        Simple and stylish outfits for everyday life.
-      </p>
+<h2>
+Men's <span class="gold">Shirts</span>
+</h2>
 
-      <button class="btn"
-              onclick="supportWhatsApp('I need help with Daily Wear fashion')">
-        Get Help
-      </button>
-
-    </div>
+<div class="product-grid">
 
 
-    <div class="card"
-         data-search="party style party outfit men fashion">
+<div class="product-card"
+data-name="men casual black shirt">
 
-      <h3>Party Style</h3>
+<img class="product-image"
+src="https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=700&q=80"
+alt="Men Casual Black Shirt">
 
-      <p>
-        Upgrade your look for parties and special occasions.
-      </p>
+<div class="product-info">
 
-      <button class="btn"
-              onclick="supportWhatsApp('I need help with Party Style')">
-        Get Help
-      </button>
+<h3>Classic Casual Shirt</h3>
 
-    </div>
+<p>
+Stylish casual shirt for everyday wear.
+</p>
 
+<div class="price">₹699</div>
 
-    <div class="card"
-         data-search="formal office work meeting outfit men">
+<a class="btn"
+href="https://wa.me/919798687943?text=Hello%20MFH%2C%20I%20want%20the%20Classic%20Casual%20Shirt"
+target="_blank">
+Buy / Enquire
+</a>
 
-      <h3>Formal Look</h3>
-
-      <p>
-        Clean and confident styles for work and meetings.
-      </p>
-
-      <button class="btn"
-              onclick="supportWhatsApp('I need help with Formal Look')">
-        Get Help
-      </button>
-
-    </div>
+</div>
+</div>
 
 
-  </div>
+<div class="product-card"
+data-name="men formal white shirt">
+
+<img class="product-image"
+src="https://images.unsplash.com/photo-1603252110481-7ba873bf42ab?auto=format&fit=crop&w=700&q=80"
+alt="Men Formal Shirt">
+
+<div class="product-info">
+
+<h3>Premium Formal Shirt</h3>
+
+<p>
+Clean formal style for office and occasions.
+</p>
+
+<div class="price">₹899</div>
+
+<a class="btn"
+href="https://wa.me/919798687943?text=Hello%20MFH%2C%20I%20want%20the%20Premium%20Formal%20Shirt"
+target="_blank">
+Buy / Enquire
+</a>
+
+</div>
+</div>
+
+
+<div class="product-card"
+data-name="men stylish shirt">
+
+<img class="product-image"
+src="https://images.unsplash.com/photo-1596755389378-c31d21fd1273?auto=format&fit=crop&w=700&q=80"
+alt="Men Stylish Shirt">
+
+<div class="product-info">
+
+<h3>Premium Stylish Shirt</h3>
+
+<p>
+Smart design for parties and special occasions.
+</p>
+
+<div class="price">₹999</div>
+
+<a class="btn"
+href="https://wa.me/919798687943?text=Hello%20MFH%2C%20I%20want%20the%20Premium%20Stylish%20Shirt"
+target="_blank">
+Buy / Enquire
+</a>
+
+</div>
+</div>
+
+
+</div>
+
+</section>
+
+
+<!-- T SHIRTS -->
+
+<section id="tshirts">
+
+<h2>
+Men's <span class="gold">T-Shirts</span>
+</h2>
+
+<div class="product-grid">
+
+
+<div class="product-card"
+data-name="men black t shirt">
+
+<img class="product-image"
+src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=700&q=80"
+alt="Men Black T Shirt">
+
+<div class="product-info">
+
+<h3>Classic Black T-Shirt</h3>
+
+<p>
+Comfortable everyday men's t-shirt.
+</p>
+
+<div class="price">₹499</div>
+
+<a class="btn"
+href="https://wa.me/919798687943?text=Hello%20MFH%2C%20I%20want%20the%20Classic%20Black%20T-Shirt"
+target="_blank">
+Buy / Enquire
+</a>
+
+</div>
+</div>
+
+
+<div class="product-card"
+data-name="men white t shirt">
+
+<img class="product-image"
+src="https://images.unsplash.com/photo-1583743814966-8936f37f5f5a?auto=format&fit=crop&w=700&q=80"
+alt="Men White T Shirt">
+
+<div class="product-info">
+
+<h3>Premium Cotton T-Shirt</h3>
+
+<p>
+Simple, clean and comfortable style.
+</p>
+
+<div class="price">₹549</div>
+
+<a class="btn"
+href="https://wa.me/919798687943?text=Hello%20MFH%2C%20I%20want%20the%20Premium%20Cotton%20T-Shirt"
+target="_blank">
+Buy / Enquire
+</a>
+
+</div>
+</div>
+
+
+</div>
+
+</section>
+
+
+<!-- JEANS -->
+
+<section id="jeans">
+
+<h2>
+Men's <span class="gold">Jeans</span>
+</h2>
+
+<div class="product-grid">
+
+
+<div class="product-card"
+data-name="men blue jeans">
+
+<img class="product-image"
+src="https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=700&q=80"
+alt="Men Blue Jeans">
+
+<div class="product-info">
+
+<h3>Classic Blue Jeans</h3>
+
+<p>
+Modern fit jeans for everyday fashion.
+</p>
+
+<div class="price">₹1,099</div>
+
+<a class="btn"
+href="https://wa.me/919798687943?text=Hello%20MFH%2C%20I%20want%20the%20Classic%20Blue%20Jeans"
+target="_blank">
+Buy / Enquire
+</a>
+
+</div>
+</div>
+
+
+<div class="product-card"
+data-name="men black jeans">
+
+<img class="product-image"
+src="https://images.unsplash.com/photo-1604176354204-9268737828e4?auto=format&fit=crop&w=700&q=80"
+alt="Men Black Jeans">
+
+<div class="product-info">
+
+<h3>Premium Black Jeans</h3>
+
+<p>
+Versatile black jeans for modern looks.
+</p>
+
+<div class="price">₹1,199</div>
+
+<a class="btn"
+href="https://wa.me/919798687943?text=Hello%20MFH%2C%20I%20want%20the%20Premium%20Black%20Jeans"
+target="_blank">
+Buy / Enquire
+</a>
+
+</div>
+</div>
+
+
+</div>
+
+</section>
+
+
+<!-- ACCESSORIES -->
+
+<section id="accessories">
+
+<h2>
+Men's <span class="gold">Accessories</span>
+</h2>
+
+<div class="product-grid">
+
+
+<div class="product-card"
+data-name="men sunglasses">
+
+<img class="product-image"
+src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=700&q=80"
+alt="Men Sunglasses">
+
+<div class="product-info">
+
+<h3>Classic Sunglasses</h3>
+
+<p>
+Complete your outfit with stylish sunglasses.
+</p>
+
+<div class="price">₹399</div>
+
+<a class="btn"
+href="https://wa.me/919798687943?text=Hello%20MFH%2C%20I%20want%20the%20Classic%20Sunglasses"
+target="_blank">
+Buy / Enquire
+</a>
+
+</div>
+</div>
+
+
+<div class="product-card"
+data-name="men watch">
+
+<img class="product-image"
+src="https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=700&q=80"
+alt="Men Watch">
+
+<div class="product-info">
+
+<h3>Classic Men's Watch</h3>
+
+<p>
+Smart accessory for a premium look.
+</p>
+
+<div class="price">₹799</div>
+
+<a class="btn"
+href="https://wa.me/919798687943?text=Hello%20MFH%2C%20I%20want%20the%20Classic%20Mens%20Watch"
+target="_blank">
+Buy / Enquire
+</a>
+
+</div>
+</div>
+
+
+</div>
+
+</section>
+
+
+<!-- GROOMING -->
+
+<section id="grooming">
+
+<h2>
+Men's <span class="gold">Grooming</span>
+</h2>
+
+<div class="product-grid">
+
+
+<div class="product-card"
+data-name="men beard grooming">
+
+<img class="product-image"
+src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=700&q=80"
+alt="Men Grooming">
+
+<div class="product-info">
+
+<h3>Beard Grooming Kit</h3>
+
+<p>
+Essential grooming products for men's beard care.
+</p>
+
+<div class="price">₹599</div>
+
+<a class="btn"
+href="https://wa.me/919798687943?text=Hello%20MFH%2C%20I%20want%20the%20Beard%20Grooming%20Kit"
+target="_blank">
+Buy / Enquire
+</a>
+
+</div>
+</div>
+
+
+<div class="product-card"
+data-name="men hair grooming">
+
+<img class="product-image"
+src="https://images.unsplash.com/photo-1622287162716-f311baa1a2b8?auto=format&fit=crop&w=700&q=80"
+alt="Men Hair Grooming">
+
+<div class="product-info">
+
+<h3>Men's Hair Styling</h3>
+
+<p>
+Upgrade your everyday hairstyle and grooming.
+</p>
+
+<div class="price">₹449</div>
+
+<a class="btn"
+href="https://wa.me/919798687943?text=Hello%20MFH%2C%20I%20want%20the%20Mens%20Hair%20Styling%20Product"
+target="_blank">
+Buy / Enquire
+</a>
+
+</div>
+</div>
+
+
+</div>
+
+</section>
 
 </section>
 
@@ -636,170 +906,58 @@ footer a{
 
 <section id="orders">
 
-  <h2>
-    Order <span class="gold">Help</span>
-  </h2>
+<h2>
+Order <span class="gold">Help</span>
+</h2>
 
-  <p class="section-text">
-    Need help with an order, product or fashion recommendation?
-  </p>
+<p class="section-text">
+For product availability, size, price or order information,
+contact us directly on WhatsApp.
+</p>
 
-
-  <div class="quick-help">
-
-
-    <div class="card">
-
-      <h3>Order Query</h3>
-
-      <p>
-        Ask about your order or product.
-      </p>
-
-      <button class="btn"
-              onclick="supportWhatsApp('I need help with my order')">
-        WhatsApp
-      </button>
-
-    </div>
-
-
-    <div class="card">
-
-      <h3>Product Help</h3>
-
-      <p>
-        Need help choosing a product?
-      </p>
-
-      <button class="btn"
-              onclick="supportWhatsApp('I need help choosing a product')">
-        Product Help
-      </button>
-
-    </div>
-
-
-    <div class="card">
-
-      <h3>General Help</h3>
-
-      <p>
-        Ask us anything about Men's Fashion Hub.
-      </p>
-
-      <button class="btn"
-              onclick="supportWhatsApp('I need general help')">
-        Contact Support
-      </button>
-
-    </div>
-
-
-  </div>
+<a class="btn"
+href="https://wa.me/919798687943"
+target="_blank">
+WhatsApp Order Support
+</a>
 
 </section>
 
 
-<!-- CUSTOMER SUPPORT -->
+<!-- SUPPORT -->
 
 <section id="support">
 
-  <h2>
-    Customer <span class="gold">Support</span>
-  </h2>
+<h2>
+Customer <span class="gold">Support</span>
+</h2>
 
-  <p class="section-text">
-    Write your question below and contact customer support directly.
-  </p>
+<p class="section-text">
+Have a question? Send your query directly to our WhatsApp support.
+</p>
 
+<div class="support-box">
 
-  <div class="support-box">
+<input
+id="supportName"
+type="text"
+placeholder="Your Name">
 
-    <input
-      id="supportName"
-      type="text"
-      placeholder="Your name">
+<input
+id="supportEmail"
+type="email"
+placeholder="Your Email">
 
+<textarea
+id="supportMessage"
+placeholder="Write your query..."></textarea>
 
-    <input
-      id="supportEmail"
-      type="email"
-      placeholder="Your email">
+<button class="btn"
+onclick="sendSupport()">
+Send Query on WhatsApp
+</button>
 
-
-    <textarea
-      id="supportMsg"
-      placeholder="Write your query or problem..."></textarea>
-
-
-    <button class="btn"
-            onclick="sendSupport()">
-      Send Query on WhatsApp
-    </button>
-
-
-    <a class="btn btn-dark"
-       href="https://wa.me/919798687943"
-       target="_blank"
-       rel="noopener noreferrer">
-      Open WhatsApp Support
-    </a>
-
-  </div>
-
-</section>
-
-
-<!-- HELP -->
-
-<section id="help">
-
-  <h2>
-    How Can We <span class="gold">Help?</span>
-  </h2>
-
-
-  <div class="grid">
-
-
-    <div class="card"
-         data-search="fashion advice outfit recommendation style">
-
-      <h3>Fashion Advice</h3>
-
-      <p>
-        Tell us your occasion and get help choosing a suitable men's outfit.
-      </p>
-
-    </div>
-
-
-    <div class="card"
-         data-search="product query size category product help">
-
-      <h3>Product Query</h3>
-
-      <p>
-        Ask about products, categories, sizes or style options.
-      </p>
-
-    </div>
-
-
-    <div class="card"
-         data-search="customer support help whatsapp problem">
-
-      <h3>Customer Support</h3>
-
-      <p>
-        For any problem, contact our support team through WhatsApp.
-      </p>
-
-    </div>
-
-
-  </div>
+</div>
 
 </section>
 
@@ -811,229 +969,165 @@ footer a{
 
 <footer>
 
-  <p>
-    © 2026 Men's Fashion Hub. All rights reserved.
-  </p>
+<p>
+© 2026 Men's Fashion Hub. All rights reserved.
+</p>
 
-  <p>
+<p>
 
-    <a href="#home">Home</a>
-    &nbsp; | &nbsp;
+<a href="#home">Home</a>
+&nbsp; | &nbsp;
 
-    <a href="#shop">Shop</a>
-    &nbsp; | &nbsp;
+<a href="#categories">Categories</a>
+&nbsp; | &nbsp;
 
-    <a href="#support">Customer Support</a>
-    &nbsp; | &nbsp;
+<a href="#products">Products</a>
+&nbsp; | &nbsp;
 
-    <a href="#help">Help</a>
-    &nbsp; | &nbsp;
+<a href="#support">Support</a>
 
-    <a href="https://www.instagram.com/mens_fashionhub20/"
-       target="_blank"
-       rel="noopener noreferrer">
-       Instagram
-    </a>
-
-  </p>
+</p>
 
 </footer>
 
 
-<!-- JAVASCRIPT -->
-
 <script>
 
-const whatsappNumber = "919798687943";
+/* PRODUCT SEARCH */
 
+function searchProducts(){
 
-/* WEBSITE SEARCH */
+const input =
+document.getElementById("searchInput");
 
-function liveSearch(){
+const query =
+input.value.trim().toLowerCase();
 
-  const input =
-    document.getElementById("searchInput");
+const results =
+document.getElementById("searchResults");
 
-  const query =
-    input.value.trim().toLowerCase();
+const container =
+document.getElementById("resultsContainer");
 
-  const searchResults =
-    document.getElementById("searchResults");
+if(!query){
 
-  const resultsContainer =
-    document.getElementById("resultsContainer");
+results.style.display="none";
+container.innerHTML="";
+return;
 
-  if(!query){
+}
 
-    searchResults.style.display = "none";
+const products =
+document.querySelectorAll(".product-card");
 
-    resultsContainer.innerHTML = "";
+let found=[];
 
-    return;
-  }
+products.forEach(function(product){
 
+const name =
+product.getAttribute("data-name").toLowerCase();
 
-  const cards =
-    document.querySelectorAll("[data-search]");
+const text =
+product.innerText.toLowerCase();
 
-  let results = [];
+if(
+name.includes(query) ||
+text.includes(query)
+){
 
+found.push(product);
 
-  cards.forEach(function(card){
+}
 
-    const text =
-      card.innerText.toLowerCase();
+});
 
-    const keywords =
-      card.getAttribute("data-search").toLowerCase();
+results.style.display="block";
 
-    if(
-      text.includes(query) ||
-      keywords.includes(query)
-    ){
+container.innerHTML="";
 
-      results.push(card);
+if(found.length===0){
 
-    }
+container.innerHTML=
+'<div class="no-results">' +
+'❌ No product found for "' +
+query +
+'".<br><br>' +
+'Try: shirt, t-shirt, jeans, watch, sunglasses or grooming.' +
+'</div>';
 
-  });
+results.scrollIntoView({
+behavior:"smooth"
+});
 
+return;
 
-  searchResults.style.display = "block";
+}
 
-  resultsContainer.innerHTML = "";
+const grid =
+document.createElement("div");
 
+grid.className="product-grid";
 
-  if(results.length === 0){
+found.forEach(function(product){
 
-    resultsContainer.innerHTML =
-      '<div class="no-results">' +
-      '❌ No results found for "' +
-      escapeHtml(query) +
-      '".<br><br>' +
-      'Try: shirts, t-shirts, jeans, accessories, grooming or fashion.' +
-      '</div>';
+grid.appendChild(
+product.cloneNode(true)
+);
 
-    searchResults.scrollIntoView({
-      behavior:"smooth",
-      block:"start"
-    });
+});
 
-    return;
-  }
+container.appendChild(grid);
 
-
-  results.forEach(function(card){
-
-    const clone =
-      card.cloneNode(true);
-
-    clone.classList.remove("card");
-
-    clone.classList.add("result-card");
-
-    resultsContainer.appendChild(clone);
-
-  });
-
-
-  searchResults.scrollIntoView({
-    behavior:"smooth",
-    block:"start"
-  });
+results.scrollIntoView({
+behavior:"smooth"
+});
 
 }
 
 
-/* SAFE TEXT */
-
-function escapeHtml(text){
-
-  const div =
-    document.createElement("div");
-
-  div.textContent = text;
-
-  return div.innerHTML;
-
-}
-
-
-/* WHATSAPP QUICK HELP */
-
-function supportWhatsApp(topic){
-
-  const message =
-    "Hello Men's Fashion Hub.%0A%0A" +
-    "I need help with: " +
-    encodeURIComponent(topic);
-
-  window.open(
-    "https://wa.me/" +
-    whatsappNumber +
-    "?text=" +
-    message,
-    "_blank"
-  );
-
-}
-
-
-/* CUSTOMER SUPPORT */
+/* SUPPORT */
 
 function sendSupport(){
 
-  const name =
-    document.getElementById("supportName")
-    .value
-    .trim();
+const name =
+document.getElementById("supportName")
+.value.trim();
 
-  const email =
-    document.getElementById("supportEmail")
-    .value
-    .trim();
+const email =
+document.getElementById("supportEmail")
+.value.trim();
 
-  const message =
-    document.getElementById("supportMsg")
-    .value
-    .trim();
+const message =
+document.getElementById("supportMessage")
+.value.trim();
 
+if(!name){
 
-  if(!name){
+alert("Please enter your name.");
+return;
 
-    alert("Please enter your name.");
+}
 
-    return;
+if(!message){
 
-  }
+alert("Please write your query.");
+return;
 
+}
 
-  if(!message){
+const text =
+"Hello Men's Fashion Hub.%0A%0A" +
+"Name: " +
+encodeURIComponent(name) +
+"%0AEmail: " +
+encodeURIComponent(email) +
+"%0A%0AQuery:%0A" +
+encodeURIComponent(message);
 
-    alert("Please write your query first.");
-
-    return;
-
-  }
-
-
-  const whatsappMessage =
-    "Hello Men's Fashion Hub.%0A%0A" +
-    "Name: " +
-    encodeURIComponent(name) +
-    "%0AEmail: " +
-    encodeURIComponent(email) +
-    "%0A%0AQuery:%0A" +
-    encodeURIComponent(message);
-
-
-  window.open(
-    "https://wa.me/" +
-    whatsappNumber +
-    "?text=" +
-    whatsappMessage,
-    "_blank"
-  );
+window.open(
+"https://wa.me/919798687943?text="+text,
+"_blank"
+);
 
 }
 
