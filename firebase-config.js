@@ -1,10 +1,13 @@
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-apiKey: "AIzaSyBQkq82HDMjndAPnvjJ-yw64L3J55tFCHk",
-authDomain: "mens-fashion-hub-e2773.firebaseapp.com",
-projectId: "mens-fashion-hub-e2773",
-storageBucket: "mens-fashion-hub-e2773.firebasestorage.app",
-messagingSenderId: "309752221606",
-appId: "1:309752221606:web:9cd2ff5a64d9f25e5f8967",
-measurementId: "G-W99V4NZVK3"
+  apiKey: "AIzaSyBQkq82HDMjndAPnvjJ-yw64L3J55tFCHk",
+  authDomain: "mens-fashion-hub-e2773.firebaseapp.com",
+  projectId: "mens-fashion-hub-e2773",
+  storageBucket: "mens-fashion-hub-e2773.firebasestorage.app",
+  messagingSenderId: "309752221606",
+  appId: "1:309752221606:web:9cd2ff5a64d9f25e5f8967",
+  measurementId: "G-W99V4NZVK3"
 };
+
+const ADMIN_EMAIL = "mensfashionhub39@gmail.com";
+
+export { firebaseConfig, ADMIN_EMAIL };
