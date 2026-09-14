@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mensfashionhub39-eng.github.io/mens-fashion-hub/sitemap.xml
