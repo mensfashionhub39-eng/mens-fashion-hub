@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Men's Fashion Hub | Men's Fashion, Style &amp; Grooming</title>
+<meta content="Men's Fashion Hub - shirts, t-shirts, jeans, accessories, grooming and men's fashion products." name="description"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://mensfashionhub39-eng.github.io/mens-fashion-hub/" rel="canonical"/>
+<style>
+
+:root{
+  --gold:#d4af37;
+  --dark:#080808;
+  --card:#121212;
+  --border:#292929;
+  --text:#fff;
+  --muted:#aaa;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  background:var(--dark);
+  color:var(--text);
+  font-family:Arial,sans-serif;
+}
+
+nav{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  background:#080808;
+  border-bottom:1px solid var(--border);
+  padding:14px 5%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+}
+
+.logo{
+  color:var(--gold);
+  font-weight:bold;
+  font-size:18px;
+}
+
+.nav-links{
+  display:flex;
+  gap:15px;
+  flex-wrap:wrap;
+}
+
+.nav-links a{
+  color:#fff;
+  text-decoration:none;
+  font-size:14px;
+}
+
+.nav-links a:hover{
+  color:var(--gold);
+}
+
+header{
+  text-align:center;
+  padding:65px 20px 45px;
+  background:radial-gradient(circle at top,#29200b,#080808 60%);
+}
+
+h1{
+  font-size:clamp(34px,7vw,58px);
+  margin:0 0 12px;
+}
+
+.gold{
+  color:var(--gold);
+}
+
+header p{
+  color:#ccc;
+  max-width:700px;
+  margin:0 auto 25px;
+}
+
+.btn{
+  display:inline-block;
+  border:0;
+  background:var(--gold);
+  color:#080808;
+  padding:11px 18px;
+  border-radius:8px;
+  text-decoration:none;
+  font-weight:bold;
+  cursor:pointer;
+  margin:4px;
+}
+
+.btn-dark{
+  background:#181818;
+  color:#fff;
+  border:1px solid #333;
+}
+
+main{
+  max-width:1150px;
+  margin:auto;
+  padding:25px 18px 70px;
+}
+
+section{
+  margin:55px 0;
+  scroll-margin-top:90px;
+}
+
+h2{
+  text-align:center;
+  font-size:30px;
+}
+
+.section-text{
+  text-align:center;
+  color:var(--muted);
+  max-width:700px;
+  margin:0 auto 25px;
+}
+
+/* SEARCH */
+
+.search-area{
+  max-width:700px;
+  margin:25px auto 0;
+}
+
+.search-box{
+  display:flex;
+  background:#111;
+  border:1px solid #444;
+  border-radius:12px;
+  overflow:hidden;
+}
+
+.search-box input{
+  flex:1;
+  background:#111;
+  color:white;
+  border:0;
+  outline:0;
+  padding:15px;
+  font-size:16px;
+}
+
+.search-box button{
+  background:var(--gold);
+  border:0;
+  padding:0 22px;
+  cursor:pointer;
+  font-size:18px;
+}
+
+/* CATEGORY */
+
+.category-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:18px;
+}
+
+.category-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:25px;
+  text-align:center;
+}
+
+.category-card h3{
+  color:var(--gold);
+  font-size:21px;
+}
+
+.category-card p{
+  color:#aaa;
+}
+
+/* PRODUCTS */
+
+.product-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+}
+
+.product-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  overflow:hidden;
+  transition:.2s;
+}
+
+.product-card:hover{
+  transform:translateY(-4px);
+  border-color:#555;
+}
+
+.product-image{
+  width:100%;
+  height:250px;
+  object-fit:cover;
+  display:block;
+  background:#1a1a1a;
+}
+
+.product-info{
+  padding:18px;
+}
+
+.product-info h3{
+  margin:0 0 7px;
+  color:#fff;
+}
+
+.product-info p{
+  color:#aaa;
+  font-size:14px;
+}
+
+.price{
+  color:var(--gold);
+  font-size:20px;
+  font-weight:bold;
+  margin:10px 0;
+}
+
+/* SEARCH RESULTS */
+
+#searchResults{
+  display:none;
+}
+
+#resultsContainer{
+  margin-top:20px;
+}
+
+.no-results{
+  background:#151515;
+  border:1px solid #333;
+  padding:25px;
+  border-radius:12px;
+  text-align:center;
+  color:#aaa;
+}
+
+/* SUPPORT */
+
+.support-box{
+  max-width:650px;
+  margin:auto;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:25px;
+}
+
+input,
+textarea{
+  width:100%;
+  padding:13px;
+  margin:8px 0;
+  background:#090909;
+  color:white;
+  border:1px solid #333;
+  border-radius:8px;
+  outline:0;
+}
+
+textarea{
+  min-height:120px;
+}
+
+footer{
+  text-align:center;
+  padding:30px 18px;
+  border-top:1px solid var(--border);
+  color:#888;
+}
+
+footer a{
+  color:var(--gold);
+  text-decoration:none;
+}
+
+
+/* CART */
+section{scroll-margin-top:90px;}
+.cart-button{position:fixed;right:18px;bottom:18px;z-index:2000;background:var(--gold);color:#080808;border:0;border-radius:999px;padding:14px 18px;font-weight:bold;cursor:pointer;box-shadow:0 8px 30px #000;}
+.cart-count{background:#080808;color:#fff;border-radius:50%;padding:2px 7px;margin-left:5px;}
+.cart-panel{position:fixed;top:0;right:-420px;width:min(420px,100%);height:100vh;background:#101010;border-left:1px solid #333;z-index:3000;padding:22px;overflow:auto;transition:.25s;}
+.cart-panel.open{right:0;}
+.cart-overlay{display:none;position:fixed;inset:0;background:#0009;z-index:2500;}
+.cart-overlay.show{display:block;}
+.cart-head{display:flex;justify-content:space-between;align-items:center;}
+.cart-item{display:flex;gap:12px;border-bottom:1px solid #333;padding:14px 0;}
+.cart-item img{width:65px;height:75px;object-fit:cover;border-radius:8px;}
+.qty button{padding:3px 9px;margin:3px;border:1px solid #555;background:#181818;color:#fff;border-radius:5px;cursor:pointer;}
+.cart-total{font-size:22px;font-weight:bold;color:var(--gold);margin:18px 0;}
+.checkout-box{background:#171717;border:1px solid #333;border-radius:12px;padding:15px;margin-top:15px;}
+.query-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin:12px 0;}
+.query-btn{background:#181818;color:#fff;border:1px solid #444;padding:10px;border-radius:8px;cursor:pointer;}
+.query-btn:hover{border-color:var(--gold);}
+.order-note{color:#aaa;font-size:13px;line-height:1.5;}
+
+@media(max-width:700px){
+
+  nav{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .nav-links{
+    width:100%;
+  }
+
+  .product-image{
+    height:230px;
+  }
+
+}
+
+
+/* CART & CHECKOUT */
+section[id], #cart, #checkout { scroll-margin-top: 95px; }
+.cart-link{font-weight:bold;color:var(--gold)!important}
+.cart-panel,.checkout-panel{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px;max-width:850px;margin:25px auto}
+.cart-row{display:flex;gap:15px;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);padding:14px 0}
+.cart-row-info{flex:1}.qty{display:flex;align-items:center;gap:8px}.qty button{width:32px;height:32px;border:1px solid #555;background:#191919;color:#fff;border-radius:6px;cursor:pointer}
+.cart-total{text-align:right;font-size:22px;font-weight:bold;color:var(--gold);margin:18px 0}
+.checkout-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.payment-option{border:1px solid #444;padding:12px;border-radius:8px;margin:8px 0}
+.query-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:700px){.checkout-grid,.query-grid{grid-template-columns:1fr}.cart-row{align-items:flex-start;flex-wrap:wrap}}
+</style>
+</head>
+<body>
+<!-- NAVIGATION -->
+<nav>
+<div class="logo">
+MFH • MEN'S FASHION HUB
+</div>
+<div class="nav-links"><a class="cart-link" href="#cart" id="cartNav">🛒 Cart (0)</a>
+<a href="#home">Home</a>
+<a href="#categories">Categories</a>
+<a href="#products">Products</a>
+<a href="#orders">Orders</a>
+<a href="#support">Support</a>
+<a href="https://www.instagram.com/mens_fashionhub20/" target="_blank">
+Instagram
+</a><a href="#queries">Queries</a>
+</div>
+</nav>
+<!-- HERO -->
+<header id="home">
+<h1>
+LOOK GOOD.
+<span class="gold">FEEL CONFIDENT.</span>
+</h1>
+<p>
+Discover men's fashion, outfits, shirts, t-shirts,
+jeans, accessories and grooming products.
+</p>
+<a class="btn" href="#products">
+Explore Fashion
+</a>
+<a class="btn btn-dark" href="https://www.instagram.com/mens_fashionhub20/" target="_blank">
+Follow Instagram
+</a>
+<!-- SEARCH -->
+<div class="search-area">
+<div class="search-box">
+<input id="searchInput" oninput="searchProducts()" placeholder="Search shirts, jeans, t-shirts, watches..." type="search"/>
+<button onclick="searchProducts()">
+🔍
+</button>
+</div>
+</div>
+</header>
+<button class="cart-button" onclick="openCart()">🛒 Cart <span class="cart-count" id="cartCount">0</span></button>
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+<aside class="cart-panel" id="cartPanel">
+<div class="cart-head"><h2>🛒 Your Cart</h2><button class="btn btn-dark" onclick="closeCart()">✕</button></div>
+<div id="cartItems"></div>
+<div class="order-note" id="cartEmpty">Your cart is empty. Add products to continue.</div>
+<div class="cart-total">Total: ₹<span id="cartTotal">0</span></div>
+<div class="checkout-box">
+<h3>Checkout</h3>
+<input id="custName" placeholder="Full Name" required=""/>
+<input id="custPhone" placeholder="Mobile Number" required="" type="tel"/>
+<textarea id="custAddress" placeholder="Delivery Address" required=""></textarea>
+<select id="paymentMethod" style="width:100%;padding:13px;background:#090909;color:white;border:1px solid #333;border-radius:8px;margin:8px 0">
+<option value="cod">Cash on Delivery</option>
+<option value="upi">Online Payment (UPI)</option>
+</select>
+<button class="btn" onclick="placeOrder()">✅ Place Order</button>
+<p class="order-note">Online payment uses your configured UPI ID. For verified gateway checkout (Razorpay), a merchant Payment Link/Button or backend is required.</p>
+</div>
+</aside>
+<main>
+<!-- SEARCH RESULTS -->
+<section id="searchResults">
+<h2>
+Search <span class="gold">Results</span>
+</h2>
+<div id="resultsContainer"></div>
+</section>
+<!-- CATEGORIES -->
+<section id="categories">
+<h2>
+Explore <span class="gold">Categories</span>
+</h2>
+<p class="section-text">
+Choose a category and see its products directly.
+</p>
+<div class="category-grid">
+<div class="category-card">
+<h3>👕 Shirts</h3>
+<p>
+Formal, casual and stylish men's shirts.
+</p>
+<a class="btn" href="#shirts">
+Explore Shirts
+</a>
+</div>
+<div class="category-card">
+<h3>👔 T-Shirts</h3>
+<p>
+Trendy and comfortable everyday t-shirts.
+</p>
+<a class="btn" href="#tshirts">
+Explore T-Shirts
+</a>
+</div>
+<div class="category-card">
+<h3>👖 Jeans</h3>
+<p>
+Modern jeans and pants for men.
+</p>
+<a class="btn" href="#jeans">
+Explore Jeans
+</a>
+</div>
+<div class="category-card">
+<h3>🕶️ Accessories</h3>
+<p>
+Watches, sunglasses, wallets and more.
+</p>
+<a class="btn" href="#accessories">
+Explore Accessories
+</a>
+</div>
+<div class="category-card">
+<h3>💇 Grooming</h3>
+<p>
+Men's grooming and personal care products.
+</p>
+<a class="btn" href="#grooming">
+Explore Grooming
+</a>
+</div>
+</div>
+</section>
+<!-- PRODUCTS -->
+<section id="products">
+<h2>
+Featured <span class="gold">Products</span>
+</h2>
+<p class="section-text">
+Explore some popular men's fashion products.
+</p>
+<!-- SHIRTS -->
+<section id="shirts">
+<h2>
+Men's <span class="gold">Shirts</span>
+</h2>
+<div class="product-grid">
+<div class="product-card" data-name="men casual black shirt">
+<img alt="Men Casual Black Shirt" class="product-image" src="https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&amp;fit=crop&amp;w=700&amp;q=80"/>
+<div class="product-info">
+<h3>Classic Casual Shirt</h3>
+<p>
+Stylish casual shirt for everyday wear.
+</p>
+<div class="price">₹699</div>
+<button class="btn" data-price="699" data-product="Classic Casual Shirt" onclick="addProductToCart(this)">🛒 Add to Cart</button>
+
+<button class="btn" onclick="addToCart('Classic Casual Shirt',699)" type="button">🛒 Add to Cart</button></div>
+</div>
+<div class="product-card" data-name="men formal white shirt">
+<img alt="Men Formal Shirt" class="product-image" src="https://images.unsplash.com/photo-1603252110481-7ba873bf42ab?auto=format&amp;fit=crop&amp;w=700&amp;q=80"/>
+<div class="product-info">
+<h3>Premium Formal Shirt</h3>
+<p>
+Clean formal style for office and occasions.
+</p>
+<div class="price">₹899</div>
+<button class="btn" data-price="899" data-product="Premium Formal Shirt" onclick="addProductToCart(this)">🛒 Add to Cart</button>
+
+<button class="btn" onclick="addToCart('Premium Formal Shirt',899)" type="button">🛒 Add to Cart</button></div>
+</div>
+<div class="product-card" data-name="men stylish shirt">
+<img alt="Men Stylish Shirt" class="product-image" src="https://images.unsplash.com/photo-1596755389378-c31d21fd1273?auto=format&amp;fit=crop&amp;w=700&amp;q=80"/>
+<div class="product-info">
+<h3>Premium Stylish Shirt</h3>
+<p>
+Smart design for parties and special occasions.
+</p>
+<div class="price">₹999</div>
+<button class="btn" data-price="999" data-product="Premium Stylish Shirt" onclick="addProductToCart(this)">🛒 Add to Cart</button>
+
+<button class="btn" onclick="addToCart('Premium Stylish Shirt',999)" type="button">🛒 Add to Cart</button></div>
+</div>
+</div>
+</section>
+<!-- T SHIRTS -->
+<section id="tshirts">
+<h2>
+Men's <span class="gold">T-Shirts</span>
+</h2>
+<div class="product-grid">
+<div class="product-card" data-name="men black t shirt">
+<img alt="Men Black T Shirt" class="product-image" src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&amp;fit=crop&amp;w=700&amp;q=80"/>
+<div class="product-info">
+<h3>Classic Black T-Shirt</h3>
+<p>
+Comfortable everyday men's t-shirt.
+</p>
+<div class="price">₹499</div>
+<button class="btn" data-price="499" data-product="Classic Black T-Shirt" onclick="addProductToCart(this)">🛒 Add to Cart</button>
+
+<button class="btn" onclick="addToCart('Classic Black T-Shirt',499)" type="button">🛒 Add to Cart</button></div>
+</div>
+<div class="product-card" data-name="men white t shirt">
+<img alt="Men White T Shirt" class="product-image" src="https://images.unsplash.com/photo-1583743814966-8936f37f5f5a?auto=format&amp;fit=crop&amp;w=700&amp;q=80"/>
+<div class="product-info">
+<h3>Premium Cotton T-Shirt</h3>
+<p>
+Simple, clean and comfortable style.
+</p>
+<div class="price">₹549</div>
+<button class="btn" data-price="549" data-product="Premium Cotton T-Shirt" onclick="addProductToCart(this)">🛒 Add to Cart</button>
+
+<button class="btn" onclick="addToCart('Premium Cotton T-Shirt',549)" type="button">🛒 Add to Cart</button></div>
+</div>
+</div>
+</section>
+<!-- JEANS -->
+<section id="jeans">
+<h2>
+Men's <span class="gold">Jeans</span>
+</h2>
+<div class="product-grid">
+<div class="product-card" data-name="men blue jeans">
+<img alt="Men Blue Jeans" class="product-image" src="https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&amp;fit=crop&amp;w=700&amp;q=80"/>
+<div class="product-info">
+<h3>Classic Blue Jeans</h3>
+<p>
+Modern fit jeans for everyday fashion.
+</p>
+<div class="price">₹1,099</div>
+<button class="btn" data-price="1099" data-product="Classic Blue Jeans" onclick="addProductToCart(this)">🛒 Add to Cart</button>
+
+<button class="btn" onclick="addToCart('Classic Blue Jeans',1099)" type="button">🛒 Add to Cart</button></div>
+</div>
+<div class="product-card" data-name="men black jeans">
+<img alt="Men Black Jeans" class="product-image" src="https://images.unsplash.com/photo-1604176354204-9268737828e4?auto=format&amp;fit=crop&amp;w=700&amp;q=80"/>
+<div class="product-info">
+<h3>Premium Black Jeans</h3>
+<p>
+Versatile black jeans for modern looks.
+</p>
+<div class="price">₹1,199</div>
+<button class="btn" data-price="1199" data-product="Premium Black Jeans" onclick="addProductToCart(this)">🛒 Add to Cart</button>
+
+<button class="btn" onclick="addToCart('Premium Black Jeans',1199)" type="button">🛒 Add to Cart</button></div>
+</div>
+</div>
+</section>
+<!-- ACCESSORIES -->
+<section id="accessories">
+<h2>
+Men's <span class="gold">Accessories</span>
+</h2>
+<div class="product-grid">
+<div class="product-card" data-name="men sunglasses">
+<img alt="Men Sunglasses" class="product-image" src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&amp;fit=crop&amp;w=700&amp;q=80"/>
+<div class="product-info">
+<h3>Classic Sunglasses</h3>
+<p>
+Complete your outfit with stylish sunglasses.
+</p>
+<div class="price">₹399</div>
+<button class="btn" data-price="399" data-product="Classic Sunglasses" onclick="addProductToCart(this)">🛒 Add to Cart</button>
+
+<button class="btn" onclick="addToCart('Classic Sunglasses',399)" type="button">🛒 Add to Cart</button></div>
+</div>
+<div class="product-card" data-name="men watch">
+<img alt="Men Watch" class="product-image" src="https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&amp;fit=crop&amp;w=700&amp;q=80"/>
+<div class="product-info">
+<h3>Classic Men's Watch</h3>
+<p>
+Smart accessory for a premium look.
+</p>
+<div class="price">₹799</div>
+<button class="btn" data-price="799" data-product="Classic Men's Watch" onclick="addProductToCart(this)">🛒 Add to Cart</button>
+
+<button class="btn" onclick="addToCart(&quot;Classic Men's Watch&quot;,799)" type="button">🛒 Add to Cart</button></div>
+</div>
+</div>
+</section>
+<!-- GROOMING -->
+<section id="grooming">
+<h2>
+Men's <span class="gold">Grooming</span>
+</h2>
+<div class="product-grid">
+<div class="product-card" data-name="men beard grooming">
+<img alt="Men Grooming" class="product-image" src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&amp;fit=crop&amp;w=700&amp;q=80"/>
+<div class="product-info">
+<h3>Beard Grooming Kit</h3>
+<p>
+Essential grooming products for men's beard care.
+</p>
+<div class="price">₹599</div>
+<button class="btn" data-price="599" data-product="Beard Grooming Kit" onclick="addProductToCart(this)">🛒 Add to Cart</button>
+
+<button class="btn" onclick="addToCart('Beard Grooming Kit',599)" type="button">🛒 Add to Cart</button></div>
+</div>
+<div class="product-card" data-name="men hair grooming">
+<img alt="Men Hair Grooming" class="product-image" src="https://images.unsplash.com/photo-1622287162716-f311baa1a2b8?auto=format&amp;fit=crop&amp;w=700&amp;q=80"/>
+<div class="product-info">
+<h3>Men's Hair Styling</h3>
+<p>
+Upgrade your everyday hairstyle and grooming.
+</p>
+<div class="price">₹449</div>
+<button class="btn" data-price="449" data-product="Men's Hair Styling" onclick="addProductToCart(this)">🛒 Add to Cart</button>
+
+<button class="btn" onclick="addToCart(&quot;Men's Hair Styling&quot;,449)" type="button">🛒 Add to Cart</button></div>
+</div>
+</div>
+</section>
+</section>
+<!-- ORDER HELP -->
+
+<section id="cart">
+<h2>Shopping <span class="gold">Cart</span></h2>
+<div class="cart-panel">
+<div id="cartItems"><p class="section-text">Your cart is empty.</p></div>
+<div class="cart-total" id="cartTotal">Total: ₹0</div>
+<a class="btn" href="#checkout">Proceed to Checkout</a>
+</div>
+</section>
+<section id="checkout">
+<h2>Secure <span class="gold">Checkout</span></h2>
+<div class="checkout-panel">
+<div class="checkout-grid">
+<input id="custName" placeholder="Full Name"/>
+<input id="custPhone" placeholder="Mobile Number" type="tel"/>
+<input id="custEmail" placeholder="Email (optional)" type="email"/>
+<input id="custPincode" inputmode="numeric" placeholder="Pincode"/>
+</div>
+<input id="custAddress" placeholder="Full Delivery Address"/>
+<select id="paymentMethod" style="width:100%;padding:13px;margin:8px 0;background:#090909;color:white;border:1px solid #333;border-radius:8px">
+<option value="upi">💳 UPI / Online Payment</option>
+<option value="cod">💵 Cash on Delivery</option>
+</select>
+<div class="payment-option"><b>UPI ID:</b> 9693853875-3@axl<br/><small>UPI option opens your supported payment app with the order amount.</small></div>
+<button class="btn" onclick="placeOrder()">Place Order</button>
+<div class="no-results" id="orderMessage" style="display:none;margin-top:15px"></div>
+</div>
+</section>
+<section id="queries">
+<h2>Customer <span class="gold">Query</span></h2>
+<p class="section-text">Select your problem and get the right help.</p>
+<div class="support-box">
+<select id="queryType" style="width:100%;padding:13px;margin:8px 0;background:#090909;color:white;border:1px solid #333;border-radius:8px">
+<option>Order Status</option><option>Payment Problem</option><option>Product / Stock</option><option>Size / Fit</option><option>Delivery Problem</option><option>Return / Exchange</option><option>Damaged / Wrong Product</option><option>Other</option>
+</select>
+<input id="queryName" placeholder="Your Name"/>
+<input id="queryContact" placeholder="Mobile / Email"/>
+<textarea id="queryText" placeholder="Describe your problem"></textarea>
+<button class="btn" onclick="submitQuery()">Submit Query</button>
+<div class="no-results" id="queryResult" style="display:none;margin-top:15px"></div>
+</div>
+</section>
+<section id="orders"><h2>Order <span class="gold">Information</span></h2><p class="section-text">Use the cart and checkout above to place your order. Choose UPI or Cash on Delivery.</p></section>
+<!-- SUPPORT -->
+<section id="support">
+<h2>
+Customer <span class="gold">Support</span>
+</h2>
+<p class="section-text">
+Have a question? Send your query directly to our WhatsApp support.
+</p>
+<div class="query-grid">
+<button class="query-btn" onclick="setQuery('Order / Payment')">💳 Order / Payment</button>
+<button class="query-btn" onclick="setQuery('Product / Stock')">📦 Product / Stock</button>
+<button class="query-btn" onclick="setQuery('Size / Fit')">📏 Size / Fit</button>
+<button class="query-btn" onclick="setQuery('Delivery')">🚚 Delivery</button>
+<button class="query-btn" onclick="setQuery('Return / Exchange')">🔄 Return / Exchange</button>
+<button class="query-btn" onclick="setQuery('Other')">❓ Other</button>
+</div>
+<div class="support-box">
+<input id="supportName" placeholder="Your Name" type="text"/>
+<input id="supportEmail" placeholder="Your Email" type="email"/>
+<textarea id="supportMessage" placeholder="Write your query..."></textarea>
+<button class="btn" onclick="sendSupport()">
+Send Query on WhatsApp
+</button>
+</div>
+</section>
+</main>
+<!-- FOOTER -->
+<footer>
+<p>
+© 2026 Men's Fashion Hub. All rights reserved.
+</p>
+<p>
+<a href="#home">Home</a>
+  |  
+
+<a href="#categories">Categories</a>
+  |  
+
+<a href="#products">Products</a>
+  |  
+
+<a href="#support">Support</a>
+</p>
+</footer>
+<script>
+const CART_KEY='mfh_cart_v2';
+const UPI_ID='9693853875-3@axl'; // Replace with your real UPI ID before publishing.
+let cart=JSON.parse(localStorage.getItem(CART_KEY)||'[]');
+
+function saveCart(){localStorage.setItem(CART_KEY,JSON.stringify(cart));renderCart();}
+function openCart(){document.getElementById('cartPanel').classList.add('open');document.getElementById('cartOverlay').classList.add('show');renderCart();}
+function closeCart(){document.getElementById('cartPanel').classList.remove('open');document.getElementById('cartOverlay').classList.remove('show');}
+function addProductToCart(btn){
+  const name=btn.dataset.product, price=Number(btn.dataset.price);
+  const card=btn.closest('.product-card');
+  const img=card?.querySelector('img')?.src||'';
+  const existing=cart.find(x=>x.name===name);
+  if(existing) existing.qty++; else cart.push({name,price,img,qty:1});
+  saveCart(); openCart();
+}
+function changeQty(i,d){cart[i].qty+=d;if(cart[i].qty<=0)cart.splice(i,1);saveCart();}
+function removeItem(i){cart.splice(i,1);saveCart();}
+function renderCart(){
+  const box=document.getElementById('cartItems'), empty=document.getElementById('cartEmpty');
+  let total=0,count=0;
+  box.innerHTML=cart.map((x,i)=>{total+=x.price*x.qty;count+=x.qty;return `<div class="cart-item"><img src="${x.img}" alt="${x.name}"><div style="flex:1"><b>${x.name}</b><div>₹${x.price.toLocaleString('en-IN')}</div><div class="qty"><button onclick="changeQty(${i},-1)">−</button>${x.qty}<button onclick="changeQty(${i},1)">+</button><button onclick="removeItem(${i})">Remove</button></div></div></div>`}).join('');
+  empty.style.display=cart.length?'none':'block';
+  document.getElementById('cartTotal').textContent=total.toLocaleString('en-IN');
+  document.getElementById('cartCount').textContent=count;
+}
+function cartSummary(){return cart.map(x=>`${x.name} x${x.qty} = ₹${x.price*x.qty}`).join('\n');}
+function placeOrder(){
+  if(!cart.length){alert('Please add a product to cart first.');return;}
+  const name=document.getElementById('custName').value.trim(), phone=document.getElementById('custPhone').value.trim(), address=document.getElementById('custAddress').value.trim(), method=document.getElementById('paymentMethod').value;
+  if(!name||!phone||!address){alert('Please fill Name, Mobile and Delivery Address.');return;}
+  const total=cart.reduce((s,x)=>s+x.price*x.qty,0);
+  const orderId='MFH'+Date.now().toString().slice(-8);
+  if(method==='upi'){
+    if(UPI_ID==='YOURUPIID@upi'){alert('Online payment is not activated yet. Replace UPI_ID in index.html with your real UPI ID.');return;}
+    const upi=`upi://pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent("Men's Fashion Hub")}&am=${total.toFixed(2)}&cu=INR&tn=${encodeURIComponent('Order '+orderId)}`;
+    window.location.href=upi; return;
+  }
+  // COD order is saved locally and shown as confirmation. For owner-side automatic order collection, connect a form/backend.
+  alert(`Order ${orderId} placed!\n\nTotal: ₹${total.toLocaleString('en-IN')}\nPayment: Cash on Delivery\n\nWe will contact you using the mobile number provided.`);
+  cart=[];saveCart();closeCart();
+}
+
+function searchProducts(){
+  const input=document.getElementById('searchInput'), query=input.value.trim().toLowerCase(), results=document.getElementById('searchResults'), container=document.getElementById('resultsContainer');
+  if(!query){results.style.display='none';container.innerHTML='';return;}
+  const found=[...document.querySelectorAll('.product-card')].filter(p=>(p.dataset.name||'').toLowerCase().includes(query)||p.innerText.toLowerCase().includes(query));
+  results.style.display='block';container.innerHTML='';
+  if(!found.length){container.innerHTML='<div class="no-results">❌ No product found for "'+query+'".<br><br>Try: shirt, t-shirt, jeans, watch, sunglasses or grooming.</div>';results.scrollIntoView({behavior:'smooth'});return;}
+  const grid=document.createElement('div');grid.className='product-grid';found.forEach(p=>grid.appendChild(p.cloneNode(true)));container.appendChild(grid);results.scrollIntoView({behavior:'smooth'});
+}
+function setQuery(type){document.getElementById('supportMessage').value=type+': ';document.getElementById('supportMessage').focus();}
+function sendSupport(){
+  const name=document.getElementById('supportName').value.trim(),email=document.getElementById('supportEmail').value.trim(),message=document.getElementById('supportMessage').value.trim();
+  if(!name){alert('Please enter your name.');return;} if(!message){alert('Please select/write your query.');return;}
+  alert('Your query is ready. To make support fully direct without WhatsApp, connect an email/form backend to this website.');
+}
+renderCart();
+</script>
+</body>
+</html>
