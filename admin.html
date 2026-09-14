@@ -1,44 +1,624 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MFH Admin Panel</title>
+
 <style>
-body{margin:0;background:#080808;color:#fff;font-family:Arial,sans-serif}header{padding:18px 6%;border-bottom:1px solid #292929;display:flex;justify-content:space-between}.gold{color:#e0b52e}main{max-width:1000px;margin:auto;padding:25px 6%}.box{background:#151515;border:1px solid #333;border-radius:16px;padding:20px;margin:18px 0}input,select,textarea{width:100%;box-sizing:border-box;background:#0e0e0e;color:#fff;border:1px solid #444;border-radius:9px;padding:12px;margin:7px 0}.btn{border:0;border-radius:9px;padding:12px 18px;background:#e0b52e;color:#111;font-weight:800;cursor:pointer;margin:5px}.danger{background:#a33;color:#fff}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px}.product{border:1px solid #333;border-radius:12px;padding:12px}.product img{width:100%;height:180px;object-fit:cover;border-radius:8px;background:#222}.muted{color:#aaa}.hidden{display:none}.order{border-top:1px solid #333;padding:14px 0}
-</style></head>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:#080808;
+  color:#fff;
+  font-family:Arial,sans-serif;
+}
+header{
+  padding:18px 6%;
+  border-bottom:1px solid #333;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.gold{color:#f0c62e}
+.btn{
+  background:#f0c62e;
+  color:#111;
+  border:0;
+  padding:12px 20px;
+  border-radius:8px;
+  font-weight:bold;
+  cursor:pointer;
+}
+.btn.red{background:#d33;color:#fff}
+main{
+  max-width:1000px;
+  margin:30px auto;
+  padding:0 20px;
+}
+.box{
+  background:#151515;
+  border:1px solid #333;
+  border-radius:18px;
+  padding:28px;
+  margin-bottom:25px;
+}
+input,textarea,select{
+  width:100%;
+  padding:14px;
+  margin:8px 0 15px;
+  background:#0d0d0d;
+  color:#fff;
+  border:1px solid #444;
+  border-radius:8px;
+  font-size:16px;
+}
+h1,h2{margin-top:0}
+.hidden{display:none}
+.product,.order{
+  border:1px solid #333;
+  border-radius:12px;
+  padding:15px;
+  margin:12px 0;
+}
+.product img{
+  width:100px;
+  height:100px;
+  object-fit:cover;
+  border-radius:8px;
+}
+.muted{color:#aaa}
+.error{color:#ff6b6b;margin-top:10px}
+.success{color:#65e572;margin-top:10px}
+</style>
+</head>
+
 <body>
-<header><b class="gold">MFH ADMIN PANEL</b><button class="btn" id="logoutBtn" style="display:none">Logout</button></header>
+
+<header>
+  <b class="gold">MFH ADMIN PANEL</b>
+  <button id="logoutBtn" class="btn hidden">Logout</button>
+</header>
+
 <main>
-<div id="login" class="box"><h2>Admin Login</h2><input id="email" type="email" placeholder="Admin email"><input id="password" type="password" placeholder="Password"><button class="btn" id="loginBtn">Login</button><p id="loginMsg" class="muted"></p></div>
-<div id="panel" class="hidden">
-<div class="box"><h2>Add / Edit Product</h2>
-<input type="hidden" id="pid"><input id="name" placeholder="Product name"><input id="category" placeholder="Category (Shirts, Shoes, Watches...)">
-<input id="price" type="number" placeholder="Regular price ₹"><input id="salePrice" type="number" placeholder="Sale price ₹ (optional)"><input id="stock" type="number" placeholder="Stock">
-<input id="image" placeholder="Product image URL"><textarea id="desc" rows="3" placeholder="Description"></textarea>
-<button class="btn" id="saveBtn">Save Product</button><button class="btn" id="clearBtn">Clear</button>
-<p class="muted">For now, paste a public image URL. Cloud image upload can be added after Firebase Storage is enabled.</p></div>
-<div class="box"><h2>Products</h2><div id="products" class="grid"></div></div>
-<div class="box"><h2>Orders</h2><div id="orders"></div></div>
-</div></main>
+
+<!-- LOGIN -->
+<div id="loginBox" class="box">
+  <h1>Admin Login</h1>
+
+  <input id="email" type="email" placeholder="Admin email">
+
+  <input id="password" type="password" placeholder="Password">
+
+  <button id="loginBtn" class="btn">Login</button>
+
+  <div id="loginMessage"></div>
+</div>
+
+
+<!-- ADMIN PANEL -->
+<div id="adminPanel" class="hidden">
+
+  <div class="box">
+    <h2 class="gold">Add / Edit Product</h2>
+
+    <input id="productId" type="hidden">
+
+    <input id="name" placeholder="Product name">
+
+    <input id="category" placeholder="Category">
+
+    <input id="price" type="number" placeholder="Regular price ₹">
+
+    <input id="salePrice" type="number" placeholder="Sale price ₹">
+
+    <input id="stock" type="number" placeholder="Stock">
+
+    <input id="image" placeholder="Product image URL">
+
+    <textarea id="desc" rows="4" placeholder="Product description"></textarea>
+
+    <button id="saveBtn" class="btn">Save Product</button>
+
+    <button id="clearBtn" class="btn red">Clear</button>
+
+    <div id="productMessage"></div>
+  </div>
+
+
+  <div class="box">
+    <h2 class="gold">Products</h2>
+    <div id="products"></div>
+  </div>
+
+
+  <div class="box">
+    <h2 class="gold">Orders</h2>
+    <div id="orders"></div>
+  </div>
+
+</div>
+
+</main>
+
+
 <script type="module">
-import {initializeApp} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
-import { firebaseConfig } from "./firebase-config.js";
-const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);
-import {getAuth,onAuthStateChanged,signInWithEmailAndPassword,signOut} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
-import {getFirestore,collection,getDocs,addDoc,updateDoc,deleteDoc,doc,serverTimestamp,query,orderBy} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
-import {firebaseConfig, ADMIN_EMAIL} from "./firebase-config.js";
-const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);
-const $=id=>document.getElementById(id);
-$("loginBtn").onclick=async()=>{try{await signInWithEmailAndPassword(auth,$("email").value,$("password").value);$("loginMsg").textContent=""}catch(e){$("loginMsg").textContent="Login failed: "+e.message}};
-$("logoutBtn").onclick=()=>signOut(auth);
-onAuthStateChanged(auth,u=>{if(u && (u.email||"").toLowerCase()===ADMIN_EMAIL.toLowerCase()){$("login").classList.add("hidden");$("panel").classList.remove("hidden");$("logoutBtn").style.display="block";loadAll()}else{$("login").classList.remove("hidden");$("panel").classList.add("hidden");$("logoutBtn").style.display="none"; if(u) $("loginMsg").textContent="This account is not authorized as the store admin."}});
-async function loadAll(){await loadProducts();await loadOrders();}
-function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));}
-async function loadProducts(){const s=await getDocs(query(collection(db,"products"),orderBy("createdAt","desc")));$("products").innerHTML=s.docs.map(d=>{const p=d.data();return `<div class="product"><img src="${esc(p.image||'https://via.placeholder.com/500?text=MFH')}"><h3>${esc(p.name)}</h3><p>${esc(p.category)} • ₹${p.salePrice||p.price} • Stock ${p.stock}</p><button class="btn" onclick='editProduct(${JSON.stringify({id:d.id,...p})})'>Edit</button><button class="btn danger" onclick="delProduct('${d.id}')">Delete</button></div>`}).join("")||"<p class=muted>No products yet.</p>";}
-window.editProduct=p=>{["pid","name","category","price","salePrice","stock","image","desc"].forEach(k=>$(k).value=p[k]??"");window.scrollTo({top:0,behavior:"smooth"})};
-window.delProduct=async id=>{if(confirm("Delete product?")){await deleteDoc(doc(db,"products",id));loadProducts();}};
-$("clearBtn").onclick=()=>["pid","name","category","price","salePrice","stock","image","desc"].forEach(k=>$(k).value="");
-$("saveBtn").onclick=async()=>{const data={name:$("name").value.trim(),category:$("category").value.trim(),price:Number($("price").value||0),salePrice:Number($("salePrice").value||0),stock:Number($("stock").value||0),image:$("image").value.trim(),description:$("desc").value.trim()};if(!data.name||!data.price)return alert("Name and price are required.");if($("pid").value){await updateDoc(doc(db,"products",$("pid").value),data)}else{data.createdAt=serverTimestamp();await addDoc(collection(db,"products"),data)}$("clearBtn").click();loadProducts();};
-async function loadOrders(){try{const s=await getDocs(query(collection(db,"orders"),orderBy("createdAt","desc")));$("orders").innerHTML=s.docs.map(d=>{const o=d.data();return `<div class="order"><b>${esc(o.name||"Customer")}</b> • ${esc(o.mobile||"")}<br>${esc(o.address||"")}<br><small>${esc(o.itemsText||"")}</small><br><b>Total: ₹${o.total||0}</b><br>Status: ${esc(o.status||"New")}<br><button class="btn" onclick="statusOrder('${d.id}','Confirmed')">Confirmed</button><button class="btn" onclick="statusOrder('${d.id}','Shipped')">Shipped</button><button class="btn" onclick="statusOrder('${d.id}','Delivered')">Delivered</button></div>`}).join("")||"<p class=muted>No orders yet.</p>"}catch(e){$("orders").innerHTML="<p class=muted>Orders will appear here after the order collection is connected.</p>"}}
-window.statusOrder=async(id,status)=>{await updateDoc(doc(db,"orders",id),{status});loadOrders()};
-</script></body></html>
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut
+}
+from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  doc,
+  orderBy,
+  query,
+  serverTimestamp
+}
+from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+
+/* Firebase config file */
+import { firebaseConfig, ADMIN_EMAIL }
+from "./firebase-config.js";
+
+
+/* Firebase start */
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+const db = getFirestore(app);
+
+
+/* HTML elements */
+const loginBox = document.getElementById("loginBox");
+const adminPanel = document.getElementById("adminPanel");
+
+const loginBtn = document.getElementById("loginBtn");
+const logoutBtn = document.getElementById("logoutBtn");
+
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+
+const loginMessage = document.getElementById("loginMessage");
+
+const productsDiv = document.getElementById("products");
+const ordersDiv = document.getElementById("orders");
+
+const saveBtn = document.getElementById("saveBtn");
+const clearBtn = document.getElementById("clearBtn");
+
+const productMessage = document.getElementById("productMessage");
+
+
+/* LOGIN */
+loginBtn.addEventListener("click", async () => {
+
+  const email = emailInput.value.trim();
+  const password = passwordInput.value;
+
+  loginMessage.className = "";
+  loginMessage.textContent = "";
+
+  if (!email || !password) {
+    loginMessage.className = "error";
+    loginMessage.textContent = "Email aur password enter karo.";
+    return;
+  }
+
+  loginBtn.disabled = true;
+  loginBtn.textContent = "Logging in...";
+
+  try {
+
+    await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
+  } catch (error) {
+
+    console.error(error);
+
+    loginMessage.className = "error";
+
+    if (error.code === "auth/invalid-credential") {
+      loginMessage.textContent =
+        "Email ya password galat hai.";
+    }
+    else if (error.code === "auth/invalid-email") {
+      loginMessage.textContent =
+        "Email address galat hai.";
+    }
+    else if (error.code === "auth/too-many-requests") {
+      loginMessage.textContent =
+        "Bahut attempts ho gaye. Thodi der baad try karo.";
+    }
+    else {
+      loginMessage.textContent =
+        "Login error: " + error.message;
+    }
+
+  } finally {
+
+    loginBtn.disabled = false;
+    loginBtn.textContent = "Login";
+
+  }
+
+});
+
+
+/* AUTH CHECK */
+onAuthStateChanged(auth, async (user) => {
+
+  if (user && user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
+
+    loginBox.classList.add("hidden");
+    adminPanel.classList.remove("hidden");
+    logoutBtn.classList.remove("hidden");
+
+    await loadProducts();
+    await loadOrders();
+
+  } else {
+
+    loginBox.classList.remove("hidden");
+    adminPanel.classList.add("hidden");
+    logoutBtn.classList.add("hidden");
+
+    if (user) {
+      await signOut(auth);
+
+      loginMessage.className = "error";
+      loginMessage.textContent =
+        "Ye account admin account nahi hai.";
+    }
+
+  }
+
+});
+
+
+/* LOGOUT */
+logoutBtn.addEventListener("click", async () => {
+
+  await signOut(auth);
+
+});
+
+
+/* LOAD PRODUCTS */
+async function loadProducts() {
+
+  productsDiv.innerHTML = "Loading products...";
+
+  try {
+
+    const q = query(
+      collection(db, "products"),
+      orderBy("createdAt", "desc")
+    );
+
+    const snapshot = await getDocs(q);
+
+    productsDiv.innerHTML = "";
+
+    if (snapshot.empty) {
+      productsDiv.innerHTML =
+        '<p class="muted">Abhi koi product nahi hai.</p>';
+      return;
+    }
+
+    snapshot.forEach((item) => {
+
+      const p = item.data();
+
+      const div = document.createElement("div");
+
+      div.className = "product";
+
+      div.innerHTML = `
+        <div style="display:flex;gap:15px;align-items:center">
+
+          ${
+            p.image
+            ? `<img src="${p.image}" alt="">`
+            : `<div style="width:100px;height:100px;background:#222;border-radius:8px;display:flex;align-items:center;justify-content:center">No Image</div>`
+          }
+
+          <div style="flex:1">
+
+            <h3>${escapeHTML(p.name || "")}</h3>
+
+            <p class="muted">
+              ${escapeHTML(p.category || "")}
+            </p>
+
+            <p>
+              ₹${p.salePrice || p.price || 0}
+              ${
+                p.salePrice
+                ? `<del class="muted"> ₹${p.price || 0}</del>`
+                : ""
+              }
+            </p>
+
+            <p>Stock: ${p.stock || 0}</p>
+
+            <button class="btn editBtn">Edit</button>
+            <button class="btn red deleteBtn">Delete</button>
+
+          </div>
+
+        </div>
+      `;
+
+      div.querySelector(".editBtn").onclick = () => {
+
+        document.getElementById("productId").value = item.id;
+
+        document.getElementById("name").value = p.name || "";
+        document.getElementById("category").value = p.category || "";
+        document.getElementById("price").value = p.price || "";
+        document.getElementById("salePrice").value = p.salePrice || "";
+        document.getElementById("stock").value = p.stock || "";
+        document.getElementById("image").value = p.image || "";
+        document.getElementById("desc").value = p.desc || "";
+
+        window.scrollTo({
+          top:0,
+          behavior:"smooth"
+        });
+
+      };
+
+
+      div.querySelector(".deleteBtn").onclick = async () => {
+
+        if (!confirm("Product delete karna hai?")) return;
+
+        await deleteDoc(
+          doc(db, "products", item.id)
+        );
+
+        await loadProducts();
+
+      };
+
+
+      productsDiv.appendChild(div);
+
+    });
+
+  } catch (error) {
+
+    console.error(error);
+
+    productsDiv.innerHTML =
+      `<p class="error">${error.message}</p>`;
+
+  }
+
+}
+
+
+/* SAVE PRODUCT */
+saveBtn.addEventListener("click", async () => {
+
+  const id =
+    document.getElementById("productId").value;
+
+  const data = {
+
+    name:
+      document.getElementById("name").value.trim(),
+
+    category:
+      document.getElementById("category").value.trim(),
+
+    price:
+      Number(document.getElementById("price").value || 0),
+
+    salePrice:
+      Number(document.getElementById("salePrice").value || 0),
+
+    stock:
+      Number(document.getElementById("stock").value || 0),
+
+    image:
+      document.getElementById("image").value.trim(),
+
+    desc:
+      document.getElementById("desc").value.trim()
+
+  };
+
+
+  if (!data.name) {
+
+    productMessage.className = "error";
+    productMessage.textContent =
+      "Product name enter karo.";
+
+    return;
+
+  }
+
+
+  try {
+
+    if (id) {
+
+      await updateDoc(
+        doc(db, "products", id),
+        data
+      );
+
+      productMessage.className = "success";
+      productMessage.textContent =
+        "Product update ho gaya.";
+
+    } else {
+
+      data.createdAt = serverTimestamp();
+
+      await addDoc(
+        collection(db, "products"),
+        data
+      );
+
+      productMessage.className = "success";
+      productMessage.textContent =
+        "Product add ho gaya.";
+
+    }
+
+    clearForm();
+    await loadProducts();
+
+  } catch (error) {
+
+    console.error(error);
+
+    productMessage.className = "error";
+    productMessage.textContent =
+      error.message;
+
+  }
+
+});
+
+
+/* CLEAR */
+clearBtn.addEventListener("click", clearForm);
+
+
+function clearForm() {
+
+  document.getElementById("productId").value = "";
+  document.getElementById("name").value = "";
+  document.getElementById("category").value = "";
+  document.getElementById("price").value = "";
+  document.getElementById("salePrice").value = "";
+  document.getElementById("stock").value = "";
+  document.getElementById("image").value = "";
+  document.getElementById("desc").value = "";
+
+  productMessage.textContent = "";
+
+}
+
+
+/* LOAD ORDERS */
+async function loadOrders() {
+
+  ordersDiv.innerHTML = "Loading orders...";
+
+  try {
+
+    const q = query(
+      collection(db, "orders"),
+      orderBy("createdAt", "desc")
+    );
+
+    const snapshot = await getDocs(q);
+
+    ordersDiv.innerHTML = "";
+
+    if (snapshot.empty) {
+
+      ordersDiv.innerHTML =
+        '<p class="muted">Abhi koi order nahi hai.</p>';
+
+      return;
+
+    }
+
+    snapshot.forEach((item) => {
+
+      const o = item.data();
+
+      const div = document.createElement("div");
+
+      div.className = "order";
+
+      div.innerHTML = `
+
+        <h3>
+          Order #${item.id.substring(0,8)}
+        </h3>
+
+        <p>
+          <b>Name:</b>
+          ${escapeHTML(o.customerName || "")}
+        </p>
+
+        <p>
+          <b>Mobile:</b>
+          ${escapeHTML(o.mobile || "")}
+        </p>
+
+        <p>
+          <b>Address:</b>
+          ${escapeHTML(o.address || "")}
+        </p>
+
+        <p>
+          <b>Total:</b>
+          ₹${o.total || 0}
+        </p>
+
+        <p>
+          <b>Status:</b>
+          ${escapeHTML(o.status || "New")}
+        </p>
+
+      `;
+
+      ordersDiv.appendChild(div);
+
+    });
+
+  } catch (error) {
+
+    console.error(error);
+
+    ordersDiv.innerHTML =
+      `<p class="error">${error.message}</p>`;
+
+  }
+
+}
+
+
+/* SECURITY HELP */
+function escapeHTML(text) {
+
+  return String(text)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+</script>
+
+</body>
+</html>
