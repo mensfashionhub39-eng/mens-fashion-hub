@@ -189,6 +189,7 @@ button:hover{
       </h2>
 
       <div>
+
         <button
           class="refresh"
           onclick="loadOrders()">
@@ -200,6 +201,7 @@ button:hover{
           onclick="adminLogout()">
           Logout
         </button>
+
       </div>
 
     </div>
@@ -276,7 +278,7 @@ import {
 const firebaseConfig = {
 
   apiKey:
-    "AIzaSyBQkq82HDMjndAPnvJ-jYw64L3J55tFCHk",
+    "AIzaSyBQkq82HDMjndAPnvJ-yw64L3J55tFCHk",
 
   authDomain:
     "mens-fashion-hub-e2773.firebaseapp.com",
@@ -312,21 +314,6 @@ const db =
   getFirestore(app);
 
 let orders = [];
-
-
-/* =========================================
-   DEBUG
-========================================= */
-
-console.log(
-  "MFH Firebase Project:",
-  firebaseConfig.projectId
-);
-
-console.log(
-  "MFH Firebase API key loaded:",
-  firebaseConfig.apiKey
-);
 
 
 /* =========================================
