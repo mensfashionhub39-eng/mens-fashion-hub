@@ -1,633 +1,674 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MFH Admin Panel</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MFH Admin Panel</title>
 
-<style>
-body{
-  margin:0;
-  background:#0b0b0b;
-  color:#eee;
-  font-family:Arial,sans-serif;
-  padding:18px
-}
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-.wrap{
-  max-width:1100px;
-  margin:auto
-}
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0f1115;
+      color: #fff;
+    }
 
-.gold{
-  color:#d4af37
-}
+    .container {
+      width: 100%;
+      max-width: 1100px;
+      margin: auto;
+      padding: 20px;
+    }
 
-.box{
-  background:#141414;
-  border:1px solid #333;
-  border-radius:14px;
-  padding:18px;
-  margin:14px 0
-}
+    .login-box,
+    .admin-panel {
+      max-width: 600px;
+      margin: 50px auto;
+      background: #181b22;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 10px 35px rgba(0,0,0,.35);
+    }
 
-input,select,button{
-  box-sizing:border-box;
-  width:100%;
-  padding:12px;
-  border-radius:8px;
-  border:1px solid #555;
-  background:#0d0d0d;
-  color:#fff;
-  margin:6px 0
-}
+    h1, h2 {
+      margin-top: 0;
+    }
 
-button{
-  background:#d4af37;
-  color:#111;
-  font-weight:700;
-  cursor:pointer
-}
+    .logo {
+      text-align: center;
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 25px;
+    }
 
-.btns{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:6px
-}
+    input,
+    select,
+    button {
+      width: 100%;
+      padding: 13px;
+      margin-top: 10px;
+      border-radius: 8px;
+      border: none;
+      font-size: 15px;
+    }
 
-.btns button{
-  margin:0;
-  font-size:12px
-}
+    input,
+    select {
+      background: #252933;
+      color: #fff;
+      outline: none;
+    }
 
-.danger{
-  background:#9b3333;
-  color:#fff
-}
+    button {
+      background: #fff;
+      color: #111;
+      font-weight: bold;
+      cursor: pointer;
+    }
 
-.order{
-  border:1px solid #333;
-  border-radius:12px;
-  padding:14px;
-  margin:12px 0
-}
+    button:hover {
+      opacity: .9;
+    }
 
-.muted{
-  color:#aaa;
-  font-size:13px
-}
+    .logout {
+      background: #dc3545;
+      color: #fff;
+      max-width: 120px;
+      float: right;
+      margin-top: -45px;
+    }
 
-.status{
-  font-weight:bold
-}
+    .message {
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 8px;
+      background: #252933;
+      display: none;
+    }
 
-.new{
-  color:#f0c94b
-}
+    .orders {
+      margin-top: 25px;
+    }
 
-.confirmed{
-  color:#61d37a
-}
+    .order {
+      background: #20232b;
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 15px;
+    }
 
-.shipped{
-  color:#65b7ff
-}
+    .order p {
+      margin: 7px 0;
+      word-break: break-word;
+    }
 
-.delivered{
-  color:#76e39a
-}
+    .order strong {
+      color: #fff;
+    }
 
-.error{
-  color:#ff7777
-}
+    .status {
+      margin-top: 12px;
+    }
 
-.success{
-  color:#71e08a
-}
+    .status button {
+      width: auto;
+      padding: 9px 14px;
+      margin-right: 5px;
+      background: #333844;
+      color: #fff;
+    }
 
-@media(max-width:650px){
-  .btns{
-    grid-template-columns:1fr 1fr
-  }
-}
-</style>
+    .status button.active {
+      background: #fff;
+      color: #111;
+    }
+
+    .filter {
+      margin-bottom: 20px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 20px;
+      color: #aaa;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 12px;
+      }
+
+      .login-box,
+      .admin-panel {
+        margin: 25px auto;
+        padding: 18px;
+      }
+
+      .logout {
+        float: none;
+        max-width: 100%;
+        margin-top: 15px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="wrap">
+  <!-- LOGIN -->
+  <div id="loginSection" class="container">
+    <div class="login-box">
+
+      <div class="logo">
+        MEN'S FASHION HUB
+      </div>
+
+      <h2>Admin Login</h2>
+
+      <input
+        type="email"
+        id="email"
+        placeholder="Admin Email"
+        autocomplete="email"
+      >
 
-<h1>MFH <span class="gold">Admin Panel</span></h1>
+      <input
+        type="password"
+        id="password"
+        placeholder="Password"
+        autocomplete="current-password"
+      >
 
-<div class="box" id="loginBox">
+      <button id="loginBtn">
+        Login
+      </button>
 
-<h3>Admin Login</h3>
+      <div id="loginMessage" class="message"></div>
 
-<input
-  id="adminEmail"
-  type="email"
-  placeholder="Admin email"
->
+    </div>
+  </div>
 
-<input
-  id="adminPassword"
-  type="password"
-  placeholder="Password"
->
 
-<button onclick="adminLogin()">
-🔐 Login
-</button>
+  <!-- ADMIN PANEL -->
+  <div id="adminSection" class="container hidden">
 
-<div id="loginResult" class="muted"></div>
+    <div class="admin-panel">
 
-</div>
+      <h1>MFH Admin Panel</h1>
 
+      <button id="logoutBtn" class="logout">
+        Logout
+      </button>
 
-<div id="panel" style="display:none">
+      <div style="clear:both;"></div>
 
-<div class="box">
+      <div class="filter">
+        <select id="statusFilter">
+          <option value="all">All Orders</option>
+          <option value="pending">Pending</option>
+          <option value="confirmed">Confirmed</option>
+          <option value="shipped">Shipped</option>
+          <option value="delivered">Delivered</option>
+          <option value="cancelled">Cancelled</option>
+        </select>
+      </div>
 
-<div style="
-display:flex;
-gap:8px;
-align-items:center;
-justify-content:space-between;
-flex-wrap:wrap
-">
+      <div id="orders" class="orders">
+        <div class="loading">
+          Loading orders...
+        </div>
+      </div>
 
-<h2 style="margin:0">
-Orders
-</h2>
+    </div>
+  </div>
 
-<button
-style="width:auto"
-onclick="loadOrders()"
->
-🔄 Refresh
-</button>
 
-</div>
+  <!-- FIREBASE -->
+  <script type="module">
 
+    import {
+      initializeApp
+    } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
 
-<select
-id="filter"
-onchange="renderOrders()"
->
+    import {
+      getAuth,
+      signInWithEmailAndPassword,
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
 
-<option value="all">
-All Orders
-</option>
+    import {
+      getFirestore,
+      collection,
+      getDocs,
+      doc,
+      updateDoc
+    } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
-<option value="New">
-New
-</option>
 
-<option value="Confirmed">
-Confirmed
-</option>
+    // ==========================================
+    // FIREBASE CONFIG
+    // ==========================================
 
-<option value="Shipped">
-Shipped
-</option>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBQkq82HDMjndAPnvJ-jyW64L3J55tFCHk",
+      authDomain: "mens-fashion-hub-e2773.firebaseapp.com",
+      projectId: "mens-fashion-hub-e2773",
+      storageBucket: "mens-fashion-hub-e2773.firebasestorage.app",
+      messagingSenderId: "309752221606",
+      appId: "1:309752221606:web:f285e8ff080c9cd45f8967",
+      measurementId: "G-C9YM24BR7J"
+    };
 
-<option value="Delivered">
-Delivered
-</option>
 
-</select>
+    // ==========================================
+    // FIREBASE INITIALIZE
+    // ==========================================
 
+    const app = initializeApp(firebaseConfig);
 
-<div id="orders">
-Loading...
-</div>
+    const auth = getAuth(app);
 
-</div>
+    const db = getFirestore(app);
 
-</div>
 
-</div>
+    // ==========================================
+    // ELEMENTS
+    // ==========================================
 
+    const loginSection =
+      document.getElementById("loginSection");
 
-<script type="module">
+    const adminSection =
+      document.getElementById("adminSection");
 
-import {
-  initializeApp
-} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+    const loginBtn =
+      document.getElementById("loginBtn");
 
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-  signOut
-} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+    const logoutBtn =
+      document.getElementById("logoutBtn");
 
-import {
-  getFirestore,
-  collection,
-  getDocs,
-  doc,
-  updateDoc
-} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+    const emailInput =
+      document.getElementById("email");
 
+    const passwordInput =
+      document.getElementById("password");
 
-// =====================================
-// FIREBASE CONFIG — MFH ADMIN
-// =====================================
+    const loginMessage =
+      document.getElementById("loginMessage");
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBQkq82HDMjndAPnvJ-jyW64L3J55tFCHk",
-  authDomain: "mens-fashion-hub-e2773.firebaseapp.com",
-  projectId: "mens-fashion-hub-e2773",
-  storageBucket: "mens-fashion-hub-e2773.firebasestorage.app",
-  messagingSenderId: "309752221606",
-  appId: "1:309752221606:web:f285e8ff080c9cd45f8967",
-  measurementId: "G-C9YM24BR7J"
-};
+    const ordersContainer =
+      document.getElementById("orders");
 
+    const statusFilter =
+      document.getElementById("statusFilter");
 
-// =====================================
-// INITIALIZE FIREBASE
-// =====================================
 
-const app = initializeApp(firebaseConfig);
+    // ==========================================
+    // MESSAGE
+    // ==========================================
 
-const auth = getAuth(app);
+    function showMessage(message) {
 
-const db = getFirestore(app);
+      loginMessage.style.display = "block";
 
-let orders = [];
+      loginMessage.textContent = message;
+    }
 
 
-// =====================================
-// ADMIN LOGIN
-// =====================================
+    // ==========================================
+    // LOGIN
+    // ==========================================
 
-window.adminLogin = async function(){
+    loginBtn.addEventListener("click", async () => {
 
-  const e =
-    document.getElementById("adminEmail").value.trim();
+      const email =
+        emailInput.value.trim();
 
-  const p =
-    document.getElementById("adminPassword").value;
+      const password =
+        passwordInput.value;
 
-  const r =
-    document.getElementById("loginResult");
+      if (!email || !password) {
 
+        showMessage(
+          "Email aur password enter karo."
+        );
 
-  if(!e || !p){
+        return;
+      }
 
-    r.className = "error";
+      loginBtn.disabled = true;
 
-    r.textContent =
-      "Email aur password dalo.";
+      loginBtn.textContent = "Logging in...";
 
-    return;
-  }
+      try {
 
+        await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
 
-  try{
+        showMessage("Login successful.");
 
-    await signInWithEmailAndPassword(
-      auth,
-      e,
-      p
-    );
+      } catch (error) {
 
-    r.className = "success";
+        console.error("Firebase Login Error:", error);
 
-    r.textContent =
-      "Login successful.";
+        showMessage(
+          "Login failed: " +
+          (error.message || error.code)
+        );
 
-  }catch(x){
+      } finally {
 
-    console.error(x);
+        loginBtn.disabled = false;
 
-    r.className = "error";
+        loginBtn.textContent = "Login";
+      }
 
-    r.textContent =
-      "Login failed: " + x.message;
+    });
 
-  }
 
-};
+    // ==========================================
+    // LOGOUT
+    // ==========================================
 
+    logoutBtn.addEventListener("click", async () => {
 
-// =====================================
-// AUTH STATE
-// =====================================
+      try {
 
-onAuthStateChanged(auth, function(u){
+        await signOut(auth);
 
-  if(u){
+      } catch (error) {
 
-    document.getElementById("loginBox").innerHTML =
+        console.error(error);
 
-      '<b>✅ Admin logged in:</b> ' +
-      u.email +
-      ' <button style="width:auto;float:right" onclick="adminLogout()">Logout</button>';
+      }
 
+    });
 
-    document.getElementById("panel").style.display =
-      "block";
 
+    // ==========================================
+    // AUTH STATE
+    // ==========================================
 
-    loadOrders();
+    onAuthStateChanged(auth, async (user) => {
 
-  }else{
+      if (user) {
 
-    document.getElementById("panel").style.display =
-      "none";
+        loginSection.classList.add("hidden");
 
-  }
+        adminSection.classList.remove("hidden");
 
-});
+        await loadOrders();
 
+      } else {
 
-// =====================================
-// LOGOUT
-// =====================================
+        adminSection.classList.add("hidden");
 
-window.adminLogout = function(){
+        loginSection.classList.remove("hidden");
 
-  signOut(auth);
+        ordersContainer.innerHTML = "";
 
-};
+      }
 
+    });
 
-// =====================================
-// LOAD ORDERS
-// =====================================
 
-window.loadOrders = async function(){
+    // ==========================================
+    // LOAD ORDERS
+    // ==========================================
 
-  const box =
-    document.getElementById("orders");
+    async function loadOrders() {
 
+      ordersContainer.innerHTML =
+        '<div class="loading">Loading orders...</div>';
 
-  box.innerHTML =
-    "Loading orders...";
+      try {
 
+        const snapshot =
+          await getDocs(
+            collection(db, "orders")
+          );
 
-  try{
+        const orders = [];
 
-    const snap =
-      await getDocs(
-        collection(db,"orders")
-      );
+        snapshot.forEach((item) => {
 
+          orders.push({
+            id: item.id,
+            ...item.data()
+          });
 
-    orders =
-      snap.docs.map(function(d){
+        });
 
-        return {
-          id:d.id,
-          ...d.data()
-        };
+        window.allOrders = orders;
+
+        renderOrders();
+
+      } catch (error) {
+
+        console.error(
+          "Firestore Error:",
+          error
+        );
+
+        ordersContainer.innerHTML =
+          `<div class="message" style="display:block;">
+            Orders load nahi ho paaye.<br><br>
+            ${escapeHtml(error.message)}
+          </div>`;
+      }
+
+    }
+
+
+    // ==========================================
+    // RENDER ORDERS
+    // ==========================================
+
+    function renderOrders() {
+
+      const filter =
+        statusFilter.value;
+
+      let orders =
+        window.allOrders || [];
+
+      if (filter !== "all") {
+
+        orders =
+          orders.filter(
+            order =>
+              String(order.status || "pending")
+                .toLowerCase() === filter
+          );
+
+      }
+
+      if (orders.length === 0) {
+
+        ordersContainer.innerHTML =
+          '<div class="loading">No orders found.</div>';
+
+        return;
+      }
+
+      ordersContainer.innerHTML = "";
+
+      orders.forEach(order => {
+
+        const orderDiv =
+          document.createElement("div");
+
+        orderDiv.className = "order";
+
+        const status =
+          String(
+            order.status || "pending"
+          ).toLowerCase();
+
+        orderDiv.innerHTML = `
+
+          <p>
+            <strong>Order ID:</strong>
+            ${escapeHtml(order.id)}
+          </p>
+
+          <p>
+            <strong>Name:</strong>
+            ${escapeHtml(
+              order.name ||
+              order.customerName ||
+              "-"
+            )}
+          </p>
+
+          <p>
+            <strong>Email:</strong>
+            ${escapeHtml(
+              order.email || "-"
+            )}
+          </p>
+
+          <p>
+            <strong>Phone:</strong>
+            ${escapeHtml(
+              order.phone || "-"
+            )}
+          </p>
+
+          <p>
+            <strong>Product:</strong>
+            ${escapeHtml(
+              order.product ||
+              order.productName ||
+              "-"
+            )}
+          </p>
+
+          <p>
+            <strong>Quantity:</strong>
+            ${escapeHtml(
+              order.quantity ||
+              "-"
+            )}
+          </p>
+
+          <p>
+            <strong>Address:</strong>
+            ${escapeHtml(
+              order.address || "-"
+            )}
+          </p>
+
+          <p>
+            <strong>Status:</strong>
+            ${escapeHtml(status)}
+          </p>
+
+          <div class="status">
+
+            <button
+              data-id="${escapeHtml(order.id)}"
+              data-status="pending"
+              class="${status === "pending" ? "active" : ""}">
+              Pending
+            </button>
+
+            <button
+              data-id="${escapeHtml(order.id)}"
+              data-status="confirmed"
+              class="${status === "confirmed" ? "active" : ""}">
+              Confirmed
+            </button>
+
+            <button
+              data-id="${escapeHtml(order.id)}"
+              data-status="shipped"
+              class="${status === "shipped" ? "active" : ""}">
+              Shipped
+            </button>
+
+            <button
+              data-id="${escapeHtml(order.id)}"
+              data-status="delivered"
+              class="${status === "delivered" ? "active" : ""}">
+              Delivered
+            </button>
+
+            <button
+              data-id="${escapeHtml(order.id)}"
+              data-status="cancelled"
+              class="${status === "cancelled" ? "active" : ""}">
+              Cancelled
+            </button>
+
+          </div>
+        `;
+
+        ordersContainer.appendChild(orderDiv);
 
       });
 
+      // STATUS BUTTONS
 
-    orders.sort(function(a,b){
+      document
+        .querySelectorAll(".status button")
+        .forEach(button => {
 
-      const aa =
-        a.createdAt?.seconds || 0;
+          button.addEventListener(
+            "click",
+            async () => {
 
-      const bb =
-        b.createdAt?.seconds || 0;
+              const id =
+                button.dataset.id;
 
-      return bb-aa;
+              const newStatus =
+                button.dataset.status;
 
-    });
+              await updateOrderStatus(
+                id,
+                newStatus
+              );
 
+            }
+          );
 
-    renderOrders();
+        });
 
-
-  }catch(e){
-
-    console.error(e);
-
-    box.innerHTML =
-      '<div class="error">' +
-      'Orders load nahi hue.<br>' +
-      e.message +
-      '</div>';
-
-  }
-
-};
+    }
 
 
-// =====================================
-// RENDER ORDERS
-// =====================================
+    // ==========================================
+    // UPDATE ORDER STATUS
+    // ==========================================
 
-window.renderOrders = function(){
+    async function updateOrderStatus(
+      orderId,
+      newStatus
+    ) {
 
-  const box =
-    document.getElementById("orders");
+      try {
 
-  const f =
-    document.getElementById("filter").value;
-
-
-  const list =
-    orders.filter(function(o){
-
-      return f === "all" ||
-        (o.status || "New") === f;
-
-    });
-
-
-  if(!list.length){
-
-    box.innerHTML =
-      '<div class="muted">No orders found.</div>';
-
-    return;
-
-  }
-
-
-  box.innerHTML = list.map(function(o){
-
-    const st =
-      o.status || "New";
-
-    const cls =
-      st.toLowerCase();
-
-
-    const items =
-      Array.isArray(o.items)
-
-      ?
-
-      o.items.map(function(i){
-
-        return (
-          esc(i.name || "Product") +
-          " × " +
-          Number(i.qty || 1) +
-          " (" +
-          esc(i.size || "FREE") +
-          ")"
+        await updateDoc(
+          doc(
+            db,
+            "orders",
+            orderId
+          ),
+          {
+            status: newStatus
+          }
         );
 
-      }).join("<br>")
-
-      :
-
-      "";
-
-
-    return `
-
-<div class="order">
-
-<div>
-<b>Order ID:</b>
-<span class="gold">
-${esc(o.orderId || o.id)}
-</span>
-</div>
-
-<div>
-<b>Customer ID:</b>
-${esc(o.customerId || "-")}
-</div>
-
-<div>
-<b>Name:</b>
-${esc(o.customerName || "-")}
-</div>
-
-<div>
-<b>Mobile:</b>
-${esc(o.mobile || "-")}
-</div>
-
-<div>
-<b>Address:</b>
-${esc(o.address || "-")}
--
-${esc(o.pincode || "")}
-</div>
-
-<div>
-<b>Items:</b>
-<br>
-${items}
-</div>
-
-<div>
-<b>Total:</b>
-₹${Number(o.total || 0).toLocaleString("en-IN")}
-</div>
-
-<div class="status ${cls}">
-<b>Status:</b>
-${esc(st)}
-</div>
-
-<div class="btns">
-
-<button
-onclick="setStatus('${o.id}','Confirmed')"
->
-Confirm
-</button>
-
-<button
-onclick="setStatus('${o.id}','Shipped')"
->
-Shipped
-</button>
-
-<button
-onclick="setStatus('${o.id}','Delivered')"
->
-Delivered
-</button>
-
-<button
-class="danger"
-onclick="setStatus('${o.id}','New')"
->
-Reset New
-</button>
-
-</div>
-
-</div>
-
-`;
-
-  }).join("");
-
-};
-
-
-// =====================================
-// UPDATE ORDER STATUS
-// =====================================
-
-window.setStatus = async function(id,status){
-
-  try{
-
-    await updateDoc(
-      doc(db,"orders",id),
-      {
-        status:status,
-        adminUpdatedAt:new Date()
-      }
-    );
-
-
-    await loadOrders();
-
-
-  }catch(e){
-
-    alert(
-      "Status update failed: " +
-      e.message
-    );
-
-  }
-
-};
-
-
-// =====================================
-// HTML ESCAPE
-// =====================================
-
-function esc(v){
-
-  return String(v ?? "")
-    .replace(
-      /[&<>'"]/g,
-      function(c){
-
-        return {
-          "&":"&amp;",
-          "<":"&lt;",
-          ">":"&gt;",
-          "'":"&#39;",
-          '"':"&quot;"
-
-        }[c];
-
-      }
-    );
-
-}
-
-</script>
-
-</body>
-</html>
+       
