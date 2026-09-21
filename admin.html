@@ -11,17 +11,26 @@ body{
   background:#0b0b0b;
   color:#eee;
   font-family:Arial,sans-serif;
-  padding:18px
+  padding:18px;
 }
-.wrap{max-width:1100px;margin:auto}
-.gold{color:#d4af37}
+
+.wrap{
+  max-width:1100px;
+  margin:auto;
+}
+
+.gold{
+  color:#d4af37;
+}
+
 .box{
   background:#141414;
   border:1px solid #333;
   border-radius:14px;
   padding:18px;
-  margin:14px 0
+  margin:14px 0;
 }
+
 input,select,button{
   box-sizing:border-box;
   width:100%;
@@ -30,49 +39,103 @@ input,select,button{
   border:1px solid #555;
   background:#0d0d0d;
   color:#fff;
-  margin:6px 0
+  margin:6px 0;
 }
+
 button{
   background:#d4af37;
   color:#111;
   font-weight:700;
-  cursor:pointer
+  cursor:pointer;
 }
+
+button:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
+
 .btns{
   display:grid;
   grid-template-columns:repeat(4,1fr);
   gap:6px;
-  margin-top:10px
+  margin-top:10px;
 }
+
 .btns button{
   margin:0;
-  font-size:12px
+  font-size:12px;
 }
+
 .danger{
   background:#9b3333;
-  color:#fff
+  color:#fff;
 }
+
 .order{
   border:1px solid #333;
   border-radius:12px;
   padding:14px;
-  margin:12px 0
+  margin:12px 0;
 }
+
+.order div{
+  margin:5px 0;
+}
+
 .muted{
   color:#aaa;
-  font-size:13px
+  font-size:13px;
 }
-.status{font-weight:bold}
-.new{color:#f0c94b}
-.confirmed{color:#61d37a}
-.shipped{color:#65b7ff}
-.delivered{color:#76e39a}
-.error{color:#ff7777}
-.success{color:#71e08a}
+
+.status{
+  font-weight:bold;
+  margin-top:8px;
+}
+
+.new{
+  color:#f0c94b;
+}
+
+.confirmed{
+  color:#61d37a;
+}
+
+.shipped{
+  color:#65b7ff;
+}
+
+.delivered{
+  color:#76e39a;
+}
+
+.error{
+  color:#ff7777;
+}
+
+.success{
+  color:#71e08a;
+}
+
+.loading{
+  color:#aaa;
+  padding:15px 0;
+}
+
+.logout-btn{
+  width:auto;
+  float:right;
+  margin:0;
+}
 
 @media(max-width:650px){
   .btns{
-    grid-template-columns:1fr 1fr
+    grid-template-columns:1fr 1fr;
+  }
+
+  .logout-btn{
+    float:none;
+    width:auto;
+    margin-top:10px;
   }
 }
 </style>
@@ -86,7 +149,9 @@ button{
   MFH <span class="gold">Admin Panel</span>
 </h1>
 
-<!-- LOGIN -->
+
+<!-- ================= LOGIN ================= -->
+
 <div class="box" id="loginBox">
 
   <h3>Admin Login</h3>
@@ -114,7 +179,8 @@ button{
 </div>
 
 
-<!-- ADMIN PANEL -->
+<!-- ================= ADMIN PANEL ================= -->
+
 <div id="panel" style="display:none">
 
   <div class="box">
@@ -140,6 +206,7 @@ button{
 
     </div>
 
+
     <select id="filter">
 
       <option value="all">
@@ -164,8 +231,11 @@ button{
 
     </select>
 
+
     <div id="orders">
-      Loading...
+      <div class="loading">
+        Login ke baad orders load honge...
+      </div>
     </div>
 
   </div>
@@ -175,18 +245,22 @@ button{
 </div>
 
 
+<!-- ================= FIREBASE ================= -->
+
 <script type="module">
 
 import {
   initializeApp
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+
 
 import {
   getAuth,
   signInWithEmailAndPassword,
   onAuthStateChanged,
   signOut
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+
 
 import {
   getFirestore,
@@ -194,12 +268,13 @@ import {
   getDocs,
   doc,
   updateDoc
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
 
-/* =========================
-   FIREBASE CONFIG
-========================= */
+
+/* =========================================
+   NEW FIREBASE WEB APP CONFIG
+========================================= */
 
 const firebaseConfig = {
 
@@ -219,33 +294,41 @@ const firebaseConfig = {
     "309752221606",
 
   appId:
-    "1:309752221606:web:9cd2ff5a64d9f25e5f8967",
+    "1:309752221606:web:f285e8ff080c9cd45f8967",
 
   measurementId:
-    "G-W99V4NZVK3"
+    "G-C9YM24BR7J"
 };
 
 
-/* =========================
-   FIREBASE INIT
-========================= */
 
-const app = initializeApp(firebaseConfig);
+/* =========================================
+   INITIALIZE FIREBASE
+========================================= */
 
-const auth = getAuth(app);
+const app =
+  initializeApp(firebaseConfig);
 
-const db = getFirestore(app);
+const auth =
+  getAuth(app);
+
+const db =
+  getFirestore(app);
 
 let orders = [];
 
 
-/* =========================
+
+/* =========================================
    LOGIN
-========================= */
+========================================= */
 
 document
   .getElementById("loginBtn")
-  .addEventListener("click", adminLogin);
+  .addEventListener(
+    "click",
+    adminLogin
+  );
 
 
 async function adminLogin(){
@@ -262,11 +345,18 @@ async function adminLogin(){
       .value;
 
   const result =
-    document.getElementById("loginResult");
+    document
+      .getElementById("loginResult");
+
+  const loginButton =
+    document
+      .getElementById("loginBtn");
+
 
   if(!email || !password){
 
-    result.className = "error";
+    result.className =
+      "error";
 
     result.textContent =
       "Email aur password dalo.";
@@ -274,10 +364,18 @@ async function adminLogin(){
     return;
   }
 
-  result.className = "muted";
+
+  loginButton.disabled = true;
+
+  loginButton.textContent =
+    "⏳ Login ho raha hai...";
+
+  result.className =
+    "muted";
 
   result.textContent =
-    "Login ho raha hai...";
+    "Firebase authentication check ho rahi hai...";
+
 
   try{
 
@@ -287,30 +385,44 @@ async function adminLogin(){
       password
     );
 
-    result.className = "success";
+    result.className =
+      "success";
 
     result.textContent =
-      "Login successful.";
+      "✅ Login successful.";
 
-  }catch(error){
+  }
+
+  catch(error){
 
     console.error(
       "Firebase Login Error:",
       error
     );
 
-    result.className = "error";
+    result.className =
+      "error";
 
     result.textContent =
       "Login failed: " +
       error.message;
   }
+
+  finally{
+
+    loginButton.disabled =
+      false;
+
+    loginButton.textContent =
+      "🔐 Login";
+  }
 }
 
 
-/* =========================
+
+/* =========================================
    AUTH STATE
-========================= */
+========================================= */
 
 onAuthStateChanged(
   auth,
@@ -327,16 +439,20 @@ onAuthStateChanged(
 
           <button
             id="logoutBtn"
-            style="width:auto;float:right"
+            class="logout-btn"
           >
             Logout
           </button>
 
-      `;
+          <div style="clear:both"></div>
+        `;
+
 
       document
         .getElementById("panel")
-        .style.display = "block";
+        .style.display =
+          "block";
+
 
       document
         .getElementById("logoutBtn")
@@ -345,49 +461,79 @@ onAuthStateChanged(
           adminLogout
         );
 
+
       await loadOrders();
 
-    }else{
+    }
+
+    else{
 
       document
         .getElementById("panel")
-        .style.display = "none";
+        .style.display =
+          "none";
     }
 
   }
 );
 
 
-/* =========================
+
+/* =========================================
    LOGOUT
-========================= */
+========================================= */
 
 async function adminLogout(){
 
-  await signOut(auth);
+  try{
 
-  location.reload();
+    await signOut(auth);
+
+    location.reload();
+
+  }
+
+  catch(error){
+
+    console.error(
+      "Logout Error:",
+      error
+    );
+
+  }
 }
 
 
-/* =========================
+
+/* =========================================
    LOAD ORDERS
-========================= */
+========================================= */
 
 async function loadOrders(){
 
   const box =
-    document.getElementById("orders");
+    document
+      .getElementById("orders");
+
 
   box.innerHTML =
-    "Loading orders...";
+    `
+    <div class="loading">
+      🔄 Orders load ho rahe hain...
+    </div>
+    `;
+
 
   try{
 
     const snap =
       await getDocs(
-        collection(db,"orders")
+        collection(
+          db,
+          "orders"
+        )
       );
+
 
     orders =
       snap.docs.map(
@@ -396,6 +542,7 @@ async function loadOrders(){
           ...d.data()
         })
       );
+
 
     orders.sort(
       (a,b) => {
@@ -410,44 +557,66 @@ async function loadOrders(){
       }
     );
 
+
     renderOrders();
 
-  }catch(error){
+  }
+
+  catch(error){
 
     console.error(
-      "Orders Error:",
+      "Orders Load Error:",
       error
     );
+
 
     box.innerHTML =
       `
       <div class="error">
-        Orders load nahi hue.
+
+        ❌ Orders load nahi hue.
+
         <br><br>
+
         ${esc(error.message)}
+
       </div>
       `;
   }
 }
 
 
-/* =========================
+
+/* =========================================
    RENDER ORDERS
-========================= */
+========================================= */
 
 function renderOrders(){
 
   const box =
-    document.getElementById("orders");
+    document
+      .getElementById("orders");
+
 
   const filter =
-    document.getElementById("filter").value;
+    document
+      .getElementById("filter")
+      .value;
+
 
   const list =
     orders.filter(
-      order =>
-        filter === "all" ||
-        (order.status || "New") === filter
+      order => {
+
+        const status =
+          order.status || "New";
+
+        return (
+          filter === "all" ||
+          status === filter
+        );
+
+      }
     );
 
 
@@ -465,147 +634,242 @@ function renderOrders(){
 
 
   box.innerHTML =
-    list.map(order => {
+    list
+      .map(order => {
 
-      const status =
-        order.status || "New";
-
-      const statusClass =
-        status.toLowerCase();
+        const status =
+          order.status || "New";
 
 
-      const items =
-        Array.isArray(order.items)
+        const statusClass =
+          status.toLowerCase();
 
-        ? order.items
+
+        const items =
+          Array.isArray(order.items)
+
+          ?
+
+          order.items
             .map(item => `
 
-              ${esc(item.name || "Product")}
-              × ${Number(item.qty || 1)}
-              (${esc(item.size || "FREE")})
+              ${esc(
+                item.name ||
+                "Product"
+              )}
+
+              ×
+
+              ${Number(
+                item.qty || 1
+              )}
+
+              (
+
+              ${esc(
+                item.size ||
+                "FREE"
+              )}
+
+              )
 
             `)
             .join("<br>")
 
-        : "";
+          :
+
+          "";
 
 
-      return `
 
-        <div class="order">
+        return `
 
-          <div>
-            <b>Order ID:</b>
-            <span class="gold">
-              ${esc(order.orderId || order.id)}
-            </span>
-          </div>
+          <div class="order">
 
-          <div>
-            <b>Customer ID:</b>
-            ${esc(order.customerId || "-")}
-          </div>
+            <div>
+              <b>Order ID:</b>
 
-          <div>
-            <b>Name:</b>
-            ${esc(order.customerName || "-")}
-          </div>
+              <span class="gold">
+                ${esc(
+                  order.orderId ||
+                  order.id
+                )}
+              </span>
+            </div>
 
-          <div>
-            <b>Mobile:</b>
-            ${esc(order.mobile || "-")}
-          </div>
 
-          <div>
-            <b>Email:</b>
-            ${esc(order.email || "-")}
-          </div>
+            <div>
+              <b>Customer ID:</b>
+              ${esc(
+                order.customerId ||
+                order.customerUid ||
+                "-"
+              )}
+            </div>
 
-          <div>
-            <b>Address:</b>
-            ${esc(order.address || "-")}
-            -
-            ${esc(order.pincode || "")}
-          </div>
 
-          <div>
-            <b>Items:</b>
-            <br>
-            ${items}
-          </div>
+            <div>
+              <b>Name:</b>
+              ${esc(
+                order.customerName ||
+                "-"
+              )}
+            </div>
 
-          <div>
-            <b>Total:</b>
-            ₹${Number(order.total || 0).toLocaleString("en-IN")}
-          </div>
 
-          <div class="status ${statusClass}">
-            <b>Status:</b>
-            ${esc(status)}
-          </div>
+            <div>
+              <b>Mobile:</b>
+              ${esc(
+                order.mobile ||
+                "-"
+              )}
+            </div>
 
-          <div class="btns">
 
-            <button
-              onclick="setStatus('${esc(order.id)}','Confirmed')"
+            <div>
+              <b>Email:</b>
+              ${esc(
+                order.email ||
+                "-"
+              )}
+            </div>
+
+
+            <div>
+              <b>Address:</b>
+              ${esc(
+                order.address ||
+                "-"
+              )}
+
+              -
+
+              ${esc(
+                order.pincode ||
+                ""
+              )}
+            </div>
+
+
+            <div>
+              <b>Items:</b>
+              <br>
+
+              ${items}
+            </div>
+
+
+            <div>
+              <b>Total:</b>
+
+              ₹${Number(
+                order.total ||
+                0
+              ).toLocaleString(
+                "en-IN"
+              )}
+            </div>
+
+
+            <div
+              class="status ${statusClass}"
             >
-              Confirm
-            </button>
+              <b>Status:</b>
 
-            <button
-              onclick="setStatus('${esc(order.id)}','Shipped')"
-            >
-              Shipped
-            </button>
+              ${esc(status)}
+            </div>
 
-            <button
-              onclick="setStatus('${esc(order.id)}','Delivered')"
-            >
-              Delivered
-            </button>
 
-            <button
-              class="danger"
-              onclick="setStatus('${esc(order.id)}','New')"
-            >
-              Reset New
-            </button>
+            <div class="btns">
+
+              <button
+                onclick="setStatus(
+                  '${esc(order.id)}',
+                  'Confirmed'
+                )"
+              >
+                Confirm
+              </button>
+
+
+              <button
+                onclick="setStatus(
+                  '${esc(order.id)}',
+                  'Shipped'
+                )"
+              >
+                Shipped
+              </button>
+
+
+              <button
+                onclick="setStatus(
+                  '${esc(order.id)}',
+                  'Delivered'
+                )"
+              >
+                Delivered
+              </button>
+
+
+              <button
+                class="danger"
+                onclick="setStatus(
+                  '${esc(order.id)}',
+                  'New'
+                )"
+              >
+                Reset New
+              </button>
+
+            </div>
 
           </div>
 
-        </div>
+        `;
 
-      `;
-
-    }).join("");
+      })
+      .join("");
 }
 
 
-/* =========================
-   UPDATE STATUS
-========================= */
+
+/* =========================================
+   UPDATE ORDER STATUS
+========================================= */
 
 window.setStatus =
-  async function(id,status){
+  async function(
+    id,
+    status
+  ){
 
     try{
 
       await updateDoc(
-        doc(db,"orders",id),
+        doc(
+          db,
+          "orders",
+          id
+        ),
         {
           status:status,
           adminUpdatedAt:new Date()
         }
       );
 
+
       await loadOrders();
 
-    }catch(error){
+    }
+
+    catch(error){
 
       console.error(
         "Status Update Error:",
         error
       );
+
 
       alert(
         "Status update failed: " +
@@ -615,9 +879,10 @@ window.setStatus =
   };
 
 
-/* =========================
-   EVENTS
-========================= */
+
+/* =========================================
+   REFRESH
+========================================= */
 
 document
   .getElementById("refreshBtn")
@@ -627,6 +892,11 @@ document
   );
 
 
+
+/* =========================================
+   FILTER
+========================================= */
+
 document
   .getElementById("filter")
   .addEventListener(
@@ -635,25 +905,28 @@ document
   );
 
 
-/* =========================
-   ESCAPE HTML
-========================= */
+
+/* =========================================
+   HTML ESCAPE
+========================================= */
 
 function esc(value){
 
-  return String(value ?? "")
-    .replace(
-      /[&<>'"]/g,
-      character => ({
+  return String(
+    value ?? ""
+  )
+  .replace(
+    /[&<>'"]/g,
+    character => ({
 
-        "&":"&amp;",
-        "<":"&lt;",
-        ">":"&gt;",
-        "'":"&#39;",
-        '"':"&quot;"
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      "'":"&#39;",
+      '"':"&quot;"
 
-      }[character])
-    );
+    }[character])
+  );
 }
 
 </script>
