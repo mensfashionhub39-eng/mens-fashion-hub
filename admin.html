@@ -11,16 +11,16 @@ body{
   background:#0b0b0b;
   color:#eee;
   font-family:Arial,sans-serif;
-  padding:18px;
+  padding:18px
 }
 
 .wrap{
   max-width:1100px;
-  margin:auto;
+  margin:auto
 }
 
 .gold{
-  color:#d4af37;
+  color:#d4af37
 }
 
 .box{
@@ -28,7 +28,7 @@ body{
   border:1px solid #333;
   border-radius:14px;
   padding:18px;
-  margin:14px 0;
+  margin:14px 0
 }
 
 input,select,button{
@@ -39,36 +39,35 @@ input,select,button{
   border:1px solid #555;
   background:#0d0d0d;
   color:#fff;
-  margin:6px 0;
+  margin:6px 0
 }
 
 button{
   background:#d4af37;
   color:#111;
   font-weight:700;
-  cursor:pointer;
+  cursor:pointer
 }
 
-button:disabled{
-  opacity:.6;
-  cursor:not-allowed;
+button:hover{
+  opacity:.9
 }
 
 .btns{
   display:grid;
   grid-template-columns:repeat(4,1fr);
   gap:6px;
-  margin-top:10px;
+  margin-top:10px
 }
 
 .btns button{
   margin:0;
-  font-size:12px;
+  font-size:12px
 }
 
 .danger{
   background:#9b3333;
-  color:#fff;
+  color:#fff
 }
 
 .order{
@@ -76,66 +75,69 @@ button:disabled{
   border-radius:12px;
   padding:14px;
   margin:12px 0;
-}
-
-.order div{
-  margin:5px 0;
+  line-height:1.7
 }
 
 .muted{
   color:#aaa;
-  font-size:13px;
+  font-size:13px
 }
 
 .status{
   font-weight:bold;
-  margin-top:8px;
+  margin-top:5px
 }
 
 .new{
-  color:#f0c94b;
+  color:#f0c94b
 }
 
 .confirmed{
-  color:#61d37a;
+  color:#61d37a
 }
 
 .shipped{
-  color:#65b7ff;
+  color:#65b7ff
 }
 
 .delivered{
-  color:#76e39a;
+  color:#76e39a
 }
 
 .error{
-  color:#ff7777;
+  color:#ff7777
 }
 
 .success{
-  color:#71e08a;
+  color:#71e08a
 }
 
 .loading{
-  color:#aaa;
-  padding:15px 0;
+  color:#d4af37;
+  padding:15px 0
 }
 
-.logout-btn{
+.topbar{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap
+}
+
+.logout{
   width:auto;
-  float:right;
-  margin:0;
+  background:#9b3333;
+  color:white
+}
+
+.refresh{
+  width:auto
 }
 
 @media(max-width:650px){
   .btns{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .logout-btn{
-    float:none;
-    width:auto;
-    margin-top:10px;
+    grid-template-columns:1fr 1fr
   }
 }
 </style>
@@ -149,28 +151,24 @@ button:disabled{
   MFH <span class="gold">Admin Panel</span>
 </h1>
 
-
-<!-- ================= LOGIN ================= -->
-
+<!-- LOGIN -->
 <div class="box" id="loginBox">
 
-  <h3>Admin Login</h3>
+  <h3>🔐 Admin Login</h3>
 
   <input
     id="adminEmail"
     type="email"
     placeholder="Admin email"
-    autocomplete="email"
   >
 
   <input
     id="adminPassword"
     type="password"
     placeholder="Password"
-    autocomplete="current-password"
   >
 
-  <button id="loginBtn">
+  <button onclick="adminLogin()">
     🔐 Login
   </button>
 
@@ -179,35 +177,37 @@ button:disabled{
 </div>
 
 
-<!-- ================= ADMIN PANEL ================= -->
-
+<!-- ADMIN PANEL -->
 <div id="panel" style="display:none">
 
   <div class="box">
 
-    <div style="
-      display:flex;
-      gap:8px;
-      align-items:center;
-      justify-content:space-between;
-      flex-wrap:wrap;
-    ">
+    <div class="topbar">
 
       <h2 style="margin:0">
-        Orders
+        📦 Orders
       </h2>
 
-      <button
-        id="refreshBtn"
-        style="width:auto"
-      >
-        🔄 Refresh
-      </button>
+      <div>
+        <button
+          class="refresh"
+          onclick="loadOrders()">
+          🔄 Refresh
+        </button>
+
+        <button
+          class="logout"
+          onclick="adminLogout()">
+          Logout
+        </button>
+      </div>
 
     </div>
 
 
-    <select id="filter">
+    <select
+      id="filter"
+      onchange="renderOrders()">
 
       <option value="all">
         All Orders
@@ -233,9 +233,7 @@ button:disabled{
 
 
     <div id="orders">
-      <div class="loading">
-        Login ke baad orders load honge...
-      </div>
+      Loading...
     </div>
 
   </div>
@@ -245,14 +243,15 @@ button:disabled{
 </div>
 
 
-<!-- ================= FIREBASE ================= -->
-
 <script type="module">
+
+/* =========================================
+   FIREBASE IMPORT
+========================================= */
 
 import {
   initializeApp
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
-
 
 import {
   getAuth,
@@ -260,7 +259,6 @@ import {
   onAuthStateChanged,
   signOut
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
-
 
 import {
   getFirestore,
@@ -271,15 +269,14 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
 
-
 /* =========================================
-   NEW FIREBASE WEB APP CONFIG
+   FIREBASE CONFIG
 ========================================= */
 
 const firebaseConfig = {
 
   apiKey:
-    "AIzaSyBQkq82HDMjndAPnvJ-yw64L3J55tFCHk",
+    "AIzaSyBQkq82HDMjndAPnvJ-jYw64L3J55tFCHk",
 
   authDomain:
     "mens-fashion-hub-e2773.firebaseapp.com",
@@ -301,9 +298,8 @@ const firebaseConfig = {
 };
 
 
-
 /* =========================================
-   INITIALIZE FIREBASE
+   FIREBASE START
 ========================================= */
 
 const app =
@@ -318,63 +314,59 @@ const db =
 let orders = [];
 
 
-
 /* =========================================
-   LOGIN
+   DEBUG
 ========================================= */
 
-document
-  .getElementById("loginBtn")
-  .addEventListener(
-    "click",
-    adminLogin
-  );
+console.log(
+  "MFH Firebase Project:",
+  firebaseConfig.projectId
+);
+
+console.log(
+  "MFH Firebase API key loaded:",
+  firebaseConfig.apiKey
+);
 
 
-async function adminLogin(){
+/* =========================================
+   ADMIN LOGIN
+========================================= */
+
+window.adminLogin =
+async function(){
 
   const email =
     document
-      .getElementById("adminEmail")
-      .value
-      .trim();
+    .getElementById("adminEmail")
+    .value
+    .trim();
 
   const password =
     document
-      .getElementById("adminPassword")
-      .value;
+    .getElementById("adminPassword")
+    .value;
 
   const result =
     document
-      .getElementById("loginResult");
-
-  const loginButton =
-    document
-      .getElementById("loginBtn");
+    .getElementById("loginResult");
 
 
   if(!email || !password){
 
-    result.className =
-      "error";
+    result.className = "error";
 
     result.textContent =
-      "Email aur password dalo.";
+      "❌ Email aur password dalo.";
 
     return;
   }
 
 
-  loginButton.disabled = true;
-
-  loginButton.textContent =
-    "⏳ Login ho raha hai...";
-
-  result.className =
-    "muted";
+  result.className = "muted";
 
   result.textContent =
-    "Firebase authentication check ho rahi hai...";
+    "⏳ Login ho raha hai...";
 
 
   try{
@@ -396,7 +388,7 @@ async function adminLogin(){
   catch(error){
 
     console.error(
-      "Firebase Login Error:",
+      "ADMIN LOGIN ERROR:",
       error
     );
 
@@ -404,20 +396,12 @@ async function adminLogin(){
       "error";
 
     result.textContent =
-      "Login failed: " +
+      "❌ Login failed: " +
       error.message;
+
   }
 
-  finally{
-
-    loginButton.disabled =
-      false;
-
-    loginButton.textContent =
-      "🔐 Login";
-  }
-}
-
+};
 
 
 /* =========================================
@@ -426,64 +410,79 @@ async function adminLogin(){
 
 onAuthStateChanged(
   auth,
-  async (user) => {
+  function(user){
+
+    const loginBox =
+      document.getElementById(
+        "loginBox"
+      );
+
+    const panel =
+      document.getElementById(
+        "panel"
+      );
+
 
     if(user){
 
-      document
-        .getElementById("loginBox")
-        .innerHTML = `
+      loginBox.innerHTML = `
 
-          <b>✅ Admin logged in:</b>
-          ${esc(user.email || "")}
+        <div style="display:flex;
+                    justify-content:space-between;
+                    align-items:center;
+                    gap:10px;
+                    flex-wrap:wrap">
+
+          <div>
+
+            <b>✅ Admin logged in</b>
+
+            <br>
+
+            <span class="muted">
+              ${esc(user.email || "")}
+            </span>
+
+          </div>
 
           <button
-            id="logoutBtn"
-            class="logout-btn"
-          >
+            class="logout"
+            style="width:auto"
+            onclick="adminLogout()">
+
             Logout
+
           </button>
 
-          <div style="clear:both"></div>
-        `;
+        </div>
+      `;
 
 
-      document
-        .getElementById("panel")
-        .style.display =
-          "block";
+      panel.style.display =
+        "block";
 
 
-      document
-        .getElementById("logoutBtn")
-        .addEventListener(
-          "click",
-          adminLogout
-        );
-
-
-      await loadOrders();
+      loadOrders();
 
     }
 
     else{
 
-      document
-        .getElementById("panel")
-        .style.display =
-          "none";
+      panel.style.display =
+        "none";
+
     }
 
   }
 );
 
 
-
 /* =========================================
    LOGOUT
 ========================================= */
 
-async function adminLogout(){
+window.adminLogout =
+async function(){
 
   try{
 
@@ -495,33 +494,32 @@ async function adminLogout(){
 
   catch(error){
 
-    console.error(
-      "Logout Error:",
-      error
+    console.error(error);
+
+    alert(
+      "Logout failed: " +
+      error.message
     );
 
   }
-}
 
+};
 
 
 /* =========================================
    LOAD ORDERS
 ========================================= */
 
-async function loadOrders(){
+window.loadOrders =
+async function(){
 
   const box =
-    document
-      .getElementById("orders");
-
+    document.getElementById(
+      "orders"
+    );
 
   box.innerHTML =
-    `
-    <div class="loading">
-      🔄 Orders load ho rahe hain...
-    </div>
-    `;
+    '<div class="loading">⏳ Orders loading...</div>';
 
 
   try{
@@ -537,15 +535,21 @@ async function loadOrders(){
 
     orders =
       snap.docs.map(
-        d => ({
-          id:d.id,
-          ...d.data()
-        })
+        function(d){
+
+          return {
+            id:d.id,
+            ...d.data()
+          };
+
+        }
       );
 
 
+    /* newest first */
+
     orders.sort(
-      (a,b) => {
+      function(a,b){
 
         const aa =
           a.createdAt?.seconds || 0;
@@ -554,6 +558,7 @@ async function loadOrders(){
           b.createdAt?.seconds || 0;
 
         return bb - aa;
+
       }
     );
 
@@ -565,13 +570,12 @@ async function loadOrders(){
   catch(error){
 
     console.error(
-      "Orders Load Error:",
+      "LOAD ORDERS ERROR:",
       error
     );
 
+    box.innerHTML = `
 
-    box.innerHTML =
-      `
       <div class="error">
 
         ❌ Orders load nahi hue.
@@ -581,32 +585,35 @@ async function loadOrders(){
         ${esc(error.message)}
 
       </div>
-      `;
-  }
-}
 
+    `;
+
+  }
+
+};
 
 
 /* =========================================
    RENDER ORDERS
 ========================================= */
 
-function renderOrders(){
+window.renderOrders =
+function(){
 
   const box =
-    document
-      .getElementById("orders");
-
+    document.getElementById(
+      "orders"
+    );
 
   const filter =
-    document
-      .getElementById("filter")
-      .value;
+    document.getElementById(
+      "filter"
+    ).value;
 
 
   const list =
     orders.filter(
-      order => {
+      function(order){
 
         const status =
           order.status || "New";
@@ -622,64 +629,76 @@ function renderOrders(){
 
   if(!list.length){
 
-    box.innerHTML =
-      `
+    box.innerHTML = `
+
       <div class="muted">
-        No orders found.
+
+        📦 No orders found.
+
       </div>
-      `;
+
+    `;
 
     return;
+
   }
 
 
   box.innerHTML =
-    list
-      .map(order => {
+    list.map(
+      function(order){
 
         const status =
           order.status || "New";
-
 
         const statusClass =
           status.toLowerCase();
 
 
-        const items =
-          Array.isArray(order.items)
+        let itemsHTML = "";
 
-          ?
 
-          order.items
-            .map(item => `
+        if(
+          Array.isArray(
+            order.items
+          )
+        ){
 
-              ${esc(
-                item.name ||
-                "Product"
-              )}
+          itemsHTML =
+            order.items
+            .map(
+              function(item){
 
-              ×
+                return `
 
-              ${Number(
-                item.qty || 1
-              )}
+                  ${esc(
+                    item.name ||
+                    "Product"
+                  )}
 
-              (
+                  ×
 
-              ${esc(
-                item.size ||
-                "FREE"
-              )}
+                  ${Number(
+                    item.qty || 1
+                  )}
 
-              )
+                  ${
+                    item.size
+                    ? "(" +
+                      esc(item.size) +
+                      ")"
+                    : ""
+                  }
 
-            `)
-            .join("<br>")
+                  <br>
 
-          :
+                `;
 
-          "";
+              }
+            )
+            .join("");
 
+        }
 
 
         return `
@@ -755,7 +774,8 @@ function renderOrders(){
               <b>Items:</b>
               <br>
 
-              ${items}
+              ${itemsHTML || "-"}
+
             </div>
 
 
@@ -763,20 +783,21 @@ function renderOrders(){
               <b>Total:</b>
 
               ₹${Number(
-                order.total ||
-                0
+                order.total || 0
               ).toLocaleString(
                 "en-IN"
               )}
+
             </div>
 
 
             <div
-              class="status ${statusClass}"
-            >
-              <b>Status:</b>
+              class="status ${statusClass}">
+
+              <b>Current Status:</b>
 
               ${esc(status)}
+
             </div>
 
 
@@ -784,42 +805,46 @@ function renderOrders(){
 
               <button
                 onclick="setStatus(
-                  '${esc(order.id)}',
+                  '${escJS(order.id)}',
                   'Confirmed'
-                )"
-              >
-                Confirm
+                )">
+
+                ✅ Confirm
+
               </button>
 
 
               <button
                 onclick="setStatus(
-                  '${esc(order.id)}',
+                  '${escJS(order.id)}',
                   'Shipped'
-                )"
-              >
-                Shipped
+                )">
+
+                🚚 Shipped
+
               </button>
 
 
               <button
                 onclick="setStatus(
-                  '${esc(order.id)}',
+                  '${escJS(order.id)}',
                   'Delivered'
-                )"
-              >
-                Delivered
+                )">
+
+                ✅ Delivered
+
               </button>
 
 
               <button
                 class="danger"
                 onclick="setStatus(
-                  '${esc(order.id)}',
+                  '${escJS(order.id)}',
                   'New'
-                )"
-              >
-                Reset New
+                )">
+
+                ↩ Reset New
+
               </button>
 
             </div>
@@ -828,82 +853,62 @@ function renderOrders(){
 
         `;
 
-      })
-      .join("");
-}
+      }
+    )
+    .join("");
 
+};
 
 
 /* =========================================
-   UPDATE ORDER STATUS
+   CHANGE ORDER STATUS
 ========================================= */
 
 window.setStatus =
-  async function(
-    id,
-    status
-  ){
+async function(
+  id,
+  status
+){
 
-    try{
+  try{
 
-      await updateDoc(
-        doc(
-          db,
-          "orders",
-          id
-        ),
-        {
-          status:status,
-          adminUpdatedAt:new Date()
-        }
-      );
+    await updateDoc(
 
+      doc(
+        db,
+        "orders",
+        id
+      ),
 
-      await loadOrders();
+      {
+        status: status,
+        adminUpdatedAt:
+          new Date()
+      }
 
-    }
-
-    catch(error){
-
-      console.error(
-        "Status Update Error:",
-        error
-      );
+    );
 
 
-      alert(
-        "Status update failed: " +
-        error.message
-      );
-    }
-  };
+    await loadOrders();
 
 
+  }
 
-/* =========================================
-   REFRESH
-========================================= */
+  catch(error){
 
-document
-  .getElementById("refreshBtn")
-  .addEventListener(
-    "click",
-    loadOrders
-  );
+    console.error(
+      "STATUS UPDATE ERROR:",
+      error
+    );
 
+    alert(
+      "❌ Status update failed:\n" +
+      error.message
+    );
 
+  }
 
-/* =========================================
-   FILTER
-========================================= */
-
-document
-  .getElementById("filter")
-  .addEventListener(
-    "change",
-    renderOrders
-  );
-
+};
 
 
 /* =========================================
@@ -917,16 +922,42 @@ function esc(value){
   )
   .replace(
     /[&<>'"]/g,
-    character => ({
+    function(char){
 
-      "&":"&amp;",
-      "<":"&lt;",
-      ">":"&gt;",
-      "'":"&#39;",
-      '"':"&quot;"
+      return {
 
-    }[character])
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        "'":"&#39;",
+        '"':"&quot;"
+
+      }[char];
+
+    }
   );
+
+}
+
+
+/* =========================================
+   JAVASCRIPT STRING ESCAPE
+========================================= */
+
+function escJS(value){
+
+  return String(
+    value ?? ""
+  )
+  .replace(
+    /\\/g,
+    "\\\\"
+  )
+  .replace(
+    /'/g,
+    "\\'"
+  );
+
 }
 
 </script>
