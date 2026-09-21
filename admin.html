@@ -1,48 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MFH Admin Panel</title>
-<style>
-body{margin:0;background:#0b0b0b;color:#eee;font-family:Arial,sans-serif;padding:18px}
-.wrap{max-width:1100px;margin:auto}.gold{color:#d4af37}.box{background:#141414;border:1px solid #333;border-radius:14px;padding:18px;margin:14px 0}
-input,select,button{box-sizing:border-box;width:100%;padding:12px;border-radius:8px;border:1px solid #555;background:#0d0d0d;color:#fff;margin:6px 0}
-button{background:#d4af37;color:#111;font-weight:700;cursor:pointer}.btns{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.btns button{margin:0;font-size:12px}.danger{background:#9b3333;color:#fff}.order{border:1px solid #333;border-radius:12px;padding:14px;margin:12px 0}.muted{color:#aaa;font-size:13px}.status{font-weight:bold}.new{color:#f0c94b}.confirmed{color:#61d37a}.shipped{color:#65b7ff}.delivered{color:#76e39a}.error{color:#ff7777}.success{color:#71e08a}@media(max-width:650px){.btns{grid-template-columns:1fr 1fr}}
-</style>
-</head>
-<body>
-<div class="wrap">
-<h1>MFH <span class="gold">Admin Panel</span></h1>
-<div class="box" id="loginBox">
-<h3>Admin Login</h3>
-<input id="adminEmail" type="email" placeholder="Admin email">
-<input id="adminPassword" type="password" placeholder="Password">
-<button onclick="adminLogin()">🔐 Login</button>
-<div id="loginResult" class="muted"></div>
-</div>
-<div id="panel" style="display:none">
-<div class="box">
-<div style="display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap">
-<h2 style="margin:0">Orders</h2><button style="width:auto" onclick="loadOrders()">🔄 Refresh</button>
-</div>
-<select id="filter" onchange="renderOrders()"><option value="all">All Orders</option><option value="New">New</option><option value="Confirmed">Confirmed</option><option value="Shipped">Shipped</option><option value="Delivered">Delivered</option></select>
-<div id="orders">Loading...</div>
-</div>
-</div>
-</div>
-<script type="module">
-import {initializeApp} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
-import {getAuth,signInWithEmailAndPassword,onAuthStateChanged,signOut} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
-import {getFirestore,collection,getDocs,doc,updateDoc} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
-const firebaseConfig={apiKey:"AIzaSyBQkq82HDMjndAPnvJ-yw64L3J55tFCHk",authDomain:"mens-fashion-hub-e2773.firebaseapp.com",projectId:"mens-fashion-hub-e2773",storageBucket:"mens-fashion-hub-e2773.firebasestorage.app",messagingSenderId:"309752221606",appId:"1:309752221606:web:9cd2ff5a64d9f25e5f8967",measurementId:"G-W99V4NZVK3"};
-const app=initializeApp(firebaseConfig);const auth=getAuth(app);const db=getFirestore(app);let orders=[];
-window.adminLogin=async function(){const e=document.getElementById('adminEmail').value.trim(),p=document.getElementById('adminPassword').value;const r=document.getElementById('loginResult');if(!e||!p){r.className='error';r.textContent='Email aur password dalo.';return}try{await signInWithEmailAndPassword(auth,e,p);r.className='success';r.textContent='Login successful.'}catch(x){console.error(x);r.className='error';r.textContent='Login failed: '+x.message}};
-onAuthStateChanged(auth,u=>{if(u){document.getElementById('loginBox').innerHTML='<b>✅ Admin logged in:</b> '+u.email+' <button style="width:auto;float:right" onclick="adminLogout()">Logout</button>';document.getElementById('panel').style.display='block';loadOrders()}else{document.getElementById('panel').style.display='none'}});
-window.adminLogout=()=>signOut(auth);
-window.loadOrders=async function(){const box=document.getElementById('orders');box.innerHTML='Loading orders...';try{const snap=await getDocs(collection(db,'orders'));orders=snap.docs.map(d=>({id:d.id,...d.data()}));orders.sort((a,b)=>{const aa=a.createdAt?.seconds||0,bb=b.createdAt?.seconds||0;return bb-aa});renderOrders()}catch(e){console.error(e);box.innerHTML='<div class="error">Orders load nahi hue.<br>'+e.message+'</div>'}};
-window.renderOrders=function(){const box=document.getElementById('orders'),f=document.getElementById('filter').value;const list=orders.filter(o=>f==='all'||(o.status||'New')===f);if(!list.length){box.innerHTML='<div class="muted">No orders found.</div>';return}box.innerHTML=list.map(o=>{const st=o.status||'New';const cls=st.toLowerCase();const items=Array.isArray(o.items)?o.items.map(i=>`${esc(i.name||'Product')} × ${Number(i.qty||1)} (${esc(i.size||'FREE')})`).join('<br>'):'';return `<div class="order"><div><b>Order ID:</b> <span class="gold">${esc(o.orderId||o.id)}</span></div><div><b>Customer ID:</b> ${esc(o.customerId||'-')}</div><div><b>Name:</b> ${esc(o.customerName||'-')}</div><div><b>Mobile:</b> ${esc(o.mobile||'-')}</div><div><b>Address:</b> ${esc(o.address||'-')} - ${esc(o.pincode||'')}</div><div><b>Items:</b><br>${items}</div><div><b>Total:</b> ₹${Number(o.total||0).toLocaleString('en-IN')}</div><div class="status ${cls}"><b>Status:</b> ${esc(st)}</div><div class="btns"><button onclick="setStatus('${o.id}','Confirmed')">Confirm</button><button onclick="setStatus('${o.id}','Shipped')">Shipped</button><button onclick="setStatus('${o.id}','Delivered')">Delivered</button><button class="danger" onclick="setStatus('${o.id}','New')">Reset New</button></div></div>`}).join('')};
-window.setStatus=async function(id,status){try{await updateDoc(doc(db,'orders',id),{status:status,adminUpdatedAt:new Date()});await loadOrders()}catch(e){alert('Status update failed: '+e.message)}};
-function esc(v){return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
-</script>
-</body></html>
+const firebaseConfig = {
+  apiKey: "AIzaSyBQkq82HDMjndAPnvjJ-yw64L3J55tFCHk",
+  authDomain: "mens-fashion-hub-e2773.firebaseapp.com",
+  projectId: "mens-fashion-hub-e2773",
+  storageBucket: "mens-fashion-hub-e2773.firebasestorage.app",
+  messagingSenderId: "309752221606",
+  appId: "1:309752221606:web:9cd2ff5a64d9f25e5f8967",
+  measurementId: "G-W99V4NZVK3"
+};
