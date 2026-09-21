@@ -49,15 +49,10 @@ button{
   cursor:pointer
 }
 
-button:hover{
-  opacity:.9
-}
-
 .btns{
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:6px;
-  margin-top:10px
+  gap:6px
 }
 
 .btns button{
@@ -74,8 +69,7 @@ button:hover{
   border:1px solid #333;
   border-radius:12px;
   padding:14px;
-  margin:12px 0;
-  line-height:1.7
+  margin:12px 0
 }
 
 .muted{
@@ -84,8 +78,7 @@ button:hover{
 }
 
 .status{
-  font-weight:bold;
-  margin-top:5px
+  font-weight:bold
 }
 
 .new{
@@ -112,29 +105,6 @@ button:hover{
   color:#71e08a
 }
 
-.loading{
-  color:#d4af37;
-  padding:15px 0
-}
-
-.topbar{
-  display:flex;
-  gap:8px;
-  align-items:center;
-  justify-content:space-between;
-  flex-wrap:wrap
-}
-
-.logout{
-  width:auto;
-  background:#9b3333;
-  color:white
-}
-
-.refresh{
-  width:auto
-}
-
 @media(max-width:650px){
   .btns{
     grid-template-columns:1fr 1fr
@@ -147,98 +117,92 @@ button:hover{
 
 <div class="wrap">
 
-<h1>
-  MFH <span class="gold">Admin Panel</span>
-</h1>
+<h1>MFH <span class="gold">Admin Panel</span></h1>
 
-<!-- LOGIN -->
 <div class="box" id="loginBox">
 
-  <h3>🔐 Admin Login</h3>
+<h3>Admin Login</h3>
 
-  <input
-    id="adminEmail"
-    type="email"
-    placeholder="Admin email"
-  >
+<input
+  id="adminEmail"
+  type="email"
+  placeholder="Admin email"
+>
 
-  <input
-    id="adminPassword"
-    type="password"
-    placeholder="Password"
-  >
+<input
+  id="adminPassword"
+  type="password"
+  placeholder="Password"
+>
 
-  <button onclick="adminLogin()">
-    🔐 Login
-  </button>
+<button onclick="adminLogin()">
+🔐 Login
+</button>
 
-  <div id="loginResult" class="muted"></div>
+<div id="loginResult" class="muted"></div>
 
 </div>
 
 
-<!-- ADMIN PANEL -->
 <div id="panel" style="display:none">
 
-  <div class="box">
+<div class="box">
 
-    <div class="topbar">
+<div style="
+display:flex;
+gap:8px;
+align-items:center;
+justify-content:space-between;
+flex-wrap:wrap
+">
 
-      <h2 style="margin:0">
-        📦 Orders
-      </h2>
+<h2 style="margin:0">
+Orders
+</h2>
 
-      <div>
+<button
+style="width:auto"
+onclick="loadOrders()"
+>
+🔄 Refresh
+</button>
 
-        <button
-          class="refresh"
-          onclick="loadOrders()">
-          🔄 Refresh
-        </button>
-
-        <button
-          class="logout"
-          onclick="adminLogout()">
-          Logout
-        </button>
-
-      </div>
-
-    </div>
+</div>
 
 
-    <select
-      id="filter"
-      onchange="renderOrders()">
+<select
+id="filter"
+onchange="renderOrders()"
+>
 
-      <option value="all">
-        All Orders
-      </option>
+<option value="all">
+All Orders
+</option>
 
-      <option value="New">
-        New
-      </option>
+<option value="New">
+New
+</option>
 
-      <option value="Confirmed">
-        Confirmed
-      </option>
+<option value="Confirmed">
+Confirmed
+</option>
 
-      <option value="Shipped">
-        Shipped
-      </option>
+<option value="Shipped">
+Shipped
+</option>
 
-      <option value="Delivered">
-        Delivered
-      </option>
+<option value="Delivered">
+Delivered
+</option>
 
-    </select>
+</select>
 
 
-    <div id="orders">
-      Loading...
-    </div>
+<div id="orders">
+Loading...
+</div>
 
-  </div>
+</div>
 
 </div>
 
@@ -246,10 +210,6 @@ button:hover{
 
 
 <script type="module">
-
-/* =========================================
-   FIREBASE IMPORT
-========================================= */
 
 import {
   initializeApp
@@ -271,626 +231,370 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
 
-/* =========================================
-   FIREBASE CONFIG
-========================================= */
+// =====================================
+// FIREBASE CONFIG — MFH ADMIN
+// =====================================
 
 const firebaseConfig = {
-
-  apiKey:
-    "AIzaSyBQkq82HDMjndAPnvJ-yw64L3J55tFCHk",
-
-  authDomain:
-    "mens-fashion-hub-e2773.firebaseapp.com",
-
-  projectId:
-    "mens-fashion-hub-e2773",
-
-  storageBucket:
-    "mens-fashion-hub-e2773.firebasestorage.app",
-
-  messagingSenderId:
-    "309752221606",
-
-  appId:
-    "1:309752221606:web:f285e8ff080c9cd45f8967",
-
-  measurementId:
-    "G-C9YM24BR7J"
+  apiKey: "AIzaSyBQkq82HDMjndAPnvJ-jyW64L3J55tFCHk",
+  authDomain: "mens-fashion-hub-e2773.firebaseapp.com",
+  projectId: "mens-fashion-hub-e2773",
+  storageBucket: "mens-fashion-hub-e2773.firebasestorage.app",
+  messagingSenderId: "309752221606",
+  appId: "1:309752221606:web:f285e8ff080c9cd45f8967",
+  measurementId: "G-C9YM24BR7J"
 };
 
 
-/* =========================================
-   FIREBASE START
-========================================= */
+// =====================================
+// INITIALIZE FIREBASE
+// =====================================
 
-const app =
-  initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 
-const auth =
-  getAuth(app);
+const auth = getAuth(app);
 
-const db =
-  getFirestore(app);
+const db = getFirestore(app);
 
 let orders = [];
 
 
-/* =========================================
-   ADMIN LOGIN
-========================================= */
+// =====================================
+// ADMIN LOGIN
+// =====================================
 
-window.adminLogin =
-async function(){
+window.adminLogin = async function(){
 
-  const email =
-    document
-    .getElementById("adminEmail")
-    .value
-    .trim();
+  const e =
+    document.getElementById("adminEmail").value.trim();
 
-  const password =
-    document
-    .getElementById("adminPassword")
-    .value;
+  const p =
+    document.getElementById("adminPassword").value;
 
-  const result =
-    document
-    .getElementById("loginResult");
+  const r =
+    document.getElementById("loginResult");
 
 
-  if(!email || !password){
+  if(!e || !p){
 
-    result.className = "error";
+    r.className = "error";
 
-    result.textContent =
-      "❌ Email aur password dalo.";
+    r.textContent =
+      "Email aur password dalo.";
 
     return;
   }
-
-
-  result.className = "muted";
-
-  result.textContent =
-    "⏳ Login ho raha hai...";
 
 
   try{
 
     await signInWithEmailAndPassword(
       auth,
-      email,
-      password
+      e,
+      p
     );
 
-    result.className =
-      "success";
+    r.className = "success";
 
-    result.textContent =
-      "✅ Login successful.";
+    r.textContent =
+      "Login successful.";
 
-  }
+  }catch(x){
 
-  catch(error){
+    console.error(x);
 
-    console.error(
-      "ADMIN LOGIN ERROR:",
-      error
-    );
+    r.className = "error";
 
-    result.className =
-      "error";
-
-    result.textContent =
-      "❌ Login failed: " +
-      error.message;
+    r.textContent =
+      "Login failed: " + x.message;
 
   }
 
 };
 
 
-/* =========================================
-   AUTH STATE
-========================================= */
+// =====================================
+// AUTH STATE
+// =====================================
 
-onAuthStateChanged(
-  auth,
-  function(user){
+onAuthStateChanged(auth, function(u){
 
-    const loginBox =
-      document.getElementById(
-        "loginBox"
-      );
+  if(u){
 
-    const panel =
-      document.getElementById(
-        "panel"
-      );
+    document.getElementById("loginBox").innerHTML =
+
+      '<b>✅ Admin logged in:</b> ' +
+      u.email +
+      ' <button style="width:auto;float:right" onclick="adminLogout()">Logout</button>';
 
 
-    if(user){
-
-      loginBox.innerHTML = `
-
-        <div style="display:flex;
-                    justify-content:space-between;
-                    align-items:center;
-                    gap:10px;
-                    flex-wrap:wrap">
-
-          <div>
-
-            <b>✅ Admin logged in</b>
-
-            <br>
-
-            <span class="muted">
-              ${esc(user.email || "")}
-            </span>
-
-          </div>
-
-          <button
-            class="logout"
-            style="width:auto"
-            onclick="adminLogout()">
-
-            Logout
-
-          </button>
-
-        </div>
-      `;
+    document.getElementById("panel").style.display =
+      "block";
 
 
-      panel.style.display =
-        "block";
+    loadOrders();
 
+  }else{
 
-      loadOrders();
-
-    }
-
-    else{
-
-      panel.style.display =
-        "none";
-
-    }
-
-  }
-);
-
-
-/* =========================================
-   LOGOUT
-========================================= */
-
-window.adminLogout =
-async function(){
-
-  try{
-
-    await signOut(auth);
-
-    location.reload();
+    document.getElementById("panel").style.display =
+      "none";
 
   }
 
-  catch(error){
+});
 
-    console.error(error);
 
-    alert(
-      "Logout failed: " +
-      error.message
-    );
+// =====================================
+// LOGOUT
+// =====================================
 
-  }
+window.adminLogout = function(){
+
+  signOut(auth);
 
 };
 
 
-/* =========================================
-   LOAD ORDERS
-========================================= */
+// =====================================
+// LOAD ORDERS
+// =====================================
 
-window.loadOrders =
-async function(){
+window.loadOrders = async function(){
 
   const box =
-    document.getElementById(
-      "orders"
-    );
+    document.getElementById("orders");
+
 
   box.innerHTML =
-    '<div class="loading">⏳ Orders loading...</div>';
+    "Loading orders...";
 
 
   try{
 
     const snap =
       await getDocs(
-        collection(
-          db,
-          "orders"
-        )
+        collection(db,"orders")
       );
 
 
     orders =
-      snap.docs.map(
-        function(d){
+      snap.docs.map(function(d){
 
-          return {
-            id:d.id,
-            ...d.data()
-          };
+        return {
+          id:d.id,
+          ...d.data()
+        };
 
-        }
-      );
+      });
 
 
-    /* newest first */
+    orders.sort(function(a,b){
 
-    orders.sort(
-      function(a,b){
+      const aa =
+        a.createdAt?.seconds || 0;
 
-        const aa =
-          a.createdAt?.seconds || 0;
+      const bb =
+        b.createdAt?.seconds || 0;
 
-        const bb =
-          b.createdAt?.seconds || 0;
+      return bb-aa;
 
-        return bb - aa;
-
-      }
-    );
+    });
 
 
     renderOrders();
 
-  }
 
-  catch(error){
+  }catch(e){
 
-    console.error(
-      "LOAD ORDERS ERROR:",
-      error
-    );
+    console.error(e);
 
-    box.innerHTML = `
-
-      <div class="error">
-
-        ❌ Orders load nahi hue.
-
-        <br><br>
-
-        ${esc(error.message)}
-
-      </div>
-
-    `;
+    box.innerHTML =
+      '<div class="error">' +
+      'Orders load nahi hue.<br>' +
+      e.message +
+      '</div>';
 
   }
 
 };
 
 
-/* =========================================
-   RENDER ORDERS
-========================================= */
+// =====================================
+// RENDER ORDERS
+// =====================================
 
-window.renderOrders =
-function(){
+window.renderOrders = function(){
 
   const box =
-    document.getElementById(
-      "orders"
-    );
+    document.getElementById("orders");
 
-  const filter =
-    document.getElementById(
-      "filter"
-    ).value;
+  const f =
+    document.getElementById("filter").value;
 
 
   const list =
-    orders.filter(
-      function(order){
+    orders.filter(function(o){
 
-        const status =
-          order.status || "New";
+      return f === "all" ||
+        (o.status || "New") === f;
 
-        return (
-          filter === "all" ||
-          status === filter
-        );
-
-      }
-    );
+    });
 
 
   if(!list.length){
 
-    box.innerHTML = `
-
-      <div class="muted">
-
-        📦 No orders found.
-
-      </div>
-
-    `;
+    box.innerHTML =
+      '<div class="muted">No orders found.</div>';
 
     return;
 
   }
 
 
-  box.innerHTML =
-    list.map(
-      function(order){
+  box.innerHTML = list.map(function(o){
 
-        const status =
-          order.status || "New";
+    const st =
+      o.status || "New";
 
-        const statusClass =
-          status.toLowerCase();
+    const cls =
+      st.toLowerCase();
+
 
+    const items =
+      Array.isArray(o.items)
 
-        let itemsHTML = "";
+      ?
 
+      o.items.map(function(i){
 
-        if(
-          Array.isArray(
-            order.items
-          )
-        ){
+        return (
+          esc(i.name || "Product") +
+          " × " +
+          Number(i.qty || 1) +
+          " (" +
+          esc(i.size || "FREE") +
+          ")"
+        );
 
-          itemsHTML =
-            order.items
-            .map(
-              function(item){
+      }).join("<br>")
 
-                return `
+      :
 
-                  ${esc(
-                    item.name ||
-                    "Product"
-                  )}
+      "";
 
-                  ×
 
-                  ${Number(
-                    item.qty || 1
-                  )}
+    return `
 
-                  ${
-                    item.size
-                    ? "(" +
-                      esc(item.size) +
-                      ")"
-                    : ""
-                  }
+<div class="order">
 
-                  <br>
+<div>
+<b>Order ID:</b>
+<span class="gold">
+${esc(o.orderId || o.id)}
+</span>
+</div>
 
-                `;
+<div>
+<b>Customer ID:</b>
+${esc(o.customerId || "-")}
+</div>
 
-              }
-            )
-            .join("");
+<div>
+<b>Name:</b>
+${esc(o.customerName || "-")}
+</div>
 
-        }
+<div>
+<b>Mobile:</b>
+${esc(o.mobile || "-")}
+</div>
 
+<div>
+<b>Address:</b>
+${esc(o.address || "-")}
+-
+${esc(o.pincode || "")}
+</div>
 
-        return `
+<div>
+<b>Items:</b>
+<br>
+${items}
+</div>
 
-          <div class="order">
+<div>
+<b>Total:</b>
+₹${Number(o.total || 0).toLocaleString("en-IN")}
+</div>
 
-            <div>
-              <b>Order ID:</b>
+<div class="status ${cls}">
+<b>Status:</b>
+${esc(st)}
+</div>
 
-              <span class="gold">
-                ${esc(
-                  order.orderId ||
-                  order.id
-                )}
-              </span>
-            </div>
+<div class="btns">
 
+<button
+onclick="setStatus('${o.id}','Confirmed')"
+>
+Confirm
+</button>
 
-            <div>
-              <b>Customer ID:</b>
-              ${esc(
-                order.customerId ||
-                order.customerUid ||
-                "-"
-              )}
-            </div>
+<button
+onclick="setStatus('${o.id}','Shipped')"
+>
+Shipped
+</button>
 
+<button
+onclick="setStatus('${o.id}','Delivered')"
+>
+Delivered
+</button>
 
-            <div>
-              <b>Name:</b>
-              ${esc(
-                order.customerName ||
-                "-"
-              )}
-            </div>
+<button
+class="danger"
+onclick="setStatus('${o.id}','New')"
+>
+Reset New
+</button>
 
+</div>
 
-            <div>
-              <b>Mobile:</b>
-              ${esc(
-                order.mobile ||
-                "-"
-              )}
-            </div>
+</div>
 
+`;
 
-            <div>
-              <b>Email:</b>
-              ${esc(
-                order.email ||
-                "-"
-              )}
-            </div>
-
-
-            <div>
-              <b>Address:</b>
-              ${esc(
-                order.address ||
-                "-"
-              )}
-
-              -
-
-              ${esc(
-                order.pincode ||
-                ""
-              )}
-            </div>
-
-
-            <div>
-              <b>Items:</b>
-              <br>
-
-              ${itemsHTML || "-"}
-
-            </div>
-
-
-            <div>
-              <b>Total:</b>
-
-              ₹${Number(
-                order.total || 0
-              ).toLocaleString(
-                "en-IN"
-              )}
-
-            </div>
-
-
-            <div
-              class="status ${statusClass}">
-
-              <b>Current Status:</b>
-
-              ${esc(status)}
-
-            </div>
-
-
-            <div class="btns">
-
-              <button
-                onclick="setStatus(
-                  '${escJS(order.id)}',
-                  'Confirmed'
-                )">
-
-                ✅ Confirm
-
-              </button>
-
-
-              <button
-                onclick="setStatus(
-                  '${escJS(order.id)}',
-                  'Shipped'
-                )">
-
-                🚚 Shipped
-
-              </button>
-
-
-              <button
-                onclick="setStatus(
-                  '${escJS(order.id)}',
-                  'Delivered'
-                )">
-
-                ✅ Delivered
-
-              </button>
-
-
-              <button
-                class="danger"
-                onclick="setStatus(
-                  '${escJS(order.id)}',
-                  'New'
-                )">
-
-                ↩ Reset New
-
-              </button>
-
-            </div>
-
-          </div>
-
-        `;
-
-      }
-    )
-    .join("");
+  }).join("");
 
 };
 
 
-/* =========================================
-   CHANGE ORDER STATUS
-========================================= */
+// =====================================
+// UPDATE ORDER STATUS
+// =====================================
 
-window.setStatus =
-async function(
-  id,
-  status
-){
+window.setStatus = async function(id,status){
 
   try{
 
     await updateDoc(
-
-      doc(
-        db,
-        "orders",
-        id
-      ),
-
+      doc(db,"orders",id),
       {
-        status: status,
-        adminUpdatedAt:
-          new Date()
+        status:status,
+        adminUpdatedAt:new Date()
       }
-
     );
 
 
     await loadOrders();
 
 
-  }
-
-  catch(error){
-
-    console.error(
-      "STATUS UPDATE ERROR:",
-      error
-    );
+  }catch(e){
 
     alert(
-      "❌ Status update failed:\n" +
-      error.message
+      "Status update failed: " +
+      e.message
     );
 
   }
@@ -898,52 +602,28 @@ async function(
 };
 
 
-/* =========================================
-   HTML ESCAPE
-========================================= */
+// =====================================
+// HTML ESCAPE
+// =====================================
 
-function esc(value){
+function esc(v){
 
-  return String(
-    value ?? ""
-  )
-  .replace(
-    /[&<>'"]/g,
-    function(char){
+  return String(v ?? "")
+    .replace(
+      /[&<>'"]/g,
+      function(c){
 
-      return {
+        return {
+          "&":"&amp;",
+          "<":"&lt;",
+          ">":"&gt;",
+          "'":"&#39;",
+          '"':"&quot;"
 
-        "&":"&amp;",
-        "<":"&lt;",
-        ">":"&gt;",
-        "'":"&#39;",
-        '"':"&quot;"
+        }[c];
 
-      }[char];
-
-    }
-  );
-
-}
-
-
-/* =========================================
-   JAVASCRIPT STRING ESCAPE
-========================================= */
-
-function escJS(value){
-
-  return String(
-    value ?? ""
-  )
-  .replace(
-    /\\/g,
-    "\\\\"
-  )
-  .replace(
-    /'/g,
-    "\\'"
-  );
+      }
+    );
 
 }
 
