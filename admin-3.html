@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MFH Admin</title>
+<style>
+body{margin:0;background:#0b0b0b;color:#fff;font-family:Arial,sans-serif}.wrap{max-width:1050px;margin:auto;padding:18px}
+.card{background:#171717;border:1px solid #333;border-radius:14px;padding:18px;margin:14px 0}
+input,textarea{width:100%;box-sizing:border-box;padding:12px;margin:6px 0;background:#0d0d0d;color:#fff;border:1px solid #444;border-radius:8px}
+button{padding:11px 16px;margin:5px 4px 5px 0;border:0;border-radius:8px;font-weight:bold;cursor:pointer}
+.primary{background:#f1c400;color:#111}.danger{background:#d33;color:#fff}.success{background:#269b55;color:#fff}.secondary{background:#333;color:#fff}
+.hidden{display:none}.error{color:#ff7777;white-space:pre-wrap}.ok{color:#6ee58d}.muted{color:#aaa}
+.item{background:#101010;border:1px solid #383838;border-radius:10px;padding:13px;margin:9px 0}
+.badge{background:#333;border-radius:15px;padding:4px 8px;font-size:12px;margin:2px;display:inline-block}
+.row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}.product-img{width:110px;height:110px;object-fit:cover;border-radius:10px;border:1px solid #444;background:#222;margin-right:12px}.product-row{display:flex;align-items:center;gap:12px}.product-info{flex:1;min-width:0}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="card" id="loginBox">
+<h1>MEN'S FASHION HUB</h1><h2>Admin Login</h2>
+<input id="email" type="email" value="mensfashionhub39@gmail.com" placeholder="Admin email">
+<input id="password" type="password" placeholder="Password">
+<button class="primary" id="loginBtn">Login</button>
+<div id="loginMsg" class="error"></div>
+</div>
+
+<div id="adminBox" class="hidden">
+<div class="card"><div class="row">
+<div><h1>MFH Admin Panel</h1><span id="who" class="muted"></span></div>
+<div style="margin-left:auto"><button class="secondary" id="refreshBtn">Refresh</button><button class="danger" id="logoutBtn">Logout</button></div>
+</div></div>
+
+<div class="card">
+<h2>Add Product</h2>
+<input id="pName" placeholder="Product name">
+<input id="pPrice" type="number" placeholder="Price">
+<input id="pCategory" placeholder="Category">
+<input id="pImage" placeholder="Image URL" oninput="previewProductImage()">
+<div id="imagePreview" class="muted" style="margin:6px 0"></div>
+<input id="pSizes" placeholder="Sizes: S,M,L,XL">
+<input id="pStock" type="number" placeholder="Stock">
+<textarea id="pDescription" placeholder="Description"></textarea>
+<button class="primary" id="addProductBtn">Add Product</button>
+<button class="secondary" id="clearBtn">Clear</button>
+<div id="productMsg"></div>
+<div id="productsList"></div>
+</div>
+
+<div class="card">
+<h2>Orders</h2>
+<button class="secondary" id="loadOrdersBtn">Load Orders</button>
+<div id="ordersMsg"></div><div id="ordersList"></div>
+</div>
+</div>
+</div>
+
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+import{getAuth,signInWithEmailAndPassword,onAuthStateChanged,signOut}from"https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+import{getFirestore,collection,getDocs,addDoc,doc,updateDoc,deleteDoc,query,orderBy,limit}from"https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+
+const firebaseConfig={
+apiKey:"AIzaSyBQkq82HDMjndAPnvjJ-yw64L3J55tFCHk",
+authDomain:"mens-fashion-hub-e2773.firebaseapp.com",
+projectId:"mens-fashion-hub-e2773",
+storageBucket:"mens-fashion-hub-e2773.firebasestorage.app",
+messagingSenderId:"309752221606",
+appId:"1:309752221606:web:f285e8ff080c9cd45f8967",
+measurementId:"G-C9YM24BR7J"
+};
+const ADMIN_EMAIL="mensfashionhub39@gmail.com";
+const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);
+const $=id=>document.getElementById(id);
+
+function err(el,e){
+console.error(e);
+const c=e?.code||"",m=e?.message||String(e);
+el.textContent=c==="auth/api-key-not-valid"?
+"Firebase API key invalid hai. Google Cloud Credentials wali Firebase key aur is config ki key match honi chahiye.":
+c==="auth/invalid-credential"?"Email/password galat hai.":c==="permission-denied"?
+"Firestore permission denied. Rules check karo.":(c?c+": ":"")+m;
+}
+window.previewProductImage=()=>{const v=$("pImage").value.trim(),b=$("imagePreview");b.innerHTML=v?`<img src="${esc(v)}" alt="Preview" style="width:120px;height:120px;object-fit:cover;border-radius:10px;border:1px solid #444" onerror="this.replaceWith(Object.assign(document.createElement("span"),{textContent:"❌ Image URL load nahi hua"}))">`:""};
+
+function clearForm(){["pName","pPrice","pCategory","pImage","pSizes","pStock","pDescription"].forEach(x=>$(x).value="");$("imagePreview").innerHTML=""}
+$("clearBtn").onclick=clearForm;
+
+$("loginBtn").onclick=async()=>{
+$("loginMsg").textContent="";
+const email=$("email").value.trim().toLowerCase(),pass=$("password").value;
+if(!email||!pass){$("loginMsg").textContent="Email aur password bharo.";return}
+$("loginBtn").disabled=true;$("loginBtn").textContent="Logging in...";
+try{
+const c=await signInWithEmailAndPassword(auth,email,pass);
+if((c.user.email||"").toLowerCase()!==ADMIN_EMAIL){await signOut(auth);throw new Error("Ye admin email nahi hai.")}
+}catch(e){err($("loginMsg"),e)}
+finally{$("loginBtn").disabled=false;$("loginBtn").textContent="Login"}
+};
+$("logoutBtn").onclick=()=>signOut(auth);
+
+onAuthStateChanged(auth,async u=>{
+if(u&&(u.email||"").toLowerCase()===ADMIN_EMAIL){
+$("loginBox").classList.add("hidden");$("adminBox").classList.remove("hidden");
+$("who").textContent="Logged in: "+u.email;await loadProducts();await loadOrders();
+}else{$("loginBox").classList.remove("hidden");$("adminBox").classList.add("hidden")}
+});
+
+$("addProductBtn").onclick=async()=>{
+try{
+const name=$("pName").value.trim(),price=Number($("pPrice").value);
+if(!name||!Number.isFinite(price)){throw new Error("Product name aur valid price bharo.")}
+await addDoc(collection(db,"products"),{
+name,price,category:$("pCategory").value.trim(),image:$("pImage").value.trim(),
+sizes:$("pSizes").value.split(",").map(x=>x.trim()).filter(Boolean),
+stock:Number($("pStock").value||0),description:$("pDescription").value.trim(),createdAt:Date.now()
+});
+$("productMsg").innerHTML='<span class="ok">Product added successfully.</span>';clearForm();loadProducts();
+}catch(e){err($("productMsg"),e)}
+};
+
+async function loadProducts(){
+const b=$("productsList");b.innerHTML="<p class='muted'>Loading...</p>";
+try{
+const s=await getDocs(collection(db,"products"));b.innerHTML="";
+if(s.empty){b.innerHTML="<p class='muted'>No products found.</p>";return}
+s.forEach(x=>{
+const p=x.data(),d=document.createElement("div");d.className="item";
+const img=String(p.image||p.imageUrl||p.photo||p.photoUrl||p.img||"").trim();
+d.innerHTML=`<div class="product-row">${img?`<img class="product-img" src="${esc(img)}" alt="${esc(p.name||"Product")}" onerror="this.src='https://via.placeholder.com/220x220?text=No+Image'">`:`<div class="product-img" style="display:flex;align-items:center;justify-content:center;font-size:28px">👕</div>`}<div class="product-info"><b>${esc(p.name||"Unnamed")}</b> <span class="badge">₹${esc(p.price||0)}</span><br><small>ID: ${esc(x.id)}</small><br><small class="muted">${img?"Image added":"No image URL"}</small><br><button class="danger">Delete</button></div></div>`;
+d.querySelector("button").onclick=async()=>{if(confirm("Delete this product?")){try{await deleteDoc(doc(db,"products",x.id));loadProducts()}catch(e){err($("productMsg"),e)}}};
+b.appendChild(d)
+})
+}catch(e){err(b,e)}
+}
+
+async function loadOrders(){
+const b=$("ordersList"),m=$("ordersMsg");b.innerHTML="<p class='muted'>Loading...</p>";m.textContent="";
+try{
+let s;
+try{s=await getDocs(query(collection(db,"orders"),orderBy("createdAt","desc"),limit(100)))}catch(_){s=await getDocs(collection(db,"orders"))}
+b.innerHTML="";if(s.empty){b.innerHTML="<p class='muted'>No orders found.</p>";return}
+s.forEach(x=>{
+const o=x.data(),d=document.createElement("div");d.className="item";
+const items=Array.isArray(o.items)?o.items.map(i=>(i.name||"Item")+" × "+(i.qty||1)).join(", "):"N/A";
+d.innerHTML="<b>Order: "+esc(o.orderId||x.id)+"</b> <span class='badge'>"+esc(o.status||"Pending")+"</span>"+
+"<p><b>Customer:</b> "+esc(o.customerName||o.name||"N/A")+"</p>"+
+"<p><b>Mobile:</b> "+esc(o.mobile||"N/A")+" | <b>Total:</b> ₹"+esc(o.total||0)+"</p>"+
+"<p><b>Address:</b> "+esc(o.address||"N/A")+" "+esc(o.pincode||"")+"</p>"+
+"<p><b>Items:</b> "+esc(items)+"</p>"+
+"<div class='row'><button class='success' data-s='Confirmed'>Confirmed</button><button class='success' data-s='Shipped'>Shipped</button><button class='success' data-s='Delivered'>Delivered</button><button class='danger' data-s='Cancelled'>Cancelled</button></div>";
+d.querySelectorAll("[data-s]").forEach(btn=>btn.onclick=async()=>{try{await updateDoc(doc(db,"orders",x.id),{status:btn.dataset.s,updatedAt:Date.now()});loadOrders()}catch(e){err(m,e)}});
+b.appendChild(d)
+})
+}catch(e){err(m,e)}
+}
+$("refreshBtn").onclick=async()=>{await loadProducts();await loadOrders()};
+$("loadOrdersBtn").onclick=loadOrders;
+function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
+</script>
+</body>
+</html>
